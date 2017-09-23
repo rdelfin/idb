@@ -4,6 +4,7 @@
   "description": "",
   "main": "js/app.js",
   "scripts": {
+    "flow": "flow",
     "test": "echo \"Error: no test specified\" && exit 1",
     "webpack-dev": "webpack --progress --config webpack.config.dev.js --display-error-details",
     "webpack-prod": "webpack --progress -p --config webpack.config.prod.js"
@@ -22,8 +23,11 @@
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.2",
     "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
     "babel-preset-react": "^6.24.1",
     "css-loader": "^0.28.7",
+    "empty": "^0.10.1",
+    "flow-bin": "^0.55.0",
     "node-sass": "^4.5.3",
     "postcss-scss": "^1.0.2",
     "sass-loader": "^6.0.6",
