@@ -19,7 +19,7 @@ module.exports = {
           'css-loader?importLoader=1&modules&localIdentName=[path]___[name]__[local]___[hash:base64:5]',
           'sass-loader'
         ],
-        test: /\.scss$/
+        test: /\.s?css$/
       },
       {
         include: context,
@@ -33,6 +33,9 @@ module.exports = {
               {
                 context,
                 'filetypes': {
+                  '.css': {
+                    syntax: 'postcss-scss'
+                  },
                   '.scss': {
                     syntax: 'postcss-scss'
                   }
