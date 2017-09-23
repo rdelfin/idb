@@ -5,9 +5,7 @@ HOST: http://polls.apiblueprint.org/
 
 PhoneDB is a simple API allowing consumers to view mobile phone specifications.
 
-The "Questions" Collection is a default example and should be removed before finalization.
-
-## Phone Model Collection [/model]
+## Phone Models Collection [/models]
 
 ### Retrieve All Models [GET]
 
@@ -72,77 +70,40 @@ The "Questions" Collection is a default example and should be removed before fin
                 }
             }
         ]
+        
+## Phone Brands Collection [/brands]
 
-## Questions Collection [/questions]
-
-### List All Questions [GET]
+### Retrieve All Brands [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
+                "name": "LG Electronics"
+            }
+        ]
+        
+
+## Phone Operating System Collection [/os]
+
+### Retrieve All OSs [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "Google Android 7.1.2 (Nougat)"
             }
         ]
 
-### Create a New Question [POST]
+## Service Carriers Collection [/carriers]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+### Retrieve All Carriers [GET]
 
-+ Request (application/json)
++ Response 200 (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
+        [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "name": "Sprint Nextel Corporation"
             }
+        ]
