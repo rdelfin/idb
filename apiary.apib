@@ -14,18 +14,16 @@ PhoneDB is a simple API allowing consumers to view mobile phone specifications.
         [
             {
                 "name": "LG LS998 V30+ TD-LTE / AS998  (LG Joan)",
-                "general_attributes": {
-                    "brand": "LG",
-                    "model": "LS998 V30+ TD-LTE / AS998",
-                    "release_date": "2017 Oct",
-                    "announce_date": "2017 Sep",
-                    "hardware_designer": "LG Electronics",
-                    "manufacturer": "LG Electronics",
-                    "codename": "LG Joan",
-                    "market_countries": "USA",
-                    "market_regions": "North America",
-                    "vendor": "Sprint Nextel Corporation"
-                },
+                "brand": "LG",
+                "model": "LS998 V30+ TD-LTE / AS998",
+                "release_date": "2017 Oct",
+                "announce_date": "2017 Sep",
+                "hardware_designer": "LG Electronics",
+                "manufacturer": "LG Electronics",
+                "codename": "LG Joan",
+                "market_countries": "USA",
+                "market_regions": "North America",
+                "vendor": "Sprint Nextel Corporation",
                 "physical_attributes": {
                     "width": "75.4 mm",
                     "height": "151.7 mm",
@@ -36,11 +34,28 @@ PhoneDB is a simple API allowing consumers to view mobile phone specifications.
                 "software": {
                     "platform": "Android",
                     "os": "Google Android 7.1.2 (Nougat)",
-                    "software_extras": "Voice Command, Navigation software, Virtual Reality (VR) support, Intelligent personal assisstent, Voice Recognition, Face Recognition"
+                    "software_extras": [
+                        "Voice Command", 
+                        "Navigation software", 
+                        "Virtual Reality (VR) support", 
+                        "Intelligent personal assisstent", 
+                        "Voice Recognition", 
+                        "Face Recognition"
+                    ]
                 },
                 "hardware": {
                     "cpu": {
-                        "model": "Qualcomm Snapdragon 835 MSM8998, 2017, 64 bit, octa-core, 32 Kbyte I-Cache, 32 Kbyte D-Cache, 2048 Kbyte L2, 10 nm, Qualcomm Adreno 540 GPU",
+                        "model": "Qualcomm Snapdragon 835 MSM8998", 
+                        "additional_info": [
+                            "2017",
+                            "64 bit", 
+                            "octa-core", 
+                            "32 Kbyte I-Cache",
+                            "32 Kbyte D-Cache", 
+                            "2048 Kbyte L2", 
+                            "10 nm", 
+                            "Qualcomm Adreno 540 GPU"
+                        ],
                         "clock_speed": "2350 MHz"
                     },
                     "gpu": {
@@ -78,7 +93,11 @@ PhoneDB is a simple API allowing consumers to view mobile phone specifications.
                         "aperture": "f/1.60",
                         "optical_zoom": "1 x",
                         "digital_zoom": "8 x",
-                        "focus": "Contrast Detection Autofocus (CD AF), Phase-Detection Autofocus (PD AF), Laser Autofocus",
+                        "focus": [
+                            "Contrast Detection Autofocus (CD AF)",
+                            "Phase-Detection Autofocus (PD AF)",
+                            "Laser Autofocus"
+                        ],
                         "formats": "JPG, RAW (raw format)",
                         "camcorder": {
                             "resolution": "3840x2160 pixel",
@@ -132,7 +151,12 @@ PhoneDB is a simple API allowing consumers to view mobile phone specifications.
                 "codename": "Nougat",
                 "os_kernel": "Linux",
                 "os_family": "Android family",
-                "supported_cpu_instr_sets": "ARM-64 (ARMv8) instruction set, ARM instruction set, x86 instruction set, x86-64 instruction set",
+                "supported_cpu_instruction_sets": [
+                    "ARM-64 (ARMv8)",
+                    "ARM",
+                    "x86",
+                    "x86-64"
+                ],
                 "predecessor": "Google Android 7.1.1 (Nougat)",
                 "successor": "Google Android 8.0 (Oreo)",
                 "brands": [
@@ -156,6 +180,27 @@ PhoneDB is a simple API allowing consumers to view mobile phone specifications.
 
         [
             {
-                "name": "Sprint Nextel Corporation"
+                "name": "Sprint Nextel Corporation",
+                "short_name": "Sprint",
+                "cellular_networks": {
+                    "installed": [
+                        "CDMA800 (BC0)",
+                        "CDMA1900 (BC1/BC14)",
+                        "CDMA800 (BC10)",
+                        "iDEN900",
+                        "iDEN800",
+                        "LTE1900 (B2)",
+                        "LTE1900 (B25)"
+                    ],
+                    "supported_data_links": [
+                        "cdmaOne",
+                        "CDMA2000 1x",
+                        "CDMA2000 1xEV-DO",
+                        "CDMA2000 1xEV-DO Rev A",
+                        "iDEN",
+                        "LTE 150/50"
+                    ]
+                },
+                "covered_countries": "USA"
             }
         ]
