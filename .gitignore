@@ -103,3 +103,10 @@ ENV/
 # Sublime project settings
 *.sublime-project
 *.sublime-workspace
+
+# Node
+node_modules/
+package-lock.json
+
+# Generated bundles
+static/bundle.js
