@@ -9,7 +9,13 @@
   box-shadow: 0px 1px 2px #e0e0e0;
 }
 
+.link-box {
+  display: flex;
+  flex-direction: row;
+}
+
 .link {
+  display: block;
   padding: 18px 12px 0;
   color: inherit;
   font-size: 20px;
@@ -34,4 +40,10 @@
 
 .spacer {
   flex: 1 1;
+}
+
+.hamburger {
+  padding: 17px 0;
+  font-size: 24px;
+  cursor: pointer;
 }

@@ -1,0 +1,49 @@
+@import '../../shared/var';
+
+$width: 240px;
+
+.wrapper {
+  z-index: 1;
+  display: none;
+  visibility: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0);
+  transition: 500ms cubic-bezier(0.19, 1, 0.22, 1) background;
+}
+
+.wrapper.shown {
+  display: block;
+  visibility: visible;
+  background: rgba(0, 0, 0, 0.5);
+}
+
+.menu {
+  position: fixed;
+  right: -$width;
+  width: $width;
+  height: 100vh;
+  background: $navbar-background;
+  transition: 500ms cubic-bezier(0.19, 1, 0.22, 1) right;
+}
+
+.menu.shown {
+  right: 0;
+}
+
+.item {
+  display: block;
+  padding: 14px 24px;
+  color: inherit;
+  font-size: 20px;
+  font-weight: 300;
+  text-decoration: none;
+  transition: 100ms linear background;
+}
+
+.item:hover {
+  background: #e0e0e0;
+}
