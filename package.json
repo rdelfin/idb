@@ -37,8 +37,8 @@
   },
   "dependencies": {
     "babel-plugin-react-css-modules": "^3.3.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
     "react-router-dom": "^4.2.2"
   }
 }
