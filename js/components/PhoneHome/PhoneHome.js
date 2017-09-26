@@ -1,12 +1,11 @@
 // @flow
 import React from 'react';
-
-import type {Match} from '../types';
+import PlaceholderPage from '../PlaceholderPage';
 
 export default class PhoneHome extends React.Component {
   render() {
     return (
-      <div>PhoneHome</div>
+      <PlaceholderPage>PhoneHome</PlaceholderPage>
       );
   }
 }

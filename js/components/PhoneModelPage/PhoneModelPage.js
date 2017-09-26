@@ -1,9 +1,7 @@
 // @flow
 import React, {PureComponent} from 'react';
-
 import {getById} from '../../store/PhoneModels';
-
-import type {Match} from '../types';
+import type {Match} from '../../types';
 
 type Props = {
   match: Match,

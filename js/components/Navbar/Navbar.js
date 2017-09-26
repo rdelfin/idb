@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import {Link} from 'react-router-dom';
 import './navbar.css';
 
 type Props = {
@@ -8,16 +9,16 @@ type Props = {
 const Navbar = (props: Props) => {
   return (
     <div styleName="navbar">
-      <div styleName="title">
+      <Link to="/" styleName="title">
         <i className="fa fa-mobile" />
         PhoneDB
-      </div>
+      </Link>
       <div styleName="spacer" />
-      <div styleName="link">Phones</div>
-      <div styleName="link">Manufacturers</div>
-      <div styleName="link">Carriers</div>
-      <div styleName="link">Operating Systems</div>
-      <div styleName="link">About</div>
+      <Link to="/phones" styleName="link">Phones</Link>
+      <Link to="/manufacturers" styleName="link">Manufacturers</Link>
+      <Link to="/carriers" styleName="link">Carriers</Link>
+      <Link to="/os" styleName="link">Operating Systems</Link>
+      <Link to="/about" styleName="link">About</Link>
     </div>
   );
 }

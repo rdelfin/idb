@@ -1,16 +1,20 @@
+@import '../../shared/var';
+
 .navbar {
   display: flex;
   flex-direction: row;
-  height: 58px;
+  height: $navbar-height;
   padding: 0 32px;
-  background: #f4f4f4;
+  background: $navbar-background;
   box-shadow: 0px 1px 2px #e0e0e0;
 }
 
 .link {
   padding: 18px 12px 0;
+  color: inherit;
   font-size: 20px;
   font-weight: 300;
+  text-decoration: none;
 
   cursor: pointer;
   transition: all 100ms linear;
@@ -22,8 +26,10 @@
 
 .title {
   padding: 9px 12px 0;
+  color: inherit;
   font-size: 32px;
   font-weight: 600;
+  text-decoration: none;
 }
 
 .spacer {
