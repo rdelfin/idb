@@ -1,7 +1,8 @@
 // @flow
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {HashRouter} from 'react-router-dom';
 
 import App from './components/App';
 
-ReactDOM.render(<App />, document.getElementById('main'));
+ReactDOM.render(<HashRouter><App /></HashRouter>, document.getElementById('main'));
