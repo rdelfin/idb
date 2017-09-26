@@ -49,5 +49,8 @@ module.exports = {
     ]
   },
   plugins: [
-  ]
+    new webpack.SourceMapDevToolPlugin({
+      test: /\.jsx?$/
+    })
+  ],
 };
