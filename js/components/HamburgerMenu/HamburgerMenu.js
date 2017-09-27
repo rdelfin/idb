@@ -5,7 +5,7 @@ import './hamburgerMenu.css';
 
 type Props = {
   shown: boolean,
-  hide: () => {},
+  hide: () => void,
 };
 
 export default class HamburgerMenu extends PureComponent<void, Props, void> {

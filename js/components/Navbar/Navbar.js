@@ -9,12 +9,14 @@ type State = {
   windowSize: number,
 };
 
-export default class Navbar extends Component<void, void, State> {
+export default class Navbar extends Component {
+  state: State;
+
   constructor() {
     super();
     this.state = {
       menuShown: false,
-      windowSize: document.body.clientWidth,
+      windowSize: getBodyWidth(),
     };
   }
 
@@ -28,7 +30,7 @@ export default class Navbar extends Component<void, void, State> {
 
   onWindowResize = () => {
     this.setState({
-      windowSize: document.body.clientWidth,
+      windowSize: getBodyWidth(),
     });
   };
 
@@ -66,4 +68,11 @@ export default class Navbar extends Component<void, void, State> {
       </div>
     );
   }
+}
+
+function getBodyWidth() {
+  if (document.body)
+    return document.body.clientWidth;
+  else
+    return 0;
 }
