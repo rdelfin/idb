@@ -156,7 +156,11 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
                   </tr>
                   <tr>
                     <td>Resolution</td>
-                    <td>{camera.resolution} ({camera.num_pixels})</td>
+                    <td>
+                      Still: {camera.resolution} ({camera.num_pixels})
+                      <br />
+                      Video: {camera.camcorder.resolution}
+                    </td>
                   </tr>
                   <tr>
                     <td>Aperture</td>
@@ -176,13 +180,14 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
                       <td>Flash</td>
                       <td>{camera.flash}</td>
                     </tr>}
+                  {camera.focus &&
+                    <tr>
+                      <td>Focus</td>
+                      <td>{camera.focus.map(focus => <span>{focus}<br /></span>)}</td>
+                    </tr>}
                   <tr>
                     <td>Formats</td>
                     <td>Still: {camera.formats}<br />Video: {camera.camcorder.formats}</td>
-                  </tr>
-                  <tr>
-                    <td>Video Resolution</td>
-                    <td>{camera.camcorder.resolution}</td>
                   </tr>
                 </table>
               </div>
