@@ -3,78 +3,233 @@ HOST: http://polls.apiblueprint.org/
 
 # phonedb
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+PhoneDB is a simple API allowing consumers to view mobile phone specifications.
 
-## Questions Collection [/questions]
+## Phone Models Collection [/models]
 
-### List All Questions [GET]
+### Retrieve All Models [GET]
 
 + Response 200 (application/json)
 
         [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
+                "name": "LG LS998 V30+ TD-LTE / AS998  (LG Joan)",
+                "brand": "LG",
+                "model": "LS998 V30+ TD-LTE / AS998",
+                "release_date": "2017 Oct",
+                "announce_date": "2017 Sep",
+                "hardware_designer": "LG Electronics",
+                "manufacturers": ["LG Electronics"],
+                "codename": "LG Joan",
+                "market_countries": ["USA"],
+                "market_regions": ["North America"],
+                "carriers": ["Sprint Nextel Corporation"],
+                "physical_attributes": {
+                    "width": "75.4 mm",
+                    "height": "151.7 mm",
+                    "depth": "7.3 mm",
+                    "dimensions": "2.97x5.97x0.29 inches",
+                    "mass": "158 g"
+                },
+                "software": {
+                    "platform": "Android",
+                    "os": "Google Android 7.1.2 (Nougat)",
+                    "software_extras": [
+                        "Voice Command", 
+                        "Navigation software", 
+                        "Virtual Reality (VR) support", 
+                        "Intelligent personal assisstant", 
+                        "Voice Recognition", 
+                        "Face Recognition"
+                    ]
+                },
+                "hardware": {
+                    "cpu": {
+                        "model": "Qualcomm Snapdragon 835 MSM8998", 
+                        "additional_info": [
+                            "2017",
+                            "64 bit", 
+                            "octa-core", 
+                            "32 Kbyte I-Cache",
+                            "32 Kbyte D-Cache", 
+                            "2048 Kbyte L2", 
+                            "10 nm", 
+                            "Qualcomm Adreno 540 GPU"
+                        ],
+                        "clock_speed": "2350 MHz"
+                    },
+                    "gpu": {
+                        "model": "Qualcomm Adreno 540",
+                        "clock_speed": "710 MHz"
+                    },
+                    "ram": {
+                        "type": "LPDDR4x SDRAM 1866 MHz",
+                        "capacity": "4.00 GiB RAM"
+                    },
+                    "nonvolatile_memory": {
+                        "type": "Flash EEPROM",
+                        "capacity": "128.0 GB ROM"
+                    }
+                },
+                "display": {
+                    "resolution": "1440x2880",
+                    "diagonal": "152.2 mm",
+                    "width": "68.07 mm",
+                    "height": "136.13 mm",
+                    "bezel_width": "7.33 mm",
+                    "area_utilization": "81%",
+                    "pixel_density": "537 PPI",
+                    "type": "Color AM-OLED",
+                    "color_depth": "24 bit/pixel",
+                    "screen": "Corning Gorilla Glass 5"
+                },
+                "cameras": [
                     {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
+                        "placement": "Rear",
+                        "module": "Sony IMX351",
+                        "sensor": "BSI CMOS",
+                        "resolution": "4608x3456 pixel",
+                        "num_pixels": "15.9 MP cam",
+                        "aperture": "f/1.60",
+                        "optical_zoom": "1 x",
+                        "digital_zoom": "8 x",
+                        "focus": [
+                            "Contrast Detection Autofocus (CD AF)",
+                            "Phase-Detection Autofocus (PD AF)",
+                            "Laser Autofocus"
+                        ],
+                        "formats": "JPG, RAW (raw format)",
+                        "camcorder": {
+                            "resolution": "3840x2160 pixel",
+                            "formats": "3GP, 3G2, MPEG4"
+                        },
+                        "flash": "dual LED"
+                    },
+                    {
+                        "placement": "Front",
+                        "sensor": "CMOS",
+                        "sensor_format": "1/5.00",
+                        "resolution": "2592x1944 pixel",
+                        "num_pixels": "5.0 MP sec. cam",
+                        "aperture": "f/1.90",
+                        "optical_zoom": "1 x",
+                        "formats": "JPG, RAW (raw format)",
+                        "camcorder": {
+                            "resolution": "1920x1080 pixel",
+                            "formats": "3GP, 3G2, MPEG4"
+                        }
                     }
                 ]
             }
         ]
+        
+## Phone Brands Collection [/brands]
 
-### Create a New Question [POST]
+### Retrieve All Brands [GET]
 
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
++ Response 200 (application/json)
 
-+ Request (application/json)
-
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
-        }
-
-+ Response 201 (application/json)
-
-    + Headers
-
-            Location: /questions/2
-
-    + Body
-
+        [
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
+                "name": "LG",
+                "type": "public",
+                "industries": [
+                    "Consumer electronics",
+                    "Home appliances"
+                ],
+                "found_date": "October 1958",
+                "founders": ["Koo In-hwoi"], 
+                "location": "Yeouido-dong, Seoul, South Korea",
+                "area_served": "Worldwide",
+                "parent": "LG Corporation",
+                "phone_models": [
+                    "LG LS998 V30+ TD-LTE / AS998  (LG Joan)"
+                ],
+                "carriers": [
+                    "Sprint Nextel Corporation"
+                ],
+                "os": [
+                    "Google Android 7.1.2 (Nougat)"
                 ]
             }
+        ]
+        
+
+## Phone Operating System Collection [/os]
+
+### Retrieve All OSs [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "Google Android 7.1.2 (Nougat)",
+                "developer": "Google",
+                "release_date": "2017 Apr 2",
+                "version": "Android 7.1.2",
+                "codename": "Nougat",
+                "os_kernel": "Linux",
+                "os_family": "Android family",
+                "supported_cpu_instruction_sets": [
+                    "ARM-64 (ARMv8)",
+                    "ARM",
+                    "x86",
+                    "x86-64"
+                ],
+                "predecessor": "Google Android 7.1.1 (Nougat)",
+                "successor": "Google Android 8.0 (Oreo)",
+                "brands": [
+                    "LG", 
+                    "Samsung", 
+                    "HTC"
+                ],
+                "models": [
+                    "LG LS998 V30+ TD-LTE / AS998  (LG Joan)", 
+                    "LG H933 V30 TD-LTE (LG Joan)",
+                    "LG H931 V30 TD-LTE (LG Joan)"
+                ]
+            }
+        ]
+
+## Service Carriers Collection [/carriers]
+
+### Retrieve All Carriers [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "name": "Sprint Nextel Corporation",
+                "short_name": "Sprint",
+                "cellular_networks": {
+                    "installed": [
+                        "CDMA800 (BC0)",
+                        "CDMA1900 (BC1/BC14)",
+                        "CDMA800 (BC10)",
+                        "iDEN900",
+                        "iDEN800",
+                        "LTE1900 (B2)",
+                        "LTE1900 (B25)"
+                    ],
+                    "supported_data_links": [
+                        "cdmaOne",
+                        "CDMA2000 1x",
+                        "CDMA2000 1xEV-DO",
+                        "CDMA2000 1xEV-DO Rev A",
+                        "iDEN",
+                        "LTE 150/50"
+                    ]
+                },
+                "covered_countries": "USA",
+                "brands": [
+                    "LG", 
+                    "Samsung", 
+                    "HTC"
+                ],
+                "models": [
+                    "Motorola Moto Z2 Force Edition TD-LTE XT1789-03",
+                    "Sprint HTC 10 TD-LTE (HTC Perfume)",
+                    "Sprint Slate 10 Tablet AQT100 TD-LTE"
+                ]
+            }
+        ]
