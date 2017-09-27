@@ -5,8 +5,8 @@
   flex-direction: row;
   height: $navbar-height;
   padding: 0 32px;
-  background: $navbar-background;
-  box-shadow: 0px 1px 2px #e0e0e0;
+  background: $body-background;
+  color: lighten($body-background, 90%);
 }
 
 .link-box {
@@ -27,7 +27,12 @@
 }
 
 .link:hover {
-  background: #e0e0e0;
+  background: lighten($body-background, 10%);
+}
+
+.logo {
+  display: inline-block;
+  padding-right: 12px;
 }
 
 .title {

@@ -48,7 +48,7 @@ export default class Navbar extends Component<void, void, State> {
     return (
       <div styleName="navbar">
         <Link to="/" styleName="title">
-          <i className="fa fa-mobile" />
+          <i styleName="logo" className="fa fa-mobile" />
           PhoneDB
         </Link>
         <div styleName="spacer" />
@@ -61,7 +61,7 @@ export default class Navbar extends Component<void, void, State> {
         ]}
         {this.state.windowSize < 800 && [
           <i styleName="hamburger" className="fa fa-bars" onClick={this.showMenu} />,
-          <HamburgerMenu shown={this.state.menuShown} hide={this.hideMenu} />
+          <HamburgerMenu shown={this.state.menuShown} hide={this.hideMenu} />,
         ]}
       </div>
     );

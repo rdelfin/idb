@@ -23,6 +23,43 @@
   font-size: 16px;
 }
 
+.browseTable {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 768px;
+  margin: 64px auto;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.browseLink {
+  display: block;
+  width: 240px;
+  margin: 24px;
+  padding: 24px 32px;
+  border-radius: 4px;
+  background: lighten($body-background, 5%);
+  color: inherit;
+  box-shadow: 0 1px 2px darken($body-background, 10%);
+  font-size: 20px;
+  text-decoration: none;
+  transition: 100ms linear background;
+}
+
+.browseLink:hover {
+  background: lighten($body-background, 10%);
+}
+
+.browseCaret {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  margin-left: 4px;
+}
+
 @media screen and (max-width: 500px) {
   .title {
     font-size: 48px;
@@ -34,5 +71,9 @@
 
   .subsubtitle {
     font-size: 12px;
+  }
+
+  .browseLink {
+    font-size: 16px;
   }
 }
