@@ -37,8 +37,7 @@
 			"phone_models": [
 				"Samsung SM-G892U Galaxy S8 Active TD-LTE"
 			],
-			"carriers": [
-			],
+			"carriers": [],
 			"os": [
 				"Google Android 7.0 (Nougat)"
 			]
@@ -63,12 +62,56 @@
 			],
 	        "location": "Apple Campus, 1 Infinite Loop, Cupertino, California, U.S.",
 	        "area_served": "Worldwide",
-	        "parent": "Samsung Group",
 	        "phone_models": [
+				"Apple iPhone 8 Plus A1897 TD-LTE 256GB (Apple iPhone 10,5)"
 	        ],
 	        "carriers": [
+				"T-Mobile USA",
+				"AT&T Mobility",
+				"Telus Mobility",
+				"Vodafone Italia",
+				"O2 Germany",
+				"Vodafone United Kingdom",
+				"O2 United Kingdom",
+				"Hutchison Three UK",
+				"EE Limited UK",
+				"Turkcell",
+				"Bell Mobility",
+				"Rogers Wireless",
+				"Cricket Communications",
+				"Saskatchewan Telecommunications Holding",
+				"MTS Russia",
+				"Vodafone Turkey",
+				"T-Mobile Austria",
+				"T-Mobile Hungary",
+				"SFR",
+				"T-Mobile United Kingdom",
+				"Telecom Italia",
+				"TELCEL",
+				"Telenor Hungary",
+				"Orange Switzerland",
+				"Orange United Kingdom",
+				"Telstra Corporation Limited",
+				"Virgin Mobile United Kingdom",
+				"Wind Mobile Canada",
+				"Vodafone Australia",
+				"Vodafone Portugal",
+				"Cellcom Israel",
+				"A1 Telekom Austria",
+				"Chunghwa Telecom",
+				"Swisscom AG",
+				"Taiwan Star Telecom Corporation Limited",
+				"FarEasTone Telecommunications",
+				"SK Telecom",
+				"LG Uplus Corporation",
+				"KT Corporation",
+				"Movistar Spain",
+				"Proximus Belgacom Mobile",
+				"Taiwan Mobile",
+				"SingTel Optus Pty Limited"
 	        ],
 	        "os": [
+				"Apple iOS 11"
 			]
 		}
 	],
@@ -515,6 +558,48 @@
 	            "LG H933 V30 TD-LTE (LG Joan)",
 	            "LG H931 V30 TD-LTE (LG Joan)"
 	        ]
+		},
+		{
+	        "name": "Google Android 7.0 (Nougat)",
+	        "developer": "Google",
+	        "release_date": "2016 Aug 23",
+	        "version": "Android 7.0",
+	        "codename": "Nougat",
+	        "os_kernel": "Linux",
+	        "os_family": "Android family",
+	        "supported_cpu_instruction_sets": [
+	            "ARM-64 (ARMv8)",
+	            "ARM",
+	            "x86",
+	            "x86-64"
+	        ],
+	        "predecessor": "Google Android 6.0.1 (Marshmallow)",
+	        "successor": "Google Android 7.1 (Nougat)",
+	        "brands": [
+	            "Samsung"
+	        ],
+	        "models": [
+	            "Samsung SM-G892U Galaxy S8 Active TD-LTE"
+	        ]
+		},
+		{
+	        "name": "Apple iOS 11",
+	        "developer": "Apple",
+	        "release_date": "2017 Sep 19",
+	        "version": "iOS 11",
+	        "os_kernel": "Mach",
+	        "os_family": "iOS family",
+	        "supported_cpu_instruction_sets": [
+	            "ARM-64 (ARMv8)"
+	        ],
+	        "predecessor": "Apple iOS 10.3.3",
+	        "successor": "Apple iOS 11.0.1",
+	        "brands": [
+	            "Apple"
+	        ],
+	        "models": [
+	            "Apple iPhone 8 Plus A1897 TD-LTE 256GB (Apple iPhone 10,5)"
+	        ]
 		}
 	],
 	"carriers": [
@@ -550,6 +635,80 @@
 	            "Motorola Moto Z2 Force Edition TD-LTE XT1789-03",
 	            "Sprint HTC 10 TD-LTE (HTC Perfume)",
 	            "Sprint Slate 10 Tablet AQT100 TD-LTE"
+	        ]
+		},
+		{
+	        "name": "AT&T Mobility",
+	        "short_name": "ATT",
+	        "cellular_networks": {
+	            "installed": [
+					"GSM850",
+					"GSM1900",
+					"UMTS1900 (B2)",
+					"UMTS850 (B5)",
+					"LTE1900 (B2)",
+					"LTE1700/2100 (B4)",
+					"LTE850 (B5)",
+					"LTE700 (B17)"
+	            ],
+	            "supported_data_links": [
+					"CSD",
+					"HSCSD",
+					"GPRS",
+					"EDGE",
+					"UMTS",
+					"HSUPA",
+					"HSDPA",
+					"HSPA+ 21.1",
+					"LTE",
+	                "LTE 150/50",
+					"LTE 300/50"
+	            ]
+	        },
+	        "covered_countries": "USA",
+	        "brands": [
+	            "Motorola", 
+	            "Asus", 
+	            "HTC"
+	        ],
+	        "models": [
+	            "Motorola Moto Z2 Force Edition TD-LTE XT1789-04",
+	            "HTX Desire 530 4G LTE NA (HTC A16)",
+	            "Apple iPhone 8 Plus A1897 TD-LTE 256GB (Apple iPhone 10,5)"
+	        ]
+		},
+		{
+	        "name": "SoftBank Corp.",
+	        "short_name": "SoftBank",
+	        "cellular_networks": {
+	            "installed": [
+					"UMTS2100 (B1)",
+					"UMTS900 (B8)",
+					"UMTS1500 (B11)",
+					"LTE2100 (B1)",
+					"LTE900 (B8)",
+					"LTE1700/1800 (B9)",
+					"TD-LTE2500 (B41)"
+	            ],
+	            "supported_data_links": [
+					"UMTS",
+					"HSUPA",
+					"HSDPA",
+					"HSPA+ 21.1",
+					"LTE",
+					"LTE 300/50"
+	            ]
+	        },
+	        "covered_countries": "Japan",
+	        "brands": [
+	            "Kyocera", 
+	            "Lenovo", 
+	            "Sharp"
+	        ],
+	        "models": [
+	            "Kyocera Digno G TD-LTE 602KC",
+	            "SoftBank Lenovo 503LV TD-LTE Dual SIM",
+	            "Sharp AQUOS Crystal X 2 WiMAX 2+ 403 SH / Crystal Y2"
 	        ]
 		}
 	]
