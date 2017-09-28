@@ -14,7 +14,7 @@ export default class AboutPage extends PureComponent {
           <TeamMemberCard name="Jonathan Fisher" avatarUrl="/static/images/jonathan.png" blurb="I am the best developer ever" />
           <TeamMemberCard name="Matt Gmitro" avatarUrl="http://placehold.it/200x200" blurb="I am the best developer ever" />
           <TeamMemberCard name="Ricardo Delfin" avatarUrl="/static/images/rdelfin.png" blurb="I am the best developer ever" />
-          <TeamMemberCard name="Trey Gonsoulin" avatarUrl="/static/images/trey.png" blurb="I am the best developer ever" />
+          <TeamMemberCard name="Trey Gonsoulin" avatarUrl="/static/images/trey.png" blurb="21+ years in Austin. I'm still skeptical, but the others assure me this 'internet' thing will really take off, so I'm along for the ride." />
           <TeamMemberCard name="Xuming Zeng" avatarUrl="/static/images/xsznix.jpg" blurb="I started out thinking this would be easy and now I hate Webpack with a burning passion." />
         </div>
       </div>
