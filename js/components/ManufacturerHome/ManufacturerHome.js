@@ -3,7 +3,7 @@ import React from 'react';
 import ListPage from '../ListPage';
 import {getAll} from '../../store/Manufacturers';
 
-export default class PhoneHome extends React.Component {
+export default class ManufacturerHome extends React.Component {
   getList() {
     return getAll().map((manufacturer, i) => ({
       url: `/manufacturers/${i}`,

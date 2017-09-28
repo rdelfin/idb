@@ -1,11 +1,19 @@
 // @flow
-import React, {PureComponent} from 'react';
-import PlaceholderPage from '../PlaceholderPage';
+import React from 'react';
+import ListPage from '../ListPage';
+import {getAll} from '../../store/OperatingSystems';
 
-export default class OsHome extends PureComponent {
+export default class OsHome extends React.Component {
+  getList() {
+    return getAll().map((os, i) => ({
+      url: `/operating_systems/${i}`,
+      title: os.name,
+    }));
+  }
+
   render() {
     return (
-      <PlaceholderPage>OsHome</PlaceholderPage>
-    );
+      <ListPage title="Operating Systems" links={this.getList()} />
+      );
   }
 }
