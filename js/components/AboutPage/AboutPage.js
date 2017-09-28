@@ -52,7 +52,7 @@ export default class AboutPage extends PureComponent {
             name="Trey Gonsoulin"
             avatarUrl="/static/images/trey.png"
             blurb="21+ years in Austin. I'm still skeptical, but the others assure me this 'internet' thing will really take off, so I'm along for the ride."
-            tasks="I did absolutely nothing on this project."
+            tasks="I worked on API documentation and design, information scraping, and technical reporting."
             commits={20}
             issues={5}
             tests={0}
