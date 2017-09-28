@@ -132,3 +132,7 @@ export function getById(id: string | number): Carrier | void {
 export function getAll(): Array<Carrier> {
   return data;
 }
+
+export function getIdByName(name: string): number {
+  return data.findIndex(item => item.name === name);
+}

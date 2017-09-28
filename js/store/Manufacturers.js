@@ -138,3 +138,7 @@ export function getById(id: string | number): Manufacturer | void {
 export function getAll(): Array<Manufacturer> {
   return data;
 }
+
+export function getIdByName(name: string): number {
+  return data.findIndex(item => item.name === name);
+}

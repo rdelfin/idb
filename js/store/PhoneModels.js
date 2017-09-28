@@ -8,6 +8,7 @@ export type PhoneModel = {
   announce_date?: string,
   hardware_designer: string,
   manufacturers: string | Array<string>,
+  carriers?: Array<string>,
   codename?: string,
   market_countries: string | Array<string>,
   market_regions: string | Array<string>,
@@ -301,7 +302,7 @@ const data: Array<PhoneModel> = [
   },
   {
         "name": "Apple iPhone 8 Plus A1897 TD-LTE 256GB (Apple iPhone 10,5)",
-        "brand": "Apple",
+        "brand": "Apple Inc.",
         "model": "iPhone 8 Plus A1897 TD-LTE 256GB",
         "release_date": "2017 Sep",
         "announce_date": "2017 Sep",
@@ -518,4 +519,8 @@ export function getById(id: string | number): PhoneModel | void {
 
 export function getAll(): Array<PhoneModel> {
   return data;
+}
+
+export function getIdByName(name: string): number {
+  return data.findIndex(item => item.name === name);
 }

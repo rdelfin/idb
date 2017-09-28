@@ -45,3 +45,7 @@
   text-align: right;
   width: 110px;
 }
+
+.table a {
+  color: #2980b9;
+}

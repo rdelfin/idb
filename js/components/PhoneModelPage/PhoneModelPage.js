@@ -1,8 +1,11 @@
 // @flow
 import React, {PureComponent} from 'react';
+import {Link} from 'react-router-dom';
+import {getIdByName as getCarrierId} from '../../store/Carriers';
+import {getIdByName as getManufacturerId} from '../../store/Manufacturers';
 import {getById} from '../../store/PhoneModels';
 import TablePage from '../TablePage';
-import {joinLines} from '../../util';
+import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
 import type {PhoneModel} from '../../store/PhoneModels';
 import type {Match} from '../../types';
@@ -34,9 +37,14 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
             value: () => model.codename,
           },
           {
-            title: 'Designer',
-            shown: model.hardware_designer,
-            value: () => model.hardware_designer,
+            title: 'Brand',
+            shown: model.brand,
+            value: () => <Link to={`/manufacturers/${getManufacturerId(model.brand)}`}>{model.brand}</Link>,
+          },
+          {
+            title: 'Carriers',
+            shown: model.carriers,
+            value: () => joinLinkLines(model.carriers, 'carriers', getCarrierId),
           },
         ],
       },

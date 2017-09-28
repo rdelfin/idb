@@ -1,8 +1,10 @@
 // @flow
 import React, {PureComponent} from 'react';
+import {getIdByName as getManufacturerId} from '../../store/Manufacturers';
 import {getById} from '../../store/Os';
+import {getIdByName as getPhoneId} from '../../store/PhoneModels';
 import TablePage from '../TablePage';
-import {joinLines} from '../../util';
+import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
 import type {Os} from '../../store/Os';
 import type {Match} from '../../types';
@@ -44,7 +46,23 @@ export default class OsPage extends PureComponent<void, Props, void> {
             value: () => joinLines(os.supported_cpu_instruction_sets),
           },
         ],
-      }
+      },
+      {
+        title: 'Links',
+        icon: 'link',
+        rows: [
+          {
+            title: 'Brands',
+            shown: os.brands,
+            value: () => joinLinkLines(os.brands, 'manufacturers', getManufacturerId),
+          },
+          {
+            title: 'Phone Models',
+            shown: os.models,
+            value: () => joinLinkLines(os.models, 'phones', getPhoneId),
+          },
+        ],
+      },
     ];
   }
 

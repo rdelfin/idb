@@ -94,3 +94,7 @@ export function getById(id: string | number): Os | void {
 export function getAll(): Array<Os> {
   return data;
 }
+
+export function getIdByName(name: string): number {
+  return data.findIndex(item => item.name === name);
+}
