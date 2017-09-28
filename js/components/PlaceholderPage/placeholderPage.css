@@ -1,0 +1,32 @@
+@import '../../shared/var';
+
+.page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  height: calc(100vh - #{$navbar-height});
+  background: #34495e;
+}
+
+.pageInner {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.content {
+  color: #bdc3c7;
+  text-align: center;
+}
+
+.icon {
+  font-size: 280px;
+}
+
+.text {
+  font-size: 40px;
+}
+
+.subtitle {
+  font-size: 24px;
+}

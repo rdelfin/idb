@@ -1,0 +1,27 @@
+.root {
+  color: #fff;
+}
+
+.title {
+  margin: 64px 32px 32px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 72px;
+  font-weight: 300;
+}
+
+.description {
+  margin: 0 32px 64px;
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 24px;
+  font-weight: 300;
+}
+
+.teamCards {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 80px;
+}

@@ -1,0 +1,81 @@
+@import '../../shared/var';
+
+.root {
+  background: #2c3e50;
+  box-sizing: border-box;
+  min-height: calc(100vh - #{$navbar-height});
+  height: 100%;
+  padding: 20vh 32px 0;
+  color: rgba(255, 255, 255, 0.9);
+  text-align: center;
+  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+.title {
+  font-size: 72px;
+}
+
+.subtitle {
+  font-size: 48px;
+  font-weight: 300;
+}
+
+.subsubtitle {
+  font-size: 16px;
+}
+
+.browseTable {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 100%;
+  max-width: 808px;
+  margin: 64px auto;
+  padding: 0 32px;
+  box-sizing: border-box;
+}
+
+.browseLink {
+  display: block;
+  width: 260px;
+  margin: 24px;
+  padding: 32px 24px;
+  border-radius: 4px;
+  border: 3px solid lighten($body-background, 5%);
+  box-sizing: border-box;
+  color: inherit;
+  box-shadow: 0 1px 2px darken($body-background, 10%);
+  font-size: 20px;
+  text-decoration: none;
+  transition: 100ms linear background;
+}
+
+.browseLink:hover {
+  background: lighten($body-background, 5%);
+}
+
+.browseCaret {
+  display: inline-block;
+  position: relative;
+  top: 2px;
+  margin-left: 4px;
+}
+
+@media screen and (max-width: 500px) {
+  .title {
+    font-size: 48px;
+  }
+
+  .subtitle {
+    font-size: 28px;
+  }
+
+  .subsubtitle {
+    font-size: 12px;
+  }
+
+  .browseLink {
+    font-size: 16px;
+  }
+}

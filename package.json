@@ -1,0 +1,46 @@
+{
+  "name": "phonedb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "js/app.js",
+  "scripts": {
+    "flow": "flow",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "python3 main.py",
+    "webpack-dev": "webpack --progress --config webpack.config.dev.js --display-error-details",
+    "webpack-watch": "webpack --progress --config webpack.config.dev.js --watch",
+    "webpack-prod": "NODE_ENV=production webpack --progress -p --config webpack.config.prod.js --optimize-minimize"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rdelfin/idb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/rdelfin/idb/issues"
+  },
+  "homepage": "https://github.com/rdelfin/idb#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.0",
+    "babel-loader": "^7.1.2",
+    "babel-preset-env": "^1.6.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
+    "css-loader": "^0.28.7",
+    "empty": "^0.10.1",
+    "flow-bin": "^0.55.0",
+    "node-sass": "^4.5.3",
+    "postcss-scss": "^1.0.2",
+    "sass-loader": "^6.0.6",
+    "style-loader": "^0.18.2",
+    "webpack": "^3.6.0"
+  },
+  "dependencies": {
+    "babel-plugin-react-css-modules": "^3.3.0",
+    "react": "^15.6.2",
+    "react-dom": "^15.6.2",
+    "react-router-dom": "^4.2.2"
+  }
+}
