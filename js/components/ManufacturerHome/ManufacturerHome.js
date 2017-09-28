@@ -8,6 +8,13 @@ export default class ManufacturerHome extends React.Component {
     return getAll().map((manufacturer, i) => ({
       url: `/manufacturers/${i}`,
       title: manufacturer.name,
+      stats: [
+        manufacturer.type,
+        manufacturer.industries[0],
+        `Founded ${manufacturer.found_date}`,
+        manufacturer.location,
+        manufacturer.area_served,
+      ],
     }));
   }
 

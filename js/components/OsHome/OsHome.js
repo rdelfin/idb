@@ -8,6 +8,12 @@ export default class OsHome extends React.Component {
     return getAll().map((os, i) => ({
       url: `/os/${i}`,
       title: os.name,
+      stats: [
+        `Released ${os.release_date}`,
+        os.developer,
+        `${os.os_kernel} kernel`,
+        os.os_family,
+      ].concat(os.supported_cpu_instruction_sets),
     }));
   }
 

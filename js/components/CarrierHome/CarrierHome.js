@@ -7,7 +7,8 @@ export default class CarrierHome extends React.Component {
   getList() {
     return getAll().map((carrier, i) => ({
       url: `/carriers/${i}`,
-      title: carrier.name,
+      title: carrier.short_name,
+      stats: carrier.cellular_networks.installed,
     }));
   }
 
