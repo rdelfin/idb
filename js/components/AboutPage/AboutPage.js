@@ -61,7 +61,7 @@ export default class AboutPage extends PureComponent {
             name="Xuming Zeng"
             avatarUrl="/static/images/xsznix.jpg"
             blurb="Born in PRC, raised in AB, FL, CO, and TX. I didn't expect to learn anything from this, but now I know that I hate Webpack."
-            tasks="I did absolutely nothing on this project."
+            tasks="I wrote the vast majority of the frontend for PhoneDB."
             commits={27}
             issues={8}
             tests={0}
