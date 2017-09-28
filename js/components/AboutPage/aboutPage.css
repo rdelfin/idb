@@ -1,3 +1,5 @@
+@import '../../shared/var';
+
 .root {
   color: #fff;
 }
@@ -10,8 +12,17 @@
   font-weight: 300;
 }
 
+.title2 {
+  @extend .title;
+  margin-bottom: 24px;
+  font-size: 48px;
+}
+
 .description {
-  margin: 0 32px 64px;
+  margin: 0 auto 48px;
+  padding: 0 32px;
+  width: 100%;
+  max-width: 800px;
   box-sizing: border-box;
   text-align: center;
   font-size: 24px;
@@ -23,5 +34,67 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 80px;
+  max-width: 1008px;
+  margin: 0 auto;
+}
+
+.aboutCard {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  max-width: 976px;
+  margin: 32px auto;
+  padding: 32px;
+  box-sizing: border-box;
+  background: lighten($body-background, 5%);
+  box-shadow: 0px 1px 2px darken($body-background, 20%);
+  border-radius: 4px;
+}
+
+.aboutIcon {
+  width: 200px;
+  font-size: 200px;
+}
+
+.aboutImage {
+  width: 175px;
+  height: 175px;
+  margin-right: 25px;
+}
+
+.aboutContent {
+  flex: 1 1;
+}
+
+.aboutHeader {
+  font-size: 30px;
+  font-weight: 300;
+  margin-top: 0;
+}
+
+.link {
+  display: inline-block;
+  margin-left: 4px;
+  font-size: 22px;
+  text-decoration: none;
+  color: lighten(#3498db, 10%);
+}
+
+.stats {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: 32px;
+  margin-bottom: 0;
+}
+
+.stats > div {
+  font-size: 18px;
+  padding: 8px 12px;
+  margin-right: 16px;
+  margin-bottom: 16px;
+  background: lighten($body-background, 10%);
+  box-shadow: 0px 1px 2px darken($body-background, 5%);
+  border-radius: 4px;
 }

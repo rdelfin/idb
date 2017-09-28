@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom';
 import {getIdByName as getCarrierId} from '../../store/Carriers';
 import {getById} from '../../store/Manufacturers';
 import {getIdByName as getPhoneId} from '../../store/PhoneModels';
+import {getIdByName as getOsId} from '../../store/Os';
 import TablePage from '../TablePage';
 import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
@@ -54,14 +55,19 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
         rows: [
           {
             title: 'Phone Models',
-            shown: mf.phone_models,
+            shown: mf.phone_models && mf.phone_models.length,
             value: () => joinLinkLines(mf.phone_models, 'phones', getPhoneId),
           },
           {
             title: 'Carriers',
-            shown: mf.carriers,
+            shown: mf.carriers && mf.carriers.length,
             value: () => joinLinkLines(mf.carriers, 'carriers', getCarrierId),
-          }
+          },
+          {
+            title: 'OSs',
+            shown: mf.os && mf.os.length,
+            value: () => joinLinkLines(mf.os, 'os', getOsId),
+          },
         ],
       },
     ];
