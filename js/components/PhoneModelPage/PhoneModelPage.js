@@ -75,9 +75,9 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
             shown: model.hardware.gpu,
             value: () =>
               <span>
-                {model.hardware.gpu.model}
+                {(model.hardware.gpu: any).model}
                 <br />
-                {model.hardware.gpu.clock_speed}
+                {(model.hardware.gpu: any).clock_speed}
               </span>,
           },
           {
@@ -206,7 +206,7 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
         {
           title: 'Focus',
           shown: camera.focus,
-          value: () => joinLines(camera.focus),
+          value: () => joinLines((camera.focus: any)),
         },
         {
           title: 'Formats',
