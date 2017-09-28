@@ -515,3 +515,7 @@ const data: Array<PhoneModel> = [
 export function getById(id: string | number): PhoneModel | void {
   return data[+id];
 }
+
+export function getAll(): Array<PhoneModel> {
+  return data;
+}

@@ -5,7 +5,7 @@
   height: 360px;
   margin: 16px;
   padding: 32px;
-  box-shadow: 0px 1px 2px darken($body-background, 10%);
+  box-shadow: 0px 1px 2px darken($body-background, 20%);
   border-radius: 4px;
   text-align: center;
   background: lighten($body-background, 5%);
