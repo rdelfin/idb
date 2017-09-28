@@ -2,10 +2,10 @@
 import React, {PureComponent} from 'react';
 import {getById} from '../../store/PhoneModels';
 import TablePage from '../TablePage';
+import {joinLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
 import type {PhoneModel} from '../../store/PhoneModels';
 import type {Match} from '../../types';
-import './phoneModelPage.css';
 
 type Props = {
   match: Match,
@@ -206,7 +206,7 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
         {
           title: 'Focus',
           shown: camera.focus,
-          value: () => camera.focus.map((focus, i) => <span key={i}>{focus}<br /></span>),
+          value: () => joinLines(camera.focus),
         },
         {
           title: 'Formats',

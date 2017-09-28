@@ -1,6 +1,6 @@
 // @flow
 import React from 'react';
-import {ReactChildren} from '../../types';
+import type {ReactChildren} from '../../types';
 import './tableCard.css';
 
 type Props = {
@@ -14,9 +14,9 @@ export type TableSpec = {
 };
 
 type TableRowSpec = {
-  shown: boolean,
+  shown: any, // implicitly cast to boolean, only needs to be truthy/falsy
   title: ReactChildren<*>,
-  value: () => ReactChildren<*>,
+  value: () => any, // ignore errors based on undefined checks that Flow doesn't catch
 };
 
 const TableCard = (props: Props): React$Element<*> => (

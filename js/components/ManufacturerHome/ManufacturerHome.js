@@ -1,11 +1,19 @@
 // @flow
-import React, {PureComponent} from 'react';
-import PlaceholderPage from '../PlaceholderPage';
+import React from 'react';
+import ListPage from '../ListPage';
+import {getAll} from '../../store/Manufacturers';
 
-export default class ManufacturerHome extends PureComponent {
+export default class PhoneHome extends React.Component {
+  getList() {
+    return getAll().map((manufacturer, i) => ({
+      url: `/manufacturers/${i}`,
+      title: manufacturer.name,
+    }));
+  }
+
   render() {
     return (
-      <PlaceholderPage>ManufacturerHome</PlaceholderPage>
-    );
+      <ListPage title="Manufacturers" links={this.getList()} />
+      );
   }
 }

@@ -6,6 +6,7 @@ import AboutPage from '../AboutPage';
 import CarrierHome from '../CarrierHome';
 import HomePage from '../HomePage';
 import ManufacturerHome from '../ManufacturerHome';
+import ManufacturerPage from '../ManufacturerPage';
 import Navbar from '../Navbar';
 import OsHome from '../OsHome';
 import PhoneHome from '../PhoneHome';
@@ -23,6 +24,7 @@ export default class App extends React.Component {
         <Route exact path="/os" component={OsHome} />
         <Route exact path="/phones" component={PhoneHome} />
         <Route path="/phones/:model" component={PhoneModelPage} />
+        <Route path="/manufacturers/:manufacturer" component={ManufacturerPage} />
       </div>
     );
   }
