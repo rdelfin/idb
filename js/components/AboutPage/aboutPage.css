@@ -23,5 +23,6 @@
   flex-direction: row;
   flex-wrap: wrap;
   justify-content: center;
-  margin-bottom: 80px;
+  max-width: 1008px;
+  margin: 0 auto 80px;
 }
