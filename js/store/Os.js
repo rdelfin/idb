@@ -87,10 +87,10 @@ const data: Array<Os> = [
   }
 ];
 
-export function getById(id: string | number): Carrier | void {
+export function getById(id: string | number): Os | void {
   return data[+id];
 }
 
-export function getAll(): Array<Carrier> {
+export function getAll(): Array<Os> {
   return data;
 }
