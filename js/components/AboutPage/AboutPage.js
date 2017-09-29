@@ -16,7 +16,7 @@ export default class AboutPage extends PureComponent {
             name="Brian Cui"
             avatarUrl="/static/images/brian.png"
             blurb="Born and raised in Austin. Working on a Master's degree. I fight for the user. I mean, I write user stories. I also write code."
-            tasks="I did absolutely nothing on this project."
+            tasks="I led the team, created user stories, implemented the carousel, and wrote a large portion of the technical report."
             commits={3}
             issues={5}
             tests={0}
@@ -25,7 +25,7 @@ export default class AboutPage extends PureComponent {
             name="Jonathan Fisher"
             avatarUrl="/static/images/jonathan.png"
             blurb="Born from the backwoods of Silsbee, TX. My family still thinks I'm doing an 'IT' job, but hey, I'm doing right by UT."
-            tasks="I did absolutely nothing on this project."
+            tasks="I worked on a Python website scraper for retrieving data for our backend API to be used on our next projects. "
             commits={3}
             issues={5}
             tests={0}
@@ -34,7 +34,7 @@ export default class AboutPage extends PureComponent {
             name="Matt Gmitro"
             avatarUrl="/static/images/MattGmitro.jpg"
             blurb="Born in Minneapolis, I migrated south and grew up in Flower Mound, TX. My focus is in preventing cryptocurrency bubbles from bursting."
-            tasks="I did absolutely nothing on this project."
+            tasks="I added information about the upcoming API to the technical report."
             commits={4}
             issues={2}
             tests={0}
