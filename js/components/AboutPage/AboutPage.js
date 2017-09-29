@@ -43,7 +43,7 @@ export default class AboutPage extends PureComponent {
             name="Ricardo Delfin"
             avatarUrl="/static/images/rdelfin.png"
             blurb="Tapatio who grew up in Mexico City! Interested in graphics, C++, systems, and anything that involves as little node.js as possible."
-            tasks="I did absolutely nothing on this project."
+            tasks="Managed deployments, GCP, domain, created repo and apiary and helped add the data to the site."
             commits={11}
             issues={7}
             tests={0}
