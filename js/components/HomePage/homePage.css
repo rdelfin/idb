@@ -91,11 +91,10 @@
 }
 
 .carousel_ride {
-  width: 100%;
+  max-width: 640px;
   height: 400px;
-  background: white url("/static/images/ex/android_os.png");
-  background-repeat: no-repeat;
-  background-size: cover;
+  background: white;
+  object-fit: contain;
   order: 1;
   border-radius: 4px;
   margin-left: 10px;
