@@ -3,6 +3,11 @@ import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
 import './homePage.css';
 
+type Props = {
+  index: number,
+  left: () => void,
+};
+
 export default class HomePage extends PureComponent {
   render() {
     return (
@@ -10,7 +15,11 @@ export default class HomePage extends PureComponent {
         <div styleName="title">Welcome to PhoneDB</div>
         <div styleName="subtitle">The most extensive database of phones in the world*</div>
         <div styleName="subsubtitle">* Terms and conditions apply</div>
-        <iframe width="560" height="315" src="https://www.youtube.com/embed/56nRV2tQvBA" style={{marginTop: 64}} frameborder="0" allowfullscreen></iframe>
+        <div styleName="carousel">
+          <div styleName="leftarrow"></div>
+            <div styleName="carousel_ride"></div>
+          <div styleName="rightarrow"></div>
+        </div>
         <div styleName="browseTable">
           <Link to="/phones" styleName="browseLink">Browse models <i styleName="browseCaret" className="fa fa-caret-right" /></Link>
           <Link to="/manufacturers" styleName="browseLink">Browse manufacturers <i styleName="browseCaret" className="fa fa-caret-right" /></Link>
