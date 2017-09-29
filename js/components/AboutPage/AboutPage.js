@@ -8,7 +8,7 @@ export default class AboutPage extends PureComponent {
     return (
       <div styleName="root">
         <h2 styleName="title">About The Site</h2>
-        <p styleName="description">PhoneDB exists to empower consumers with the data they need to buy the right phone for their needs, developers to adapt their software for the devices used by their target audience, and manufacturers to gather information on their competitors' offerings and capabilities.</p>
+        <p styleName="description">PhoneDB exists to empower consumers with the data they need to buy the right phone for their needs, developers to adapt their software for the devices used by their target audience, and manufacturers to gather information on their competitors' offerings and capabilities. Read our <a href="https://utexas.box.com/s/m3di308lte96wse9b8jjgd1rvz0nxz5k">technical report</a> to learn more about how we built PhoneDB.</p>
         <h2 styleName="title2">Our Team</h2>
         <p styleName="description">We are a team of UT students who are passionate about getting an A in SWE and graduating on time.</p>
         <div styleName="teamCards">
