@@ -64,6 +64,7 @@
 
 .carousel {
   max-width: 808px;
+  height: 400px;
   margin: 64px auto;
   padding: 0 32px;
   box-sizing: border-box;
@@ -73,8 +74,8 @@
 }
 
 .leftarrow {
-  width: 60px;
-  height: 60px;
+  min-width: 50px;
+  min-height: 50px;
   background-image: url("/static/images/leftarrow.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -82,8 +83,8 @@
 }
 
 .rightarrow {
-  width: 60px;
-  height: 60px;
+  min-width: 50px;
+  min-height: 50px;
   background-image: url("/static/images/rightarrow.png");
   background-size: contain;
   background-repeat: no-repeat;
@@ -91,17 +92,27 @@
 }
 
 .carousel_ride {
-  max-width: 640px;
-  height: 400px;
+  flex-grow: 1;
+  max-height: 400px;
   background: white;
   object-fit: contain;
   order: 1;
   border-radius: 4px;
   margin-left: 10px;
   margin-right: 10px;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
 }
 
 @media screen and (max-width: 500px) {
+  .carousel {
+    height: 200px;
+  }
+
   .title {
     font-size: 48px;
   }

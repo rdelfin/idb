@@ -7,7 +7,11 @@ export default class HomePage extends PureComponent {
   constructor() {
     super();
     let base_image_path = '/static/images/ex/';
-    let images = ['ios_11_os.jpg', 'android_7.0_nougat_os.jpg'];
+    let images = ['ios_11_os.jpg', 
+      'android_7.0_nougat_os.jpg', 
+      'att_mobility_carrier.jpg',
+      'apple_iphone8_plus_model.jpg',
+      'lg_v30_model.jpg'];
 
     this.state = {
       carousel_images: images.map((image) => { return base_image_path + image }),
@@ -17,7 +21,7 @@ export default class HomePage extends PureComponent {
   
   carousel_left = () => {
     let new_index = this.state.carousel_index === 0 
-      ? this.state.carousel_images.length : this.state.carousel_index - 1;
+      ? this.state.carousel_images.length - 1: this.state.carousel_index - 1;
 
     this.setState({
       carousel_index: new_index
