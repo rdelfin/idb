@@ -19,6 +19,11 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
   getTables(mf: Manufacturer): Array<TableSpec> {
     return [
       {
+        title: 'Logo',
+        icon: 'address-card',
+        image: mf.image,
+      },
+      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -79,7 +84,7 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
     if (!manufacturerData)
       return <div />
     return (
-      <TablePage title={manufacturerData.name} tables={this.getTables(manufacturerData)} />
+      <TablePage title={manufacturerData.name} image={manufacturerData.image} tables={this.getTables(manufacturerData)} />
     );
   }
 }

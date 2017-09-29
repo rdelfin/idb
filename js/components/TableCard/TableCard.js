@@ -10,7 +10,8 @@ type Props = {
 export type TableSpec = {
   title: ReactChildren<*>,
   icon: string,
-  rows: Array<TableRowSpec>,
+  rows?: Array<TableRowSpec>,
+  image?: string,
 };
 
 type TableRowSpec = {
@@ -26,16 +27,17 @@ const TableCard = (props: Props): React$Element<*> => (
         <i styleName="sectionIcon" className={`fa fa-${props.table.icon}`} />
         {props.table.title}
       </h3>
-      <table styleName="table">
+      {props.table.rows && <table styleName="table">
         <tbody>
-          {props.table.rows.map(row => !!row.shown && (
-            <tr>
+          {props.table.rows.map((row, i) => !!row.shown && (
+            <tr key={i}>
               <td>{row.title}</td>
               <td>{row.value()}</td>
             </tr>
           ))}
         </tbody>
-      </table>
+      </table>}
+      {props.table.image && <img styleName="image" src={props.table.image} />}
     </div>
   </div>
 );

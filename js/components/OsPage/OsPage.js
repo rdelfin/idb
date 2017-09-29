@@ -17,6 +17,11 @@ export default class OsPage extends PureComponent<void, Props, void> {
   getTables(os: Os): Array<TableSpec> {
     return [
       {
+        title: 'Logo',
+        icon: 'address-card',
+        image: os.image,
+      },
+      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -72,7 +77,7 @@ export default class OsPage extends PureComponent<void, Props, void> {
     if (!osData)
       return <div />
     return (
-      <TablePage title={osData.name} tables={this.getTables(osData)} />
+      <TablePage title={osData.name} image={osData.image} tables={this.getTables(osData)} />
     );
   }
 }

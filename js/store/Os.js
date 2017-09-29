@@ -1,6 +1,7 @@
 // @flow
 
 export type Os = {
+  image: string,
   name: string,
   developer: string,
   release_date: string,
@@ -17,6 +18,7 @@ export type Os = {
 
 const data: Array<Os> = [
   {
+    "image": "/static/images/ex/android_os.png",
         "name": "Google Android 7.1.2 (Nougat)",
         "developer": "Google",
         "release_date": "2017 Apr 2",
@@ -44,6 +46,7 @@ const data: Array<Os> = [
         ]
   },
   {
+    "image": "/static/images/ex/android_os.png",
         "name": "Google Android 7.0 (Nougat)",
         "developer": "Google",
         "release_date": "2016 Aug 23",
@@ -67,6 +70,7 @@ const data: Array<Os> = [
         ]
   },
   {
+    "image": "/static/images/ex/ios_11_os.jpg",
         "name": "Apple iOS 11",
         "developer": "Apple",
         "release_date": "2017 Sep 19",

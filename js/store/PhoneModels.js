@@ -1,6 +1,7 @@
 // @flow
 
 export type PhoneModel = {
+  image: string,
   name: string,
   brand: string,
   model: string,
@@ -98,6 +99,7 @@ export type Camcorder = {
 
 const data: Array<PhoneModel> = [
   {
+    "image": "/static/images/ex/lg_v30_model.jpg",
         "name": "LG LS998 V30+ TD-LTE / AS998  (LG Joan)",
         "brand": "LG",
         "model": "LS998 V30+ TD-LTE / AS998",
@@ -207,6 +209,7 @@ const data: Array<PhoneModel> = [
         ]
   },
   {
+    "image": "/static/images/ex/samsung_galaxy_s8_active_model.jpg",
         "name": "Samsung SM-G892U Galaxy S8 Active TD-LTE",
         "brand": "Samsung",
         "model": "SM-G982U Galaxy S8 Active TD-LTE",
@@ -301,6 +304,7 @@ const data: Array<PhoneModel> = [
         ]
   },
   {
+    "image": "/static/images/ex/apple_iphone8_plus_model.jpg",
         "name": "Apple iPhone 8 Plus A1897 TD-LTE 256GB (Apple iPhone 10,5)",
         "brand": "Apple Inc.",
         "model": "iPhone 8 Plus A1897 TD-LTE 256GB",

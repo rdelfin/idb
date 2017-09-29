@@ -1,6 +1,7 @@
 // @flow
 
 export type Carrier = {
+  image: string,
   name: string,
   short_name: string,
   cellular_networks: CellularNetworks,
@@ -16,6 +17,7 @@ type CellularNetworks = {
 
 const data: Array<Carrier> = [
   {
+    "image": "/static/images/ex/sprint_nextel_carrier.png",
         "name": "Sprint Nextel Corporation",
         "short_name": "Sprint",
         "cellular_networks": {
@@ -50,6 +52,7 @@ const data: Array<Carrier> = [
         ]
   },
   {
+    "image": "/static/images/ex/att_mobility_carrier.jpg",
         "name": "AT&T Mobility",
         "short_name": "ATT",
         "cellular_networks": {
@@ -90,6 +93,7 @@ const data: Array<Carrier> = [
         ]
   },
   {
+    "image": "/static/images/ex/softbank_carrier.png",
         "name": "SoftBank Corp.",
         "short_name": "SoftBank",
         "cellular_networks": {

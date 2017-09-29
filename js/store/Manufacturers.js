@@ -1,6 +1,7 @@
 // @flow
 
 export type Manufacturer = {
+  image: string,
   name: string,
   type: string,
   industries: Array<string>,
@@ -16,6 +17,7 @@ export type Manufacturer = {
 
 const data: Array<Manufacturer> = [
   {
+    "image": "/static/images/ex/lg_brand_logo.png",
     "name": "LG",
     "type": "Public",
     "industries": [
@@ -38,6 +40,7 @@ const data: Array<Manufacturer> = [
     ]
   },
   {
+    "image": "/static/images/ex/samsung_brand_logo.jpeg",
     "name": "Samsung",
     "type": "Public",
     "industries": [
@@ -58,6 +61,7 @@ const data: Array<Manufacturer> = [
     ]
   },
   {
+    "image": "/static/images/ex/apple_brand_logo.png",
         "name": "Apple Inc.",
         "type": "Public",
         "industries": [

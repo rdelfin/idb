@@ -18,6 +18,11 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
   getTables(model: PhoneModel): Array<TableSpec> {
     return [
       {
+        title: 'Picture',
+        icon: 'address-card',
+        image: model.image,
+      },
+      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -44,7 +49,7 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
           {
             title: 'Carriers',
             shown: model.carriers,
-            value: () => joinLinkLines(model.carriers, 'carriers', getCarrierId),
+            value: () => joinLinkLines((model.carriers: any), 'carriers', getCarrierId),
           },
         ],
       },
@@ -240,7 +245,7 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
     if (!modelData)
       return <div />;
     return (
-      <TablePage title={modelData.name} tables={this.getTables(modelData)} />
+      <TablePage title={modelData.name} image={modelData.image} tables={this.getTables(modelData)} />
     );
   }
 }

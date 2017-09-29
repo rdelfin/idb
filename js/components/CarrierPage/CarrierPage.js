@@ -17,6 +17,11 @@ export default class CarrierPage extends PureComponent<void, Props, void> {
   getTables(carrier: Carrier): Array<TableSpec> {
     return [
       {
+        title: 'Logo',
+        icon: 'address-card',
+        image: carrier.image,
+      },
+      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -62,7 +67,7 @@ export default class CarrierPage extends PureComponent<void, Props, void> {
     if (!carrierData)
       return <div />;
     return (
-      <TablePage title={carrierData.name} tables={this.getTables(carrierData)} />
+      <TablePage title={carrierData.name} image={carrierData.image} tables={this.getTables(carrierData)} />
     );
   }
 }

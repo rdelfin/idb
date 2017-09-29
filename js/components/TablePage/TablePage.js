@@ -6,6 +6,7 @@ import './tablePage.css';
 
 type Props = {
   title: string,
+  image: string,
   tables: Array<TableSpec>,
 };
 
