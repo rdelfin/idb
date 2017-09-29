@@ -80,6 +80,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   order: 0;
+  cursor: pointer;
 }
 
 .rightarrow {
@@ -89,6 +90,7 @@
   background-size: contain;
   background-repeat: no-repeat;
   order: 2;
+  cursor: pointer;
 }
 
 .carousel_ride {

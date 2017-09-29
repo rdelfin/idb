@@ -11,12 +11,17 @@ export default class HomePage extends PureComponent {
       'android_7.0_nougat_os.jpg', 
       'att_mobility_carrier.jpg',
       'apple_iphone8_plus_model.jpg',
-      'lg_v30_model.jpg'];
+      'lg_v30_model.jpg',
+      'samsung_galaxy_s8_active_model.jpg'];
 
     this.state = {
       carousel_images: images.map((image) => { return base_image_path + image }),
       carousel_index: 0
     };
+
+    setInterval(() => {
+      this.carousel_right();
+    }, 3000);
   }
   
   carousel_left = () => {
