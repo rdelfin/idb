@@ -11,7 +11,7 @@ export type Os = {
   os_family: string,
   supported_cpu_instruction_sets: Array<string>,
   predecessor: string,
-  successor: string,
+  successor?: string,
   brands: Array<string>,
   models: Array<string>,
 };
