@@ -10,15 +10,15 @@ def models_get():
     raise NotImplementedError
 
 @app.route('/brands', methods=['GET'])
-def models_get():
+def brands_get():
     raise NotImplementedError
 
 @app.route('/os', methods=['GET'])
-def models_get():
+def os_get():
     raise NotImplementedError
 
 @app.route('/carriers', methods=['GET'])
-def models_get():
+def carriers_get():
     raise NotImplementedError
 
 if __name__ == '__main__':
