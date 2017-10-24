@@ -7,13 +7,23 @@
 }
 
 .card {
+  position: relative;
+  top: -64px;
+  opacity: 0;
   width: 100%;
   height: auto;
   padding: 32px;
+  margin-bottom: 2 * $card-margin;
   box-sizing: border-box;
   background: #fff;
   box-shadow: 0 1px 2px darken($body-background, 50%);
   border-radius: 4px;
+  transition: 800ms cubic-bezier(0.19, 1, 0.22, 1) all;
+}
+
+.card.shown {
+  top: 0;
+  opacity: 1;
 }
 
 .sectionHeader {

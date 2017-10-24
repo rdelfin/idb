@@ -31,10 +31,12 @@ export default class TablePage extends React.PureComponent {
   rootRef: HTMLElement;
   columnRefs: Array<HTMLElement> = [];
   throttledLoadColumns: () => void;
+  throttledLoadTable: () => void;
 
   constructor(props: Props) {
     super(props);
     this.throttledLoadColumns = throttle(100, this.loadColumns);
+    this.throttledLoadTable = throttle(50, this.loadTable);
   }
 
   componentDidMount() {
@@ -58,9 +60,13 @@ export default class TablePage extends React.PureComponent {
       numColumns,
       nextTableIndex: 0,
     });
-  }
+  };
 
   componentDidUpdate() {
+    this.throttledLoadTable();
+  }
+
+  loadTable = () => {
     if (this.state.nextTableIndex >= this.props.tables.length)
       return;
     let nextColumn = 0;
