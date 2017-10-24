@@ -8,7 +8,13 @@ export default class AboutPage extends PureComponent {
     return (
       <div styleName="root">
         <h2 styleName="title">About The Site</h2>
-        <p styleName="description">PhoneDB exists to empower consumers with the data they need to buy the right phone for their needs, developers to adapt their software for the devices used by their target audience, and manufacturers to gather information on their competitors' offerings and capabilities.</p>
+        <p styleName="description">
+          PhoneDB exists to empower consumers with the data they need to buy the right phone for
+          their needs, developers to adapt their software for the devices used by their target
+          audience, and manufacturers to gather information on their competitors' offerings and
+          capabilities. Check out our <a href="https://utexas.box.com/s/m3di308lte96wse9b8jjgd1rvz0nxz5k" styleName="link">technical report</a> for
+          more information.
+        </p>
         <h2 styleName="title2">Our Team</h2>
         <p styleName="description">We are a team of UT students who are passionate about getting an A in SWE and graduating on time.</p>
         <div styleName="teamCards">
@@ -113,6 +119,31 @@ export default class AboutPage extends PureComponent {
             <div styleName="stats">
               <div>Dependencies installed: 597</div>
             </div>
+          </div>
+        </div>
+        <div styleName="aboutCard">
+          <img styleName="aboutImage" src="/static/images/react.svg" />
+          <div styleName="aboutContent">
+            <h3 styleName="aboutHeader"><b>React</b>: View Controller</h3>
+            <p>React is a rendering library that allows us to write modular view-controllers that handle our app rendering declaratively.</p>
+            <div styleName="stats">
+              <div>Components: 18</div>
+            </div>
+          </div>
+        </div>
+        <div styleName="aboutCard">
+          <i styleName="aboutIcon" className="fa fa-file-code-o" />
+          <div styleName="aboutContent">
+            <h3 styleName="aboutHeader">The Nerdy Stuff</h3>
+            <p>
+              For client-side routing, we used <b>React Router</b>. This allows us to modify
+              browser history for a more stremlined browsing experience. For transpilation and
+              packaging, we used <b>Babel</b> and <b>Webpack</b>, respectively. This lets us use extended
+              JavaScript features that aren't supported in all browsers by compiling the code down
+              to stuff browsers can read. We used <b>Flow</b> for static type-checking, which saves
+              lots of debugging time by preventing many types of stupid but common mistakes. And
+              for modularized CSS with variable support, we used <b>CSS Loader</b> with <b>SASS</b>.
+            </p>
           </div>
         </div>
       </div>
