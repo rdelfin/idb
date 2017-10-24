@@ -2,6 +2,7 @@
 
 .cardWrapper {
   width: 500px;
+  max-width: calc(100% - 2 * #{$card-margin});
   margin: $card-margin;
 }
 

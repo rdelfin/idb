@@ -28,12 +28,14 @@
 }
 
 .cardContainer {
-  padding: 0 $card-margin $card-margin;
-  box-sizing: border-box;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
   justify-content: center;
+}
+
+.column {
+  height: fit-content;
+  max-width: 100%;
 }
 
 @media screen and (max-width: 768px) {

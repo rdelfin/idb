@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import throttle from 'throttle-debounce/throttle';
 import TableCard from '../TableCard';
 import type {TableSpec} from '../TableCard/TableCard';
 import './tablePage.css';
@@ -10,13 +11,89 @@ type Props = {
   tables: Array<TableSpec>,
 };
 
-const TablePage = (props: Props): React$Element<*> => (
-  <div styleName="root">
-    <h1 styleName="header">{props.title}</h1>
-    <div styleName="cardContainer">
-      {props.tables.map(table => <TableCard table={table} />)}
-    </div>
-  </div>
-);
+type State = {
+  columns: Array<Array<TableSpec>>,
+  clientWidth: number,
+  numColumns: number,
+  nextTableIndex: number,
+};
 
-export default TablePage;
+const CARD_WIDTH = 532;
+
+export default class TablePage extends React.PureComponent {
+  props: Props;
+  state: State = {
+    columns: [],
+    clientWidth: 0,
+    numColumns: 0,
+    nextTableIndex: 0,
+  };
+  rootRef: HTMLElement;
+  columnRefs: Array<HTMLElement> = [];
+  throttledLoadColumns: () => void;
+
+  constructor(props: Props) {
+    super(props);
+    this.throttledLoadColumns = throttle(100, this.loadColumns);
+  }
+
+  componentDidMount() {
+    window.addEventListener('resize', this.throttledLoadColumns);
+    this.loadColumns();
+  }
+
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.throttledLoadColumns);
+  }
+
+  loadColumns = () => {
+    const clientWidth = this.rootRef.clientWidth;
+    const numColumns = Math.max(1, Math.floor(clientWidth / CARD_WIDTH));
+    if (numColumns === this.state.numColumns)
+      return;
+    const columns = Array.apply(null, {length: numColumns}).map(() => []);
+    this.setState({
+      columns,
+      clientWidth,
+      numColumns,
+      nextTableIndex: 0,
+    });
+  }
+
+  componentDidUpdate() {
+    if (this.state.nextTableIndex >= this.props.tables.length)
+      return;
+    let nextColumn = 0;
+    let nextColumnHeight = this.columnRefs[0].clientHeight;
+    let nextColumnIndex = 0;
+    for (let i = 1; i < this.state.numColumns; i++) {
+      const columnHeight = this.columnRefs[i].clientHeight;
+      if (columnHeight < nextColumnHeight) {
+        nextColumn = this.columnRefs[i];
+        nextColumnHeight = columnHeight;
+        nextColumnIndex = i;
+      }
+    }
+    const newColumns = this.state.columns.map(col => col.slice(0));
+    newColumns[nextColumnIndex].push(this.props.tables[this.state.nextTableIndex]);
+    this.setState({
+      columns: newColumns,
+      nextTableIndex: this.state.nextTableIndex + 1,
+    });
+  }
+
+  render() {
+    return (
+      <div styleName="root" ref={r => this.rootRef = r}>
+        <h1 styleName="header">{this.props.title}</h1>
+        <div styleName="cardContainer">
+          {this.state.columns.map((column, i) => (
+            <div styleName="column" key={i} ref={r => this.columnRefs[i] = r}>
+              {column.map((table, j) => <TableCard table={table} key={j} />)}
+            </div>
+          ), this)}
+        </div>
+      </div>
+    );
+  }
+}

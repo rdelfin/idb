@@ -17,11 +17,6 @@ export default class OsPage extends PureComponent<void, Props, void> {
   getTables(os: Os): Array<TableSpec> {
     return [
       {
-        title: 'Logo',
-        icon: 'address-card',
-        image: os.image,
-      },
-      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -67,6 +62,11 @@ export default class OsPage extends PureComponent<void, Props, void> {
             value: () => joinLinkLines(os.models, 'phones', getPhoneId),
           },
         ],
+      },
+      {
+        title: 'Logo',
+        icon: 'address-card',
+        image: os.image,
       },
     ];
   }

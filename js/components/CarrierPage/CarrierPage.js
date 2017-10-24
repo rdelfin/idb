@@ -17,11 +17,6 @@ export default class CarrierPage extends PureComponent<void, Props, void> {
   getTables(carrier: Carrier): Array<TableSpec> {
     return [
       {
-        title: 'Logo',
-        icon: 'address-card',
-        image: carrier.image,
-      },
-      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -57,7 +52,12 @@ export default class CarrierPage extends PureComponent<void, Props, void> {
             value: () => joinLinkLines(carrier.models, 'phones', getPhoneName),
           },
         ],
-      }
+      },
+      {
+        title: 'Logo',
+        icon: 'address-card',
+        image: carrier.image,
+      },
     ];
   }
 
