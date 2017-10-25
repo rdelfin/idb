@@ -55,15 +55,15 @@ export default class Navbar extends Component {
         </Link>
         <div styleName="spacer" />
         {this.state.windowSize >= 800 && [
-          <Link to="/phones" styleName="link">Phones</Link>,
-          <Link to="/manufacturers" styleName="link">Manufacturers</Link>,
-          <Link to="/carriers" styleName="link">Carriers</Link>,
-          <Link to="/os" styleName="link">Operating Systems</Link>,
-          <Link to="/about" styleName="link">About</Link>,
+          <Link key="1" to="/phones" styleName="link">Phones</Link>,
+          <Link key="2" to="/manufacturers" styleName="link">Manufacturers</Link>,
+          <Link key="3" to="/carriers" styleName="link">Carriers</Link>,
+          <Link key="4" to="/os" styleName="link">Operating Systems</Link>,
+          <Link key="5" to="/about" styleName="link">About</Link>,
         ]}
         {this.state.windowSize < 800 && [
-          <i styleName="hamburger" className="fa fa-bars" onClick={this.showMenu} />,
-          <HamburgerMenu shown={this.state.menuShown} hide={this.hideMenu} />,
+          <i key="6" styleName="hamburger" className="fa fa-bars" onClick={this.showMenu} />,
+          <HamburgerMenu key="7" shown={this.state.menuShown} hide={this.hideMenu} />,
         ]}
       </div>
     );

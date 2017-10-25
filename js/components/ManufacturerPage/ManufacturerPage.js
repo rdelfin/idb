@@ -19,11 +19,6 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
   getTables(mf: Manufacturer): Array<TableSpec> {
     return [
       {
-        title: 'Logo',
-        icon: 'address-card',
-        image: mf.image,
-      },
-      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -74,6 +69,11 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
             value: () => joinLinkLines(mf.os, 'os', getOsId),
           },
         ],
+      },
+      {
+        title: 'Logo',
+        icon: 'address-card',
+        image: mf.image,
       },
     ];
   }

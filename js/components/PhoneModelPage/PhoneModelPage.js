@@ -18,11 +18,6 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
   getTables(model: PhoneModel): Array<TableSpec> {
     return [
       {
-        title: 'Picture',
-        icon: 'address-card',
-        image: model.image,
-      },
-      {
         title: 'General',
         icon: 'star',
         rows: [
@@ -236,7 +231,13 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
           },
         },
       ],
-    })));
+    }))).concat([
+      {
+        title: 'Picture',
+        icon: 'address-card',
+        image: model.image,
+      },
+    ]);
   }
 
   render() {
