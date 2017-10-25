@@ -1,5 +1,6 @@
-from sqlalchemy import Column, Integer, String
+from sqlalchemy import Column, Integer, String, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
 
 Base = declarative_base()
 
@@ -7,8 +8,9 @@ Base = declarative_base()
 class Model(Base):
     __tablename__ = 'model'
 
+    id = Column(Integer, primary_key=True)
     name = Column(String)
-    brand = Column(String)
+    brand_id = Column(Integer, ForeignKey('brand.id'))
     model = Column(String)
     release_date = Column(String)
     hardware_designer = Column(String)
@@ -25,12 +27,12 @@ class Model(Base):
     image = Column(String)
 
     def __repr__(self):
-        return "<Model(name='%s', brand='%s', model='%s', " \
+        return "<Model(name='%s', brand_id='%d', model='%s', " \
                "release_date='%s', hardware_designer='%s', manufacturers='%s', " \
                "codename='%s', market_countries='%s', carriers='%s', " \
                "physical_attributes='%s', software='%s', hardware='%s', " \
                "display='%s', cameras='%s', image='%s')>" % \
-               (self.name, self.brand, self.model, self.release_date,
+               (self.name, self.brand_id, self.model, self.release_date,
                 self.hardware_designer, self.manufacturers, self.codename,
                 self.market_countries, self.carriers, self.physical_attributes,
                 self.software, self.hardware, self.display, self.cameras,
@@ -96,6 +98,16 @@ class OS(Base):
                 self.image)
 
 
+class BrandOS(Base):
+    __tablename__ = 'brand_os'
+
+    id = Column(Integer, primary_key=True)
+    brand_id = Column(Integer, ForeignKey('brand.id'))
+    os_id = Column(Integer, ForeignKey('os.id'))
+
+    def __repr__(self):
+        return "<BrandOS(brand_id=%d, os_id=%d)>" % (self.brand_id, self.os_id)
+
 class Carrier(Base):
     __tablename__ = 'carrier'
 
@@ -104,8 +116,6 @@ class Carrier(Base):
     short_name = Column(String)
     cellular_networks = Column(String)
     covered_countries = Column(String)
-    brands = Column(String)
-    models = Column(String)
     image = Column(String)
 
     def __repr__(self):
@@ -113,3 +123,26 @@ class Carrier(Base):
                "covered_networks='%s', brands='%s', models='%s', image='%s')>" % \
                (self.name, self.short_name, self.cellular_networks,
                 self.covered_countries, self.brands, self.models, self.image)
+
+
+class CarrierBrand(Base):
+    __tablename__ = 'carrier_brand'
+
+    id = Column(Integer, primary_key=True)
+    carrier_id = Column(Integer, ForeignKey('carrier.id'))
+    brand_id = Column(Integer, ForeignKey('brand.id'))
+
+    def __repr__(self):
+        return "<CarrierBrand(carrier_id=%d, brand_id=%d)>" % \
+               (self.carrier_id, self.brand_id)
+
+class CarrierModel(Base):
+    __tablename__ = 'carrier_model'
+
+    id = Column(Integer, primary_key=True)
+    carrier_id = Column(Integer, ForeignKey('carrier.id'))
+    model_id = Column(Integer, ForeignKey('model.id'))
+
+    def __repr__(self):
+        return "<CarrierBrand(carrier_id=%d, model_id=%d)>" % \
+               (self.carrier_id, self.model_id)
