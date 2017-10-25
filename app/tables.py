@@ -11,6 +11,7 @@ class Model(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String)
     brand_id = Column(Integer, ForeignKey('brand.id'))
+    os_id = Column(Integer, ForeignKey('os.id'))
     model = Column(String)
     release_date = Column(String)
     hardware_designer = Column(String)
@@ -51,7 +52,6 @@ class Brand(Base):
     area_served = Column(String)
     phone_models = Column(String)
     carriers = Column(String)
-    os = Column(String)
     founders = Column(String)
     parent = Column(String)
     image = Column(String)
@@ -79,8 +79,6 @@ class OS(Base):
     os_family = Column(String)
     supported_cpu_instruction_sets = Column(String)
     predecessor = Column(String)
-    brands = Column(String)
-    models = Column(String)
     codename = Column(String)
     successor = Column(String)
     image = Column(String)
@@ -96,17 +94,6 @@ class OS(Base):
                 self.supported_cpu_instruction_sets, self.predecessor,
                 self.brands, self.models, self.codename, self.successor,
                 self.image)
-
-
-class BrandOS(Base):
-    __tablename__ = 'brand_os'
-
-    id = Column(Integer, primary_key=True)
-    brand_id = Column(Integer, ForeignKey('brand.id'))
-    os_id = Column(Integer, ForeignKey('os.id'))
-
-    def __repr__(self):
-        return "<BrandOS(brand_id=%d, os_id=%d)>" % (self.brand_id, self.os_id)
 
 class Carrier(Base):
     __tablename__ = 'carrier'
