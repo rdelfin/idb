@@ -17,7 +17,28 @@ class Database:
         pass
 
     def get_os_all(self):
-        pass
+        os_list = []
+        with self.Session() as session:
+            for os in session.query(tables.OS).order_by(tables.OS.id):
+                os_models_dep = session.query(tables.Model).join(tables.OS) \
+                                .filter_by(os_id=os.id).all()
+                os_models = session.query(tables.Model.name.label('model_name')).join(tables.OS) \
+                                .join(tables.Brand.name.label('brand_name')).filter_by(os_id=os.id).all()
+
+                models_names_brands = [(model.model_name, model.brand_name) for model in os_models]
+
+                models_names = [m[0] for m in models_names_brands]
+                brands_names = [m[1] for m in models_names_brands]
+
+                new_os = models.OS(os.image, os.name, os.developer, os.release_date,
+                                   os.version, os.os_kernel, os.os_family,
+                                   os.supported_cpu_instruction_sets, os.predecessor,
+                                   brands_names, models_names, os.codename, os.successor)
+
+                os_list += new_os
+
+        return os_list
+
 
     def get_carrier_all(self):
         carriers = []
