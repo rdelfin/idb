@@ -108,8 +108,8 @@ class Model:
 
 class Brand:
     def __init__(self, image, name, type_m, industries, found_date, location,
-                 area_served, phone_models, carriers, os, founders=None,
-                 parent=None):
+                 area_served, phone_models, carriers, os, founders,
+                 parent):
         self.image = image
         self.name = name
         self.type_m = type_m
@@ -127,8 +127,8 @@ class Brand:
 class OS:
     def __init__(self, image, name, developer, release_date, version,
                  os_kernel, os_family, supported_cpu_instruction_sets,
-                 predecessor, brands, models, codename=None,
-                 successor=None):
+                 predecessor, brands, models, codename,
+                 successor):
         self.image = image
         self.name = name
         self.developer = developer

@@ -50,7 +50,6 @@ class Brand(Base):
     found_date = Column(String)
     location = Column(String)
     area_served = Column(String)
-    phone_models = Column(String)
     carriers = Column(String)
     founders = Column(String)
     parent = Column(String)
