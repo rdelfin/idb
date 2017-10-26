@@ -29,17 +29,17 @@ class DbInterfaceTests (TestCase):
 
         db = Database(engine)
 
-        self.assertEqual(len(db.get_os_all()) == 1)
-        self.assertEqual(db.get_os_all()[0].name == "Android")
+        self.assertEqual(len(db.get_os_all()), 1)
+        self.assertEqual(db.get_os_all()[0].name, "Android")
 
-        self.assertEqual(len(db.get_carrier_all()) == 1)
-        self.assertEqual(db.get_carrier_all()[0].name == "Verison")
+        self.assertEqual(len(db.get_carrier_all()), 1)
+        self.assertEqual(db.get_carrier_all()[0].name, "Verison")
 
-        self.assertEqual(len(db.get_brand_all()) == 1)
-        self.assertEqual(db.get_brand_all()[0].name == "LG")
+        self.assertEqual(len(db.get_brand_all()), 1)
+        self.assertEqual(db.get_brand_all()[0].name, "LG")
 
-        self.assertEqual(len(db.get_model_all()) == 1)
-        self.assertEqual(db.get_model_all()[0].name == "LG v10")
+        self.assertEqual(len(db.get_model_all()), 1)
+        self.assertEqual(db.get_model_all()[0].name, "LG v10")
 
 
 
