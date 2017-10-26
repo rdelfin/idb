@@ -33,14 +33,14 @@ def insert_os(oss, session):
     session.add_all(os_table)
 
 def insert_brands(brands, session):
-    brand_table = [ tables.Brands(name=brands.name, type_m=brands.type_m,
-                                  industries=json.dumps(brands.industries),
-                                  found_date=brands.found_date,
-                                  location=brands.location,
-                                  area_served=brands.area_served,
-                                  founders=json.dumps(brands.founders),
-                                  parent=brands.founders, image=brands.image)
-                                  for brand in brands]
+    brand_table = [ tables.Brand(name=brands.name, type_m=brands.type_m,
+                                 industries=json.dumps(brands.industries),
+                                 found_date=brands.found_date,
+                                 location=brands.location,
+                                 area_served=brands.area_served,
+                                 founders=json.dumps(brands.founders),
+                                 parent=brands.founders, image=brands.image)
+                                 for brand in brands]
 
     session.add_all(brand_table)
 
