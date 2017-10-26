@@ -95,7 +95,7 @@ class Database:
         for os in session.query(tables.OS).order_by(tables.OS.id).all():
             os_models = os.models
 
-            brands = {mod.brand for mod in models}
+            brands = {mod.brand for mod in os_models}
 
             new_os = models.OS(os.image, os.name, os.developer, os.release_date,
                                os.version, os.os_kernel, os.os_family,
