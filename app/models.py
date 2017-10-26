@@ -1,5 +1,6 @@
 # This is where all of our model classes are defined
 
+
 class PhysicalAttributes:
     def __init__(self, width, height, depth, dimensions, mass):
         self.width = width
@@ -32,6 +33,7 @@ class Hardware:
             'ram': self.ram.serialize(),
             'nonvolatile_memory': self.nonvolatile_memory
         }
+
 
 class Cpu:
     def __init__(self, model, additional_info, clock_speed):
@@ -70,6 +72,7 @@ class Ram:
             'capacity': self.capacity
         }
 
+
 class NonvolatileMemory:
     def __init__(self, type_m, capacity):
         self.type_m = type_m
@@ -83,36 +86,37 @@ class NonvolatileMemory:
 
 
 class Display:
-    def __init__(self, resolution, diagonal, width, height, bezel_width, \
+    def __init__(self, resolution, diagonal, width, height, bezel_width,
                  area_utilization, pixel_density, type_m, color_depth, screen):
-         self.resolution = resolution
-         self.diagonal = diagonal
-         self.width = width
-         self.height = height
-         self.bezel_width = bezel_width
-         self.area_utilization = area_utilization
-         self.pixel_density = pixel_density
-         self.type_m = type_m
-         self.color_depth = color_depth
-         self.screen = screen
+        self.resolution = resolution
+        self.diagonal = diagonal
+        self.width = width
+        self.height = height
+        self.bezel_width = bezel_width
+        self.area_utilization = area_utilization
+        self.pixel_density = pixel_density
+        self.type_m = type_m
+        self.color_depth = color_depth
+        self.screen = screen
 
     def serialize(self):
-         return {
-            'resolution': self.resolution,
-            'diagonal': self.diagonal,
-            'width': self.width,
-            'height': self.height,
-            'bezel_width': self.bezel_width,
-            'area_utilization': self.area_utilization,
-            'pixel_density': self.pixel_density,
-            'type': self.type_m,
-            'color_depth': self.color_depth,
-            'screen': self.screen
-         }
+        return {
+           'resolution': self.resolution,
+           'diagonal': self.diagonal,
+           'width': self.width,
+           'height': self.height,
+           'bezel_width': self.bezel_width,
+           'area_utilization': self.area_utilization,
+           'pixel_density': self.pixel_density,
+           'type': self.type_m,
+           'color_depth': self.color_depth,
+           'screen': self.screen
+        }
+
 
 class Camera:
-    def __init__(self, placement, module, sensor, sensor_format, resolution, \
-                 num_pixels, aperture, optical_zoom, digital_zoom, focus, \
+    def __init__(self, placement, module, sensor, sensor_format, resolution,
+                 num_pixels, aperture, optical_zoom, digital_zoom, focus,
                  camcorder, flash):
         self.placement = placement
         self.module = module
@@ -139,26 +143,34 @@ class Camera:
             'optical_zoom': self.optical_zoom,
             'digital_zoom': self.digital_zoom,
             'focus': self.focus,
-            'camcoder': self.camcoder.serialize(),
+            'camcorder': self.camcorder.serialize(),
             'flash': self.flash
         }
+
 
 class Camcorder:
     def __init__(self, resolution, formats):
         self.resolution = resolution
         self.formats = formats
 
-        def serialize(self):
-            return {
-                'resolution': self.resolution,
-                'formats': self.formats
-            }
+    def serialize(self):
+        return {
+            'resolution': self.resolution,
+            'formats': self.formats
+        }
+
+
+class Software:
+    def __init__(self, platform, os, software_extras):
+        self.platform = platform
+        self.os = os
+        self.software_extras = software_extras
 
 class Model:
     def __init__(self, image, name, brand, model, release_date,
                  hardware_designer, manufacturers, codename, market_countries,
                  market_regions, carriers, physical_attributes,
-                 hardware, display, cameras):
+                 hardware, software, display, cameras):
         self.image = image
         self.name = name
         self.brand = brand
@@ -172,6 +184,7 @@ class Model:
         self.carriers = carriers
         self.physical_attributes = physical_attributes
         self.hardware = hardware
+        self.software = software
         self.display = display
         self.cameras = cameras
 

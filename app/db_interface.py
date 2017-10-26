@@ -1,12 +1,12 @@
 from sqlalchemy import create_engine
 import __config__ as conf
 from sqlalchemy.orm import sessionmaker
-import json
 
 import json
 
 import tables
 import models
+
 
 class Database:
     def __init__(self, engine=create_engine(conf.db_source, echo=True)):
@@ -19,10 +19,12 @@ class Database:
             for model in session.query(tables.Model).order_by(tables.Model.id).all():
                 model_brand = session.query(tables.Brand.name).filter_by(id=model.brand_id).all()
                 model_carriers = session.query(tables.CarrierModel).filter_by(model_id=model.id)
-                model_os = session.query(tables.OS.name).filter_by(id=model.os_id).all()
+                model_os = session.query(tables.OS).filter_by(id=model.os_id).all()
 
-                brand_name = next(model_brand).name
-                os_name = next(model_os).name
+                brand_name = next(iter(model_brand)).name
+                os = next(iter(model_os))
+                os_name = os.name
+                os_platform = os.os_family
                 carriers_names = [carrier.name for carrier in model_carriers]
 
                 phys_attr_json = json.loads(model.physical_attributes)
@@ -43,6 +45,8 @@ class Database:
                                            models.Ram(**hardware_json['ram']),
                                            models.NonvolatileMemory(**hardware_json['nonvolatile_memory']))
 
+                software = models.Software(os_name, os_platform, None)
+
                 display_json = json.loads(model.display)
                 display_json['type_m'] = display_json['type']
                 display_json.pop('type')
@@ -58,7 +62,7 @@ class Database:
                     model.image, model.name, brand_name, model.model, model.release_date,
                     model.hardware_designer, model.manufacturers, model.codename,
                     model.market_countries, model.market_regions, carriers_names,
-                    phys_attr, hardware,
+                    phys_attr, hardware, software,
                     display, cameras
                 )
 
