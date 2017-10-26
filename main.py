@@ -9,7 +9,7 @@ def hello_world():
 
 @app.route('/models', methods=['GET'])
 def models_get():
-    return jsonify(db_interface.get_os_all())
+    return jsonify(db_interface.get_model_all())
 
 @app.route('/brands', methods=['GET'])
 def brands_get():
