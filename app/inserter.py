@@ -1,11 +1,15 @@
+import sqlalchemy
+from sqlalchemy import create_engine
+from sqlalchemy.orm import sessionmaker
+
 from app import tables
 from app import models
 
 from app import __config__ as conf
 
 def insert_all(*, models, brands, oss, carriers):
-    self.engine = create_engine(conf.db_source, echo=False)
-    Session = sessionmaker(bind=self.engine)
+    engine = create_engine(conf.db_source, echo=False)
+    Session = sessionmaker(bind=engine)
     session = Session()
 
     insert_os(oss, session)
@@ -18,19 +22,19 @@ def insert_all(*, models, brands, oss, carriers):
     session.commit()
 
 def insert_os(oss, session):
-    pass
+    raise NotImplementedError
 
 def insert_brands(brands, session):
-    pass
+    raise NotImplementedError
 
 def insert_carriers(carriers, session):
-    pass
+    raise NotImplementedError
 
 def insert_models(models, oss, brands, session):
-    pass
+    raise NotImplementedError
 
 def insert_carrier_brand(carriers, brands, session):
-    pass
+    raise NotImplementedError
 
 def insert_carrier_model(carriers, models, session):
-    pass
+    raise NotImplementedErrorin
