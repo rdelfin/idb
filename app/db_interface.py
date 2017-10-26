@@ -23,44 +23,61 @@ class Database:
             os_platform = os.os_family
             carriers_names = [carrier.name for carrier in model.carriers]
 
-            phys_attr_json = json.loads(model.physical_attributes)
-            phys_attr = models.PhysicalAttributes(phys_attr_json['width'],
-                                                  phys_attr_json['height'],
-                                                  phys_attr_json['depth'],
-                                                  phys_attr_json['dimensions'],
-                                                  phys_attr_json['mass'])
+            phys_attr = None
 
-            hardware_json = json.loads(model.hardware)
+            if model.physical_attributes is not None:
+                phys_attr_json = json.loads(model.physical_attributes)
+                phys_attr = models.PhysicalAttributes(phys_attr_json['width'],
+                                                      phys_attr_json['height'],
+                                                      phys_attr_json['depth'],
+                                                      phys_attr_json['dimensions'],
+                                                      phys_attr_json['mass'])
 
-            hardware_json['ram']['type_m'] = hardware_json['ram']['type']
-            hardware_json['ram'].pop('type')
-            hardware_json['nonvolatile_memory']['type_m'] = hardware_json['nonvolatile_memory']['type']
-            hardware_json['nonvolatile_memory'].pop('type')
-            hardware = models.Hardware(models.Cpu(**hardware_json['cpu']),
-                                       models.Gpu(**hardware_json['gpu']),
-                                       models.Ram(**hardware_json['ram']),
-                                       models.NonvolatileMemory(**hardware_json['nonvolatile_memory']))
+            hardware = None
+
+            if model.hardware is not None:
+                hardware_json = json.loads(model.hardware)
+
+                if('ram' in hardware_json and 'type' in hardware_json['ram']):
+                    hardware_json['ram']['type_m'] = hardware_json['ram']['type']
+                    hardware_json['ram'].pop('type')
+
+                if('nonvolatile_memory' in hardware_json and 'type' in hardware_json['nonvolatile_memory']):
+                    hardware_json['nonvolatile_memory']['type_m'] = hardware_json['nonvolatile_memory']['type']
+                    hardware_json['nonvolatile_memory'].pop('type')
+
+                hardware = models.Hardware(models.Cpu(**hardware_json['cpu']) if 'cpu' in hardware_json else None,
+                                           models.Gpu(**hardware_json['gpu']) if 'gpu' in hardware_json else None,
+                                           models.Ram(**hardware_json['ram']) if 'ram' in hardware_json else None,
+                                           models.NonvolatileMemory(**hardware_json['nonvolatile_memory']) if 'nonvolatile_memory' in hardware_json else None)
 
             software = models.Software(os_name, os_platform, None)
 
-            display_json = json.loads(model.display)
-            display_json['type_m'] = display_json['type']
-            display_json.pop('type')
-            display = models.Display(**display_json)
+            display = None
 
-            cameras_json = json.loads(model.cameras)
+            if model.display is not None:
+                display_json = json.loads(model.display)
+                if('type' in display_json):
+                    display_json['type_m'] = display_json['type']
+                    display_json.pop('type')
+                display = models.Display(**display_json)
+
             cameras = []
-            for camera in cameras_json:
-                camera['camcorder'] = models.Camcorder(**camera['camcorder'])
-                cameras += [models.Camera(**camera)]
 
-            new_model = models.Model(
+            if model.cameras is not None:
+                cameras_json = json.loads(model.cameras)
+                for camera in cameras_json:
+                    if('camcorder' in camera):
+                        camera['camcorder'] = models.Camcorder(**camera['camcorder'])
+                    cameras += [models.Camera(**camera)]
+
+            model_list += [models.Model(
                 model.image, model.name, brand_name, model.model, model.release_date,
                 model.hardware_designer, model.manufacturers, model.codename,
                 model.market_countries, model.market_regions, carriers_names,
                 phys_attr, hardware, software,
                 display, cameras
-            )
+            )]
 
             session.commit()
         return model_list
