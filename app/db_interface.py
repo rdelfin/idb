@@ -94,9 +94,9 @@ class Database:
         session = self.Session()
         for os in session.query(tables.OS).order_by(tables.OS.id).all():
             os_models = session.query(tables.Model.name.label('model_name')).join(tables.OS) \
-                            .join(tables.Brand.name.label('brand_name')).filter_by(os_id=os.id).all()
+                            .join(tables.Brand.name).filter_by(os_id=os.id).all()
 
-            models_names_brands = [(model.model_name, model.brand_name) for model in os_models]
+            models_names_brands = [(model.model_name, model.name) for model in os_models]
 
             models_names = [m[0] for m in models_names_brands]
             brands_names = [m[1] for m in models_names_brands]
