@@ -26,7 +26,6 @@ def insert_os(oss, session):
     os_table = [ tables.OS(name=os.name, developer=os.developer,
                            release_date=os.release_date, version=os.version,
                            os_kernel=os.os_kernel, os_family=os.os_family,
-                           os_family=os.os_family,
                            supported_cpu_instruction_sets=json.dumps(os.supported_cpu_instruction_sets),
                            predecessor=os.predecessor, codename=os.codename,
                            successor=os.successor, image=os.image) for os in oss ]
@@ -34,14 +33,14 @@ def insert_os(oss, session):
     session.add_all(os_table)
 
 def insert_brands(brands, session):
-    brand_table = [ tables.Brands(name=brands.name, type_m=brands.type_m,
-                                  industries=json.dumps(brands.industries),
-                                  found_date=brands.found_date,
-                                  location=brands.location,
-                                  area_served=brands.area_served,
-                                  founders=json.dumps(brands.founders),
-                                  parent=brands.founders, image=brands.image)
-                                  for brand in brands]
+    brand_table = [ tables.Brand(name=brands.name, type_m=brands.type_m,
+                                 industries=json.dumps(brands.industries),
+                                 found_date=brands.found_date,
+                                 location=brands.location,
+                                 area_served=brands.area_served,
+                                 founders=json.dumps(brands.founders),
+                                 parent=brands.founders, image=brands.image)
+                                 for brand in brands]
 
     session.add_all(brand_table)
 
