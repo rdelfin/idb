@@ -9,8 +9,8 @@ import tables
 import models
 
 class Database:
-    def __init__(self):
-        self.engine = create_engine(conf.db_source, echo=True)
+    def __init__(self, engine=create_engine(conf.db_source, echo=True)):
+        self.engine = engine
         self.Session = sessionmaker(bind=self.engine)
 
     def get_model_all(self):
