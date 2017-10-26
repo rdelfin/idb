@@ -17,15 +17,11 @@ class Database:
         model_list = []
         session = self.Session()
         for model in session.query(tables.Model).order_by(tables.Model.id).all():
-            model_brand = session.query(tables.Brand.name).filter_by(id=model.brand_id).all()
-            model_carriers = session.query(tables.CarrierModel).filter_by(model_id=model.id)
-            model_os = session.query(tables.OS).filter_by(id=model.os_id).all()
-
-            brand_name = next(iter(model_brand)).name
-            os = next(iter(model_os))
+            brand_name = model.brand.name
+            os = model.os
             os_name = os.name
             os_platform = os.os_family
-            carriers_names = [carrier.name for carrier in model_carriers]
+            carriers_names = [carrier.name for carrier in model.carriers]
 
             phys_attr_json = json.loads(model.physical_attributes)
             phys_attr = models.PhysicalAttributes(phys_attr_json['width'],
