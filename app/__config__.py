@@ -1,1 +1,1 @@
-db_source = 'sqlite:///:memory:'
+db_source = 'sqlite:///db/mydb.db'
