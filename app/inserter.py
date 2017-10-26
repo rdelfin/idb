@@ -22,7 +22,15 @@ def insert_all(*, models, brands, oss, carriers):
     session.commit()
 
 def insert_os(oss, session):
-    raise NotImplementedError
+    os_table = [ tables.OS(name=os.name, developer=os.developer,
+                           release_date=os.release_date, version=os.version,
+                           os_kernel=os.os_kernel, os_family=os.os_family,
+                           os_family=os.os_family,
+                           supported_cpu_instruction_sets=os.supported_cpu_instruction_sets,
+                           predecessor=os.predecessor, codename=os.codename,
+                           successor=os.successor, image=os.image) for os in oss ]
+
+    session.add_all(os_table)
 
 def insert_brands(brands, session):
     raise NotImplementedError
