@@ -16,7 +16,7 @@ def insert_all(*, models, brands, oss, carriers):
     insert_os(oss, session)
     insert_brands(brands, session)
     insert_carriers(carriers, session)
-    insert_models(modes, session)
+    insert_models(models, session)
     insert_carrier_brand(carriers, session)
     insert_carrier_model(carriers, session)
 
