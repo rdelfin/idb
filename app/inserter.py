@@ -16,7 +16,7 @@ def insert_all(*, models, brands, oss, carriers):
     insert_os(oss, session)
     insert_brands(brands, session)
     insert_carriers(carriers, session)
-    insert_models(modes, session)
+    insert_models(models, session)
     insert_carrier_brand(carriers, session)
     insert_carrier_model(carriers, session)
 
@@ -33,13 +33,13 @@ def insert_os(oss, session):
     session.add_all(os_table)
 
 def insert_brands(brands, session):
-    brand_table = [ tables.Brand(name=brands.name, type_m=brands.type_m,
-                                 industries=json.dumps(brands.industries),
-                                 found_date=brands.found_date,
-                                 location=brands.location,
-                                 area_served=brands.area_served,
-                                 founders=json.dumps(brands.founders),
-                                 parent=brands.founders, image=brands.image)
+    brand_table = [ tables.Brand(name=brand.name, type_m=brand.type_m,
+                                 industries=json.dumps(brand.industries),
+                                 found_date=brand.found_date,
+                                 location=brand.location,
+                                 area_served=brand.area_served,
+                                 founders=json.dumps(brand.founders),
+                                 parent=brand.founders, image=brand.image)
                                  for brand in brands]
 
     session.add_all(brand_table)
