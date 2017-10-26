@@ -1,14 +1,14 @@
 # This is where we will test our APIs through unit tests
 from unittest import main, TestCase
 
-from db_interface import Database
+from app.db_interface import Database
 
 import sqlalchemy
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 
-from tables import *
+from app.tables import *
 
 
 class DbInterfaceTests (TestCase):

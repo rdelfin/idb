@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine
-import __config__ as conf
+from app import __config__ as conf
 from sqlalchemy.orm import sessionmaker
 
 import json
 
-import tables
-import models
+from app import tables
+from app import models
 
 
 class Database:
