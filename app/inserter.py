@@ -26,7 +26,6 @@ def insert_os(oss, session):
     os_table = [ tables.OS(name=os.name, developer=os.developer,
                            release_date=os.release_date, version=os.version,
                            os_kernel=os.os_kernel, os_family=os.os_family,
-                           os_family=os.os_family,
                            supported_cpu_instruction_sets=json.dumps(os.supported_cpu_instruction_sets),
                            predecessor=os.predecessor, codename=os.codename,
                            successor=os.successor, image=os.image) for os in oss ]
