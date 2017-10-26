@@ -96,7 +96,7 @@ class Display:
          self.color_depth = color_depth
          self.screen = screen
 
-     def serialize(self):
+    def serialize(self):
          return {
             'resolution': self.resolution,
             'diagonal': self.diagonal,
@@ -262,7 +262,7 @@ class OS:
             'predecessor': self.predecessor,
             'brands': self.brands,
             'models': self.models,
-            'codename': self.codename
+            'codename': self.codename,
             'successor': self.successor
         }
 
