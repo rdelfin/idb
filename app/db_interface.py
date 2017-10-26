@@ -56,7 +56,7 @@ class Database:
             cameras = []
             for camera in cameras_json:
                 camera['camcorder'] = models.Camcorder(**camera['camcorder'])
-                cameras += models.Camera(**camera)
+                cameras += [models.Camera(**camera)]
 
             new_model = models.Model(
                 model.image, model.name, brand_name, model.model, model.release_date,
@@ -81,11 +81,11 @@ class Database:
             os_names = json.dumps([os.name for os in brand_os])
             carrier_names = json.dumps([carrier.name for carrier in brand_carriers])
 
-            brands += models.Brand(brand.image, brand.name, brand.type_m,
-                                   brand.industries, brand.found_date,
-                                   brand.location, brand.area_served,
-                                   model_names, carrier_names, os_names,
-                                   brand.founders, brand.parent)
+            brands += [models.Brand(brand.image, brand.name, brand.type_m,
+                                    brand.industries, brand.found_date,
+                                    brand.location, brand.area_served,
+                                    model_names, carrier_names, os_names,
+                                    brand.founders, brand.parent)]
         session.commit()
         return brands
 
@@ -102,7 +102,7 @@ class Database:
                                os.supported_cpu_instruction_sets, os.predecessor,
                                list(brands), os_models, os.codename, os.successor)
 
-            os_list += new_os
+            os_list += [new_os]
         session.commit()
         return os_list
 
@@ -119,6 +119,6 @@ class Database:
                                          carrier.covered_countries,
                                          brand_names, model_names)
 
-            carriers += new_carrier
+            carriers += [new_carrier]
         session.commit()
         return carriers
