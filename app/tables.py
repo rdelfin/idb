@@ -21,7 +21,6 @@ class Model(Base):
     market_regions = Column(String)
     carriers = Column(String)
     physical_attributes = Column(String)
-    software = Column(String)
     hardware = Column(String)
     display = Column(String)
     cameras = Column(String)
