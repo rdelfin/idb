@@ -281,8 +281,8 @@ class OS:
 
 
 class Carrier:
-    def __init__(self, image, name, short_name, cellular_networks,
-                 covered_countries, brands, models):
+    def __init__(self, image, name, short_name, cellular_networks=None,
+                 covered_countries=None, brands=None, models=None):
         self.image = image
         self.name = name
         self.short_name = short_name
