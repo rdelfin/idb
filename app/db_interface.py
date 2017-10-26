@@ -46,8 +46,8 @@ class Database:
                 c_models = session.query(tables.CarrierModel).filter_by(carrier_id=carrier.id) \
                                 .join(tables.Model).all()
 
-                brand_names = [brand.name for brand in c_brands]
-                model_names = [model.name for model in c_models]
+                brand_names = json.dumps([brand.name for brand in c_brands])
+                model_names = json.dumps([model.name for model in c_models])
 
                 new_carrier = models.Carrier(carrier.image, carrier.name,
                                              carrier.short_name, carrier.cellular_networks,
