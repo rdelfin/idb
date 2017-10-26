@@ -91,10 +91,12 @@ class Database:
             os_names = list({model.os.name for model in brand.models})
 
             brands += [models.Brand(brand.image, brand.name, brand.type_m,
-                                    brand.industries, brand.found_date,
-                                    brand.location, brand.area_served,
-                                    model_names, carrier_names, os_names,
-                                    brand.founders, brand.parent)]
+                                    json.loads(brand.industries) if brand.industries is not None else [],
+                                    brand.found_date, brand.location,
+                                    brand.area_served, model_names,
+                                    carrier_names, os_names,
+                                    json.loads(brand.founders) if brand.founders is not None else [],
+                                    brand.parent)]
         session.commit()
         return brands
 
@@ -108,8 +110,8 @@ class Database:
 
             new_os = models.OS(os.image, os.name, os.developer, os.release_date,
                                os.version, os.os_kernel, os.os_family,
-                               os.supported_cpu_instruction_sets, os.predecessor,
-                               list(brands), os_models, os.codename, os.successor)
+                               json.loads(os.supported_cpu_instruction_sets) if os.supported_cpu_instruction_sets is not None else [],
+                               os.predecessor, list(brands), os_models, os.codename, os.successor)
 
             os_list += [new_os]
         session.commit()
@@ -124,7 +126,8 @@ class Database:
             model_names = [model.name for model in carrier.models]
 
             new_carrier = models.Carrier(carrier.image, carrier.name,
-                                         carrier.short_name, carrier.cellular_networks,
+                                         carrier.short_name,
+                                         json.loads(carrier.cellular_networks) if carrier.cellular_networks is not None else [],
                                          carrier.covered_countries,
                                          brand_names, model_names)
 
