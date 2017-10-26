@@ -12,12 +12,12 @@ from tables import *
 
 
 class DbInterfaceTests (TestCase):
-    def test_1(self):
-        engine = create_engine('sqlite:///:memory:', echo=True)
-        Session = sessionmaker(bind=engine)
+    def setUp(self):
+        self.engine = create_engine('sqlite:///:memory:', echo=False)
+        Session = sessionmaker(bind=self.engine)
         session = Session()
 
-        Base.metadata.create_all(engine)
+        Base.metadata.create_all(self.engine)
 
         lgv10 = Model(name="LG v10")
         lgv10.brand = Brand(name="LG", location="Seoul, South Korea")
@@ -27,19 +27,23 @@ class DbInterfaceTests (TestCase):
         session.add(lgv10)
         session.commit()
 
-        db = Database(engine)
+        self.db = Database(self.engine)
 
-        self.assertEqual(len(db.get_os_all()), 1)
-        self.assertEqual(db.get_os_all()[0].name, "Android")
+    def test_os(self):
+        self.assertEqual(len(self.db.get_os_all()), 1)
+        self.assertEqual(self.db.get_os_all()[0].name, "Android")
 
-        self.assertEqual(len(db.get_carrier_all()), 1)
-        self.assertEqual(db.get_carrier_all()[0].name, "Verison")
+    def test_carrier(self):
+        self.assertEqual(len(self.db.get_carrier_all()), 1)
+        self.assertEqual(self.db.get_carrier_all()[0].name, "Verison")
 
-        self.assertEqual(len(db.get_brand_all()), 1)
-        self.assertEqual(db.get_brand_all()[0].name, "LG")
+    def test_brand(self):
+        self.assertEqual(len(self.db.get_brand_all()), 1)
+        self.assertEqual(self.db.get_brand_all()[0].name, "LG")
 
-        self.assertEqual(len(db.get_model_all()), 1)
-        self.assertEqual(db.get_model_all()[0].name, "LG v10")
+    def test_model(self):
+        self.assertEqual(len(self.db.get_model_all()), 1)
+        self.assertEqual(self.db.get_model_all()[0].name, "LG v10")
 
 
 
