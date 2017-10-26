@@ -73,13 +73,9 @@ class Database:
         brands = []
         session = self.Session()
         for brand in session.query(tables.Brand).order_by(tables.Brand.id).all():
-            brand_models = session.query(tables.Model).filter_by(brand_id=brand.id).all()
-            brand_os = session.query(tables.Model).filter_by(brand_id=brand.id).join(tables.OS).distinct(tables.OS.id).all()
-            brand_carriers = session.query(tables.CarrierBrand).filter_by(brand_id=brand.id).join(tables.Carrier).all()
-
-            model_names = json.dumps([model.name for model in brand_models])
-            os_names = json.dumps([os.name for os in brand_os])
-            carrier_names = json.dumps([carrier.name for carrier in brand_carriers])
+            model_names = [model.name for model in brand.models]
+            carrier_names = [carrier.name for carrier in brand.carriers]
+            os_names = list({model.os.name for model in brand.models})
 
             brands += [models.Brand(brand.image, brand.name, brand.type_m,
                                     brand.industries, brand.found_date,
