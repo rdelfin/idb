@@ -77,8 +77,8 @@ class Database:
                 brands += models.Brand(brand.image, brand.name, brand.type_m,
                                        brand.industries, brand.found_date,
                                        brand.location, brand.area_served,
-                                       model_names, carrier_names, os,
-                                       founders, parent)
+                                       model_names, carrier_names, os_names,
+                                       brand.founders, brand.parent)
 
     def get_os_all(self):
         os_list = []
