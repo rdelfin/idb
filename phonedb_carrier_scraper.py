@@ -41,48 +41,52 @@ class PhoneDBScraper :
         return soup.find_all('td')
     """
     def getCarriers (self):
-        url = "http://phonedb.net/index.php?m=vendor&s=list"
-        page = urllib.request.urlopen(url)
-        soup = BeautifulSoup(page, 'html.parser')
-
-        title_blocks = soup.find_all(lambda tag: tag.has_attr('class') and re.compile("content_block_title").search(str(tag.get('class'))))
-
-        pdadbAttrNameToModelAttrNames = {
-            'Full name': 'name',
-            'Short name': 'short_name',
-            'Cellular Networks Installed': 'cellular_networks',
-            'Covered Countries': 'covered_countries'
-        }
-
         carriers = []
+        for n in range(0, 28 * 4, 28):
+            page_suffix = "" if n == 0 else "&filter=%d" % (n)
+            url = "http://phonedb.net/index.php?m=vendor&s=list" + page_suffix
+            page = urllib.request.urlopen(url)
+            soup = BeautifulSoup(page, 'html.parser')
 
-        for title in title_blocks:
-            link = next(title.children)
-            carrier_name = link.get('title')
-            carrier_url = urllib.request.urlopen(url + link.get('href'))
-            sub_soup = BeautifulSoup(carrier_url, 'html.parser')
+            title_blocks = soup.find_all(lambda tag: tag.has_attr('class') and re.compile("content_block_title").search(str(tag.get('class'))))
 
-            carrier_image = sub_soup.find(lambda tag: tag.name == 'img' and tag.get('alt') == carrier_name)
-            carrier_image = url + carrier_image.get('src')
+            pdadbAttrNameToModelAttrNames = {
+                'Full name': 'name',
+                'Short name': 'short_name',
+                'Cellular Networks Installed': 'cellular_networks',
+                'Covered Countries': 'covered_countries'
+            }
+            tmp = 1
+            for title in title_blocks:
+                print("Processing carrier %d" % (n + tmp), end="")
+                tmp += 1
+                link = next(title.children)
+                carrier_name = link.get('title')
+                carrier_url = urllib.request.urlopen(url + link.get('href'))
+                sub_soup = BeautifulSoup(carrier_url, 'html.parser')
 
-            info_table = sub_soup.find(lambda tag: tag.name == 'table' and re.compile("width : 98%; margin : 2px;").search(str(tag.get('style'))))
-            table_rows = info_table.find_all('td')
-            attributes = {}
-            for i in range(0, len(table_rows)):
-                row = table_rows[i]
-                attr_name = row.find('strong')
-                if attr_name:
-                    attr_name = next(attr_name.children)
-                    attr_content = table_rows[i+1].contents[1]
-                    attributes[attr_name] = attr_content
+                carrier_image = sub_soup.find(lambda tag: tag.name == 'img' and tag.get('alt') == carrier_name)
+                if carrier_image:
+                    carrier_image = url + carrier_image.get('src')
 
-            attributes = {pdadbAttrNameToModelAttrNames[key]: attributes[key]
-                          for key in attributes if key in pdadbAttrNameToModelAttrNames}
+                info_table = sub_soup.find(lambda tag: tag.name == 'table' and re.compile("width : 98%; margin : 2px;").search(str(tag.get('style'))))
+                table_rows = info_table.find_all('td')
+                attributes = {}
+                for i in range(0, len(table_rows)):
+                    row = table_rows[i]
+                    attr_name = row.find('strong')
+                    if attr_name:
+                        attr_name = next(attr_name.children)
+                        attr_content = table_rows[i+1].contents[1]
+                        attributes[attr_name] = attr_content
 
-            carriers += [app.models.Carrier(image=carrier_image, **attributes)]
+                attributes = {pdadbAttrNameToModelAttrNames[key]: attributes[key]
+                              for key in attributes if key in pdadbAttrNameToModelAttrNames}
+
+                carriers += [app.models.Carrier(image=carrier_image, **attributes)]
 
         return carriers
-        # raise NotImplementedError
+
 
 if __name__ == "__main__":
     pdadb = PhoneDBScraper()
