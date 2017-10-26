@@ -8,12 +8,28 @@ class PhysicalAttributes:
         self.dimensions = dimensions
         self.mass = mass
 
+    def serialize(self):
+        return {
+            'width': self.width,
+            'height': self.height,
+            'depth': self.depth,
+            'dimensions': self.dimensions,
+            'mass': self.mass
+        }
+
 
 class Software:
     def __init__(self, platform, os, software_extras):
         self.platform = platform
         self.os = os
         self.software_extras = software_extras
+
+    def serialize(self):
+        return {
+            'platform': self.platform,
+            'os': self.os,
+            'software_extras': self.software_extras
+        }
 
 class Hardware:
     def __init__(self, cpu, gpu, ram, nonvolatile_memory):
@@ -22,11 +38,26 @@ class Hardware:
         self.ram = ram
         self.nonvolatile_memory = nonvolatile_memory
 
+    def serialize(self):
+        return {
+            'cpu': self.cpu.serialize(),
+            'gpu': self.gpu.serialize(),
+            'ram': self.ram.serialize(),
+            'nonvolatile_memory': self.nonvolatile_memory
+        }
+
 class Cpu:
     def __init__(self, model, additional_info, clock_speed):
         self.model = model
         self.additional_info = additional_info
         self.clock_speed = clock_speed
+
+    def serialize(self):
+        return {
+            'model': self.model,
+            'additional_info': self.additional_info,
+            'clock_speed': self.clock_speed
+        }
 
 
 class Gpu:
@@ -34,17 +65,34 @@ class Gpu:
         self.model = model
         self.clock_speed = clock_speed
 
+    def serialize(self):
+        return {
+            'model': self.model,
+            'clock_speed': self.clock_speed
+        }
+
 
 class Ram:
     def __init__(self, type_m, capacity):
         self.type_m = type_m
         self.capacity = capacity
 
+    def serialize(self):
+        return {
+            'type': self.type_m,
+            'capacity': self.capacity
+        }
 
 class NonvolatileMemory:
     def __init__(self, type_m, capacity):
         self.type_m = type_m
         self.capacity = capacity
+
+    def serialize(self):
+        return {
+            'type': self.type_m,
+            'capacity': self.capacity
+        }
 
 
 class Display:
@@ -61,6 +109,20 @@ class Display:
          self.color_depth = color_depth
          self.screen = screen
 
+     def serialize(self):
+         return {
+            'resolution': self.resolution,
+            'diagonal': self.diagonal,
+            'width': self.width,
+            'height': self.height,
+            'bezel_width': self.bezel_width,
+            'area_utilization': self.area_utilization,
+            'pixel_density': self.pixel_density,
+            'type': self.type_m,
+            'color_depth': self.color_depth,
+            'screen': self.screen
+         }
+
 class Camera:
     def __init__(self, placement, module, sensor, sensor_format, resolution, \
                  num_pixels, aperture, optical_zoom, digital_zoom, focus, \
@@ -75,13 +137,35 @@ class Camera:
         self.optical_zoom = optical_zoom
         self.digital_zoom = digital_zoom
         self.focus = focus
-        self.camcorder = camcorder
+        self.camcorder = camcorder.serialize()
         self.flash = flash
+
+    def serialize(self):
+        return {
+            'placement': self.placement,
+            'module': self.module,
+            'sensor': self.sensor,
+            'sensor_format': self.sensor_format,
+            'resolution': self.resolution,
+            'num_pixels': self.num_pixels,
+            'aperture': self.aperture,
+            'optical_zoom': self.optical_zoom,
+            'digital_zoom': self.digital_zoom,
+            'focus': self.focus,
+            'camcoder': self.camcoder.serialize(),
+            'flash': self.flash
+        }
 
 class Camcorder:
     def __init__(self, resolution, formats):
         self.resolution = resolution
         self.formats = formats
+
+        def serialize(self):
+            return {
+                'resolution': self.resolution,
+                'formats': self.formats
+            }
 
 class Model:
     def __init__(self, image, name, brand, model, release_date,
@@ -105,6 +189,26 @@ class Model:
         self.display = display
         self.cameras = cameras
 
+    def serialize(self):
+        return {
+            'image': self.image,
+            'name': self.name,
+            'brand': self.brand,
+            'model': self.model,
+            'release_date': self.release_date,
+            'hardware_designer': self.hardware_designer,
+            'manufacturers': self.manufacturers,
+            'codename': self.codename,
+            'market_countries': self.market_countries,
+            'market_regions': self.market_regions,
+            'carriers': self.carriers,
+            'physical_attributes': self.physical_attributes.serialize(),
+            'software': self.software.serialize(),
+            'hardware': self.hardware.serialize(),
+            'display': self.display.serialize(),
+            'cameras': self.cameras.serialize()
+        }
+
 
 class Brand:
     def __init__(self, image, name, type_m, industries, found_date, location,
@@ -122,6 +226,22 @@ class Brand:
         self.os = os
         self.founders = founders
         self.parent = parent
+
+    def serialize(self):
+        return {
+            'image': self.image,
+            'name': self.name,
+            'type': self.type_m,
+            'industries': self.industries,
+            'found_date': self.found_date,
+            'location': self.location,
+            'area_served': self.area_served,
+            'phone_models': self.phone_models,
+            'carriers': self.carriers,
+            'os': self.os,
+            'founders': self.founders,
+            'parent': self.parent
+        }
 
 
 class OS:
@@ -143,6 +263,23 @@ class OS:
         self.codename = codename
         self.successor = successor
 
+    def serialize(self):
+        return {
+            'image': self.image,
+            'name': self.name,
+            'developer': self.developer,
+            'release_date': self.release_date,
+            'version': self.version,
+            'os_kernel': self.os_kernel,
+            'os_family': self.os_family,
+            'supported_cpu_instruction_sets': self.supported_cpu_instruction_sets,
+            'predecessor': self.predecessor,
+            'brands': self.brands,
+            'models': self.models,
+            'codename': self.codename
+            'successor': self.successor
+        }
+
 
 class Carrier:
     def __init__(self, image, name, short_name, cellular_networks,
@@ -154,3 +291,14 @@ class Carrier:
         self.covered_countries = covered_countries
         self.brands = brands
         self.models = models
+
+    def serialize(self):
+        return {
+            'image': self.image,
+            'name': self.name,
+            'short_name': self.short_name,
+            'cellular_networks': self.cellular_networks,
+            'covered_countries': self.covered_countries,
+            'brands': self.brands,
+            'models': self.models
+        }
