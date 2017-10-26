@@ -18,19 +18,6 @@ class PhysicalAttributes:
         }
 
 
-class Software:
-    def __init__(self, platform, os, software_extras):
-        self.platform = platform
-        self.os = os
-        self.software_extras = software_extras
-
-    def serialize(self):
-        return {
-            'platform': self.platform,
-            'os': self.os,
-            'software_extras': self.software_extras
-        }
-
 class Hardware:
     def __init__(self, cpu, gpu, ram, nonvolatile_memory):
         self.cpu = cpu
@@ -170,7 +157,7 @@ class Camcorder:
 class Model:
     def __init__(self, image, name, brand, model, release_date,
                  hardware_designer, manufacturers, codename, market_countries,
-                 market_regions, carriers, physical_attributes, software,
+                 market_regions, carriers, physical_attributes,
                  hardware, display, cameras):
         self.image = image
         self.name = name
@@ -184,7 +171,6 @@ class Model:
         self.market_regions = market_regions
         self.carriers = carriers
         self.physical_attributes = physical_attributes
-        self.software = software
         self.hardware = hardware
         self.display = display
         self.cameras = cameras
