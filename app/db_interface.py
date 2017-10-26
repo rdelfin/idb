@@ -2,6 +2,8 @@ from sqlalchemy import create_engine
 import __config__ as conf
 from sqlalchemy.orm import sessionmaker
 
+import json
+
 import tables
 import models
 
@@ -14,7 +16,22 @@ class Database:
         pass
 
     def get_brand_all(self):
-        pass
+        brands = []
+        with self.Session() as session:
+            for brand in session.query(tables.Brand).order_by(tables.Brand.id).all():
+                brand_models = session.query(tables.Model).filter_by(brand_id=brand.id).all()
+                brand_os = session.query(tables.Model).filter_by(brand_id=brand.id).join(tables.OS).distinct(tables.OS.id).all()
+                brand_carriers = session.query(tables.CarrierBrand).filter_by(brand_id=brand.id).join(tables.Carrier).all()
+
+                model_names = json.dumps([model.name for model in brand_models])
+                os_names = json.dumps([os.name for os in brand_os])
+                carrier_names = json.dumps([carrier.name for carrier in brand_carriers])
+
+                brands += models.Brand(brand.image, brand.name, brand.type_m,
+                                       brand.industries, brand.found_date,
+                                       brand.location, brand.area_served,
+                                       model_names, carrier_names, os,
+                                       founders, parent)
 
     def get_os_all(self):
         pass
