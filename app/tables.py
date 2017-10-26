@@ -65,7 +65,6 @@ class Brand(Base):
     found_date = Column(String)
     location = Column(String)
     area_served = Column(String)
-    carriers = Column(String)
     founders = Column(String)
     parent = Column(String)
     image = Column(String)
@@ -79,11 +78,11 @@ class Brand(Base):
     def __repr__(self):
         return "<Brand(name='%s', type_m='%s', industries='%s', " \
                "found_date='%s', location='%s', area_served='%s', " \
-               "phone_models='%s', carriers='%s', os='%s', founders='%s', " \
+               "phone_models='%s', os='%s', founders='%s', " \
                "parent='%s', image='%s')>" % \
                (self.name, self.type_m, self.industries,
                 self.found_date, self.location, self.area_served,
-                self.phone_models, self.carriers, self.os, self.founders,
+                self.phone_models, self.os, self.founders,
                 self.parent, self.image)
 
 
