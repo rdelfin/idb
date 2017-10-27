@@ -1,10 +1,11 @@
 // @flow
 import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
-import {getIdByName as getCarrierId} from '../../store/Carriers';
-import {getById} from '../../store/Manufacturers';
-import {getIdByName as getPhoneId} from '../../store/PhoneModels';
-import {getIdByName as getOsId} from '../../store/Os';
+import Carriers from '../../store/Carriers';
+import Manufacturers from '../../store/Manufacturers';
+import PhoneModels from '../../store/PhoneModels';
+import Os from '../../store/Os';
+import Spinner from '../Spinner';
 import TablePage from '../TablePage';
 import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
@@ -15,14 +16,30 @@ type Props = {
   match: Match,
 };
 
-export default class ManufacturerPage extends PureComponent<void, Props, void> {
+type State = {
+  data: ?Manufacturer,
+  loading: boolean,
+};
+
+export default class ManufacturerPage extends PureComponent {
+  state: State = {
+    data: null,
+    loading: true,
+  };
+
+  componentDidMount() {
+    Promise.all([
+      Manufacturers.getById(this.props.match.params.manufacturer),
+      Carriers.fetch(),
+      PhoneModels.fetch(),
+      Os.fetch(),
+    ]).then(([data, ..._]) => {
+      this.setState({data, loading: false});
+    });
+  }
+
   getTables(mf: Manufacturer): Array<TableSpec> {
     return [
-      {
-        title: 'Logo',
-        icon: 'address-card',
-        image: mf.image,
-      },
       {
         title: 'General',
         icon: 'star',
@@ -61,30 +78,38 @@ export default class ManufacturerPage extends PureComponent<void, Props, void> {
           {
             title: 'Phone Models',
             shown: mf.phone_models && mf.phone_models.length,
-            value: () => joinLinkLines(mf.phone_models, 'phones', getPhoneId),
+            value: () => joinLinkLines(mf.phone_models, 'phones', PhoneModels.getIdByNameSync),
           },
           {
             title: 'Carriers',
             shown: mf.carriers && mf.carriers.length,
-            value: () => joinLinkLines(mf.carriers, 'carriers', getCarrierId),
+            value: () => joinLinkLines(mf.carriers, 'carriers', Carriers.getIdByNameSync),
           },
           {
             title: 'OSs',
             shown: mf.os && mf.os.length,
-            value: () => joinLinkLines(mf.os, 'os', getOsId),
+            value: () => joinLinkLines(mf.os, 'os', Os.getIdByNameSync),
           },
         ],
+      },
+      {
+        title: 'Logo',
+        icon: 'address-card',
+        image: mf.image,
       },
     ];
   }
 
   render() {
-    const {manufacturer} = this.props.match.params;
-    const manufacturerData = getById(manufacturer);
+    const manufacturerData = this.state.data;
     if (!manufacturerData)
-      return <div />
+      return <Spinner marginTop={true} />;
     return (
-      <TablePage title={manufacturerData.name} image={manufacturerData.image} tables={this.getTables(manufacturerData)} />
+      <TablePage
+        title={manufacturerData.name}
+        image={manufacturerData.image}
+        tables={this.getTables(manufacturerData)}
+        loading={this.state.loading} />
     );
   }
 }

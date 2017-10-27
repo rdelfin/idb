@@ -1,9 +1,10 @@
 // @flow
 import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
-import {getIdByName as getCarrierId} from '../../store/Carriers';
-import {getIdByName as getManufacturerId} from '../../store/Manufacturers';
-import {getById} from '../../store/PhoneModels';
+import Carriers from '../../store/Carriers';
+import Manufacturers from '../../store/Manufacturers';
+import PhoneModels from '../../store/PhoneModels';
+import Spinner from '../Spinner';
 import TablePage from '../TablePage';
 import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
@@ -14,14 +15,29 @@ type Props = {
   match: Match,
 };
 
-export default class PhoneModelPage extends PureComponent<void, Props, void> {
+type State = {
+  data: ?PhoneModel,
+  loading: boolean,
+};
+
+export default class PhoneModelPage extends PureComponent {
+  state: State = {
+    data: null,
+    loading: true,
+  };
+
+  componentDidMount() {
+    Promise.all([
+      PhoneModels.getById(this.props.match.params.model),
+      Carriers.fetch(),
+      Manufacturers.fetch(),
+    ]).then(([data, ..._]) => {
+      this.setState({data, loading: false});
+    });
+  }
+
   getTables(model: PhoneModel): Array<TableSpec> {
     return [
-      {
-        title: 'Picture',
-        icon: 'address-card',
-        image: model.image,
-      },
       {
         title: 'General',
         icon: 'star',
@@ -44,12 +60,12 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
           {
             title: 'Brand',
             shown: model.brand,
-            value: () => <Link to={`/manufacturers/${getManufacturerId(model.brand)}`}>{model.brand}</Link>,
+            value: () => <Link to={`/manufacturers/${Manufacturers.getIdByNameSync(model.brand)}`}>{model.brand}</Link>,
           },
           {
             title: 'Carriers',
             shown: model.carriers,
-            value: () => joinLinkLines((model.carriers: any), 'carriers', getCarrierId),
+            value: () => joinLinkLines((model.carriers: any), 'carriers', Carriers.getIdByNameSync),
           },
         ],
       },
@@ -236,14 +252,19 @@ export default class PhoneModelPage extends PureComponent<void, Props, void> {
           },
         },
       ],
-    })));
+    }))).concat([
+      {
+        title: 'Picture',
+        icon: 'address-card',
+        image: model.image,
+      },
+    ]);
   }
 
   render() {
-    const {model} = this.props.match.params;
-    const modelData = getById(model);
+    const modelData = this.state.data;
     if (!modelData)
-      return <div />;
+      return <Spinner marginTop={true} />;
     return (
       <TablePage title={modelData.name} image={modelData.image} tables={this.getTables(modelData)} />
     );

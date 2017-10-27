@@ -1,4 +1,5 @@
 // @flow
+import {createAsyncStore, delayedPromisify} from './util';
 
 export type Os = {
   image: string,
@@ -11,12 +12,12 @@ export type Os = {
   os_family: string,
   supported_cpu_instruction_sets: Array<string>,
   predecessor: string,
-  successor: string,
+  successor?: string,
   brands: Array<string>,
   models: Array<string>,
 };
 
-const data: Array<Os> = [
+const mockData: Array<Os> = [
   {
     "image": "/static/images/ex/android_os.png",
         "name": "Google Android 7.1.2 (Nougat)",
@@ -91,14 +92,4 @@ const data: Array<Os> = [
   }
 ];
 
-export function getById(id: string | number): Os | void {
-  return data[+id];
-}
-
-export function getAll(): Array<Os> {
-  return data;
-}
-
-export function getIdByName(name: string): number {
-  return data.findIndex(item => item.name === name);
-}
+export default createAsyncStore(() => fetch('/os').then(res => res.json()));

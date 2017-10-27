@@ -1,11 +1,28 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import {getAll} from '../../store/Os';
+import Os from '../../store/Os';
+import type {Os as OsData} from '../../store/Os';
+
+type State = {
+  data: Array<OsData>;
+  loading: boolean;
+};
 
 export default class OsHome extends React.Component {
+  state: State = {
+    data: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    Os.getAll().then(data => {
+      this.setState({data, loading: false});
+    });
+  }
+
   getList() {
-    return getAll().map((os, i) => ({
+    return this.state.data.map((os, i) => ({
       url: `/os/${i}`,
       title: os.name,
       stats: [
@@ -19,7 +36,10 @@ export default class OsHome extends React.Component {
 
   render() {
     return (
-      <ListPage title="Operating Systems" links={this.getList()} />
+      <ListPage
+        title="Operating Systems"
+        links={this.getList()}
+        loading={this.state.loading} />
       );
   }
 }

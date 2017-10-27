@@ -1,4 +1,5 @@
 // @flow
+import {createAsyncStore, delayedPromisify} from './util';
 
 export type PhoneModel = {
   image: string,
@@ -97,7 +98,7 @@ export type Camcorder = {
   formats?: string,
 };
 
-const data: Array<PhoneModel> = [
+const mockData: Array<PhoneModel> = [
   {
     "image": "/static/images/ex/lg_v30_model.jpg",
         "name": "LG LS998 V30+ TD-LTE / AS998  (LG Joan)",
@@ -517,14 +518,4 @@ const data: Array<PhoneModel> = [
   }
 ];
 
-export function getById(id: string | number): PhoneModel | void {
-  return data[+id];
-}
-
-export function getAll(): Array<PhoneModel> {
-  return data;
-}
-
-export function getIdByName(name: string): number {
-  return data.findIndex(item => item.name === name);
-}
+export default createAsyncStore(() => fetch('/models').then(res => res.json()));

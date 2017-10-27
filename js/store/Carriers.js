@@ -1,4 +1,5 @@
 // @flow
+import {createAsyncStore, delayedPromisify} from './util';
 
 export type Carrier = {
   image: string,
@@ -15,7 +16,7 @@ type CellularNetworks = {
   supported_data_links: Array<string>,
 };
 
-const data: Array<Carrier> = [
+const mockData: Array<Carrier> = [
   {
     "image": "/static/images/ex/sprint_nextel_carrier.png",
         "name": "Sprint Nextel Corporation",
@@ -129,14 +130,4 @@ const data: Array<Carrier> = [
   }
 ];
 
-export function getById(id: string | number): Carrier | void {
-  return data[+id];
-}
-
-export function getAll(): Array<Carrier> {
-  return data;
-}
-
-export function getIdByName(name: string): number {
-  return data.findIndex(item => item.name === name);
-}
+export default createAsyncStore(() => fetch('/carriers').then(res => res.json()));

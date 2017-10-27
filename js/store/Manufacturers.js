@@ -1,4 +1,5 @@
 // @flow
+import {createAsyncStore, delayedPromisify} from './util';
 
 export type Manufacturer = {
   image: string,
@@ -15,7 +16,7 @@ export type Manufacturer = {
   os: Array<string>,
 };
 
-const data: Array<Manufacturer> = [
+const mockData: Array<Manufacturer> = [
   {
     "image": "/static/images/ex/lg_brand_logo.png",
     "name": "LG",
@@ -135,14 +136,4 @@ const data: Array<Manufacturer> = [
   }
 ];
 
-export function getById(id: string | number): Manufacturer | void {
-  return data[+id];
-}
-
-export function getAll(): Array<Manufacturer> {
-  return data;
-}
-
-export function getIdByName(name: string): number {
-  return data.findIndex(item => item.name === name);
-}
+export default createAsyncStore(() => fetch('/brands').then(res => res.json()));

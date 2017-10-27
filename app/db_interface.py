@@ -1,0 +1,136 @@
+from sqlalchemy import create_engine
+from app import __config__ as conf
+from sqlalchemy.orm import sessionmaker
+
+import json
+
+from app import tables
+from app import models
+
+
+class Database:
+    def __init__(self, engine=create_engine(conf.db_source, echo=True)):
+        self.engine = engine
+        self.Session = sessionmaker(bind=self.engine)
+
+    def get_model_all(self):
+        model_list = []
+        session = self.Session()
+        for model in session.query(tables.Model).order_by(tables.Model.id).all():
+            brand_name = model.brand.name
+            os = model.os
+            os_name = os.name
+            os_platform = os.os_family
+            carriers_names = [carrier.name for carrier in model.carriers]
+
+            phys_attr = None
+
+            if model.physical_attributes is not None:
+                phys_attr_json = json.loads(model.physical_attributes)
+                phys_attr = models.PhysicalAttributes(phys_attr_json['width'],
+                                                      phys_attr_json['height'],
+                                                      phys_attr_json['depth'],
+                                                      phys_attr_json['dimensions'],
+                                                      phys_attr_json['mass'])
+
+            hardware = None
+
+            if model.hardware is not None:
+                hardware_json = json.loads(model.hardware)
+
+                if('ram' in hardware_json and 'type' in hardware_json['ram']):
+                    hardware_json['ram']['type_m'] = hardware_json['ram']['type']
+                    hardware_json['ram'].pop('type')
+
+                if('nonvolatile_memory' in hardware_json and 'type' in hardware_json['nonvolatile_memory']):
+                    hardware_json['nonvolatile_memory']['type_m'] = hardware_json['nonvolatile_memory']['type']
+                    hardware_json['nonvolatile_memory'].pop('type')
+
+                hardware = models.Hardware(models.Cpu(**hardware_json['cpu']) if 'cpu' in hardware_json else None,
+                                           models.Gpu(**hardware_json['gpu']) if 'gpu' in hardware_json else None,
+                                           models.Ram(**hardware_json['ram']) if 'ram' in hardware_json else None,
+                                           models.NonvolatileMemory(**hardware_json['nonvolatile_memory']) if 'nonvolatile_memory' in hardware_json else None)
+
+            software = models.Software(os_name, os_platform, None)
+
+            display = None
+
+            if model.display is not None:
+                display_json = json.loads(model.display)
+                if('type' in display_json):
+                    display_json['type_m'] = display_json['type']
+                    display_json.pop('type')
+                display = models.Display(**display_json)
+
+            cameras = []
+
+            if model.cameras is not None:
+                cameras_json = json.loads(model.cameras)
+                for camera in cameras_json:
+                    if('camcorder' in camera):
+                        camera['camcorder'] = models.Camcorder(**camera['camcorder'])
+                    cameras += [models.Camera(**camera)]
+
+            model_list += [models.Model(
+                model.image, model.name, brand_name, model.model, model.release_date,
+                model.hardware_designer, model.manufacturers, model.codename,
+                model.market_countries, model.market_regions, carriers_names,
+                phys_attr, hardware, software,
+                display, cameras
+            )]
+
+            session.commit()
+        return model_list
+
+    def get_brand_all(self):
+        brands = []
+        session = self.Session()
+        for brand in session.query(tables.Brand).order_by(tables.Brand.id).all():
+            model_names = [model.name for model in brand.models]
+            carrier_names = [carrier.name for carrier in brand.carriers]
+            os_names = list({model.os.name for model in brand.models})
+
+            brands += [models.Brand(brand.image, brand.name, brand.type_m,
+                                    json.loads(brand.industries) if brand.industries is not None else [],
+                                    brand.found_date, brand.location,
+                                    brand.area_served, model_names,
+                                    carrier_names, os_names,
+                                    json.loads(brand.founders) if brand.founders is not None else [],
+                                    brand.parent)]
+        session.commit()
+        return brands
+
+    def get_os_all(self):
+        os_list = []
+        session = self.Session()
+        for os in session.query(tables.OS).order_by(tables.OS.id).all():
+            os_models = os.models
+
+            brands = {mod.brand for mod in os_models}
+
+            new_os = models.OS(os.image, os.name, os.developer, os.release_date,
+                               os.version, os.os_kernel, os.os_family,
+                               json.loads(os.supported_cpu_instruction_sets) if os.supported_cpu_instruction_sets is not None else [],
+                               os.predecessor, list(brands), os_models, os.codename, os.successor)
+
+            os_list += [new_os]
+        session.commit()
+        return os_list
+
+
+    def get_carrier_all(self):
+        carriers = []
+        session = self.Session()
+        for carrier in session.query(tables.Carrier).order_by(tables.Carrier.id).all():
+            brand_names = [brand.name for brand in carrier.brands]
+            model_names = [model.name for model in carrier.models]
+
+            new_carrier = models.Carrier(carrier.image, carrier.name,
+                                         carrier.short_name,
+                                         json.loads(carrier.cellular_networks) if carrier.cellular_networks is not None else [],
+                                         carrier.covered_countries,
+                                         brand_names, model_names)
+
+            carriers += [new_carrier]
+        session.commit()
+        return carriers
