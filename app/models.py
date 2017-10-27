@@ -212,7 +212,7 @@ class Model:
             'software': self.software.serialize(),
             'hardware': self.hardware.serialize(),
             'display': self.display.serialize(),
-            'cameras': self.cameras.serialize()
+            'cameras': [camera.serialize() for camera in self.cameras]
         }
 
 
