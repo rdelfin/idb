@@ -9,16 +9,22 @@ from app import tables
 from app import __config__ as conf
 
 def insert_all(*, models, brands, oss, carriers):
-    engine = create_engine(conf.db_source, echo=False)
+        engine = create_engine(conf.db_source, echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
 
     insert_os(oss, session)
+    session.commit()
     insert_brands(brands, session)
+    session.commit()
     insert_carriers(carriers, session)
+    session.commit()
     insert_models(models, session)
+    session.commit()
     insert_carrier_brand(carriers, session)
+    session.commit()
     insert_carrier_model(carriers, session)
+    session.commit()
 
     session.commit()
 
@@ -30,6 +36,8 @@ def insert_os(oss, session):
                            predecessor=os.predecessor, codename=os.codename,
                            successor=os.successor, image=os.image) for os in oss ]
 
+    print(os_table)
+
     session.add_all(os_table)
 
 def insert_brands(brands, session):
@@ -39,7 +47,7 @@ def insert_brands(brands, session):
                                  location=brand.location,
                                  area_served=brand.area_served,
                                  founders=json.dumps(brand.founders),
-                                 parent=brand.founders, image=brand.image)
+                                 parent=brand.parent, image=brand.image)
                                  for brand in brands]
 
     session.add_all(brand_table)
@@ -57,6 +65,9 @@ def insert_models(models, session):
     model_table = []
 
     for model in models:
+        print('Filter: {}'.format(model.software.os))
+        print('All OS: {}'.format(session.query(tables.OS).all()))
+
         os = session.query(tables.OS).filter_by(name=model.software.os).one()
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
 
