@@ -78,10 +78,10 @@ def insert_models(models, session):
                                  codename=model.codename,
                                  market_countries=json.dumps(model.market_countries),
                                  market_regions=json.dumps(model.market_regions),
-                                 physical_attributes=json.dumps(model.physical_attributes),
-                                 hardware=json.dumps(model.hardware),
-                                 display=json.dumps(model.display),
-                                 cameras=json.dumps(model.cameras),
+                                 physical_attributes=json.dumps(model.physical_attributes.serialize()),
+                                 hardware=json.dumps(model.hardware.serialize()),
+                                 display=json.dumps(model.display.serialize()),
+                                 cameras=json.dumps(model.cameras.serialize()),
                                  image=model.image)
 
         new_model.os = os
