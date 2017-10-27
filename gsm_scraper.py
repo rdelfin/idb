@@ -182,7 +182,15 @@ class GSMScraper() :
 			else :
 				unique_carriers.append(c)
 
-		inserter.insert_all(models = phones, brands = brands, oss = oss, carriers = unique_carriers)
+		unique_oss = []
+		for o in oss : 
+			for uo in unique_oss :
+				if o.name == uo.name :
+					break
+			else :
+				unique_oss.append(o)
+
+		inserter.insert_all(models = phones, brands = brands, oss = unique_oss, carriers = unique_carriers)
 
 
 gsm = GSMScraper()
