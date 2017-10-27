@@ -9,7 +9,7 @@ from app import tables
 from app import __config__ as conf
 
 def insert_all(*, models, brands, oss, carriers):
-        engine = create_engine(conf.db_source, echo=False)
+    engine = create_engine(conf.db_source, echo=False)
     Session = sessionmaker(bind=engine)
     session = Session()
 

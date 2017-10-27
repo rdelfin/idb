@@ -2,6 +2,7 @@ import urllib.request
 from bs4 import BeautifulSoup
 from app import models
 from app import inserter
+import phonedb_carrier_scraper
 
 def find_info(s, phone_info) :
 		try :
@@ -22,12 +23,12 @@ class GSMScraper() :
 		brands = []
 		oss = []
 		makers = soup.find_all('td')
-		for maker in makers:
-			url = "http://www.gsmarena.com/" + str(maker).split('\"')[1]
+		for i in range(0, len(makers), 5):
+			url = "http://www.gsmarena.com/" + str(makers[i]).split('\"')[1]
 			page = urllib.request.urlopen(url)
 			soup = BeautifulSoup(page, "lxml")
 
-			brand = str(maker).split('\"')[1].split('-')[0].capitalize()
+			brand = str(makers[i]).split('\"')[1].split('-')[0].capitalize()
 			print(brand)
 
 			makers_div = str(soup.find_all('div', class_='makers')[0])
@@ -37,6 +38,7 @@ class GSMScraper() :
 			brand_models = []
 			brand_oss = []
 
+			"""
 			if len(soup.find_all('div', class_='nav-pages')) > 0: # if there's a nav page for the phones
 				nav_div = str(soup.find_all('div', class_='nav-pages')[0])
 				nav_soup = BeautifulSoup(nav_div, "lxml")
@@ -48,8 +50,14 @@ class GSMScraper() :
 					makers_div = str(soup.find_all('div', class_='makers')[0])
 					maker_soup = BeautifulSoup(makers_div, "lxml")
 					phones_per_maker += maker_soup.find_all('li')
+			"""
 
+			phone_counter = 0
 			for phone in phones_per_maker:
+				if phone_counter >= 5:
+					break
+				phone_counter += 1
+
 				url = "http://www.gsmarena.com/" + str(phone).split('\"')[1]
 				page = urllib.request.urlopen(url)
 				soup = BeautifulSoup(page, "lxml")
@@ -82,7 +90,7 @@ class GSMScraper() :
 				for os in oss:
 					if os.name == software_os:
 						os.models.append(name)
-					if brand not in os.brands :
+					if brand != None and brand not in os.brands :
 						os.brands.append(brand)
 				else : 
 					oss.append(models.OS(None, software_os, None, None, None, None, None, [], None, [], [], None, None))
@@ -152,17 +160,18 @@ class GSMScraper() :
 
 				brand_models.append(name)
 				for os in oss :
-					if brand not in os.brands : 
+					if software_os != None and brand not in os.brands : 
 						brand_oss.append(software_os)
-				break
+				
 
 			
 			print(brand_models)
 			print(brand_oss)
-			brands.append(models.Brand(None, brand, None, [], None, [], None, brand_models, [], brand_oss, [], None))
-			break
-	
-		inserter.insert_all(models = phones, brands = brands, oss = oss, carriers = [])
+			brands.append(models.Brand(None, brand, None, [], None, None, None, brand_models, [], brand_oss, [], None))
+			
+		
+		carrier_scraper = phonedb_carrier_scraper.PhoneDBScraper()
+		inserter.insert_all(models = phones, brands = brands, oss = oss, carriers = carrier_scraper.getCarriers())
 
 
 gsm = GSMScraper()
