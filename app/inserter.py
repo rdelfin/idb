@@ -81,7 +81,7 @@ def insert_models(models, session):
                                  physical_attributes=json.dumps(model.physical_attributes.serialize()),
                                  hardware=json.dumps(model.hardware.serialize()),
                                  display=json.dumps(model.display.serialize()),
-                                 cameras=json.dumps(model.cameras.serialize()),
+                                 cameras=json.dumps([camera.serialize() for camera in model.cameras]),
                                  image=model.image)
 
         new_model.os = os
