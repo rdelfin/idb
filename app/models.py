@@ -143,7 +143,7 @@ class Camera:
             'optical_zoom': self.optical_zoom,
             'digital_zoom': self.digital_zoom,
             'focus': self.focus,
-            'camcorder': self.camcorder.serialize(),
+            'camcorder': None if self.camcorder is None else self.camcorder.serialize(),
             'flash': self.flash
         }
 
