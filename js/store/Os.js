@@ -92,4 +92,4 @@ const mockData: Array<Os> = [
   }
 ];
 
-export default createAsyncStore(() => delayedPromisify(mockData, 1000));
+export default createAsyncStore(() => fetch('/os').then(res => res.json()));
