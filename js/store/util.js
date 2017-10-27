@@ -4,6 +4,8 @@ export interface AsyncStore<T> {
   getById(id: string | number): Promise<T | void>;
   getAll(): Promise<Array<T>>;
   getIdByName(name: string): Promise<number>;
+  getIdByNameSync(name: string): number;
+  fetch(): Promise<void>;
 }
 
 export function createAsyncStore<T: {name: string}>(
@@ -62,11 +64,29 @@ function asyncify<T>(store: Store<T>): AsyncStore<T> {
         return promisify(store.getIdByName(name));
       return store.fetch().then(() => store.getIdByName(name));
     },
+    getIdByNameSync(name: string): number {
+      if (store.isDataAvailable())
+        return store.getIdByName(name);
+      throw 'Data is not available!';
+    },
+    fetch(): Promise<void> {
+      if (store.isDataAvailable())
+        return promisify();
+      return store.fetch();
+    },
   };
 }
 
 function promisify<T>(result: T): Promise<T> {
   return new Promise((resolve, reject) => {
     resolve(result);
+  });
+}
+
+export function delayedPromisify<T>(result: T, delay: number): Promise<T> {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(result);
+    }, delay);
   });
 }

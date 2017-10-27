@@ -1,11 +1,28 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import {getAll} from '../../store/Manufacturers';
+import Manufacturers from '../../store/Manufacturers';
+import type {Manufacturer} from '../../store/Manufacturers';
 
-export default class ManufacturerHome extends React.Component {
+type State = {
+  data: Array<Manufacturer>;
+  loading: boolean;
+};
+
+export default class ManufacturerHome extends React.PureComponent {
+  state: State = {
+    data: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    Manufacturers.getAll().then(data => {
+      this.setState({data, loading: false});
+    });
+  }
+
   getList() {
-    return getAll().map((manufacturer, i) => ({
+    return this.state.data.map((manufacturer, i) => ({
       url: `/manufacturers/${i}`,
       title: manufacturer.name,
       stats: [
@@ -20,7 +37,10 @@ export default class ManufacturerHome extends React.Component {
 
   render() {
     return (
-      <ListPage title="Manufacturers" links={this.getList()} />
+      <ListPage
+        title="Manufacturers"
+        links={this.getList()}
+        loading={this.state.loading} />
       );
   }
 }

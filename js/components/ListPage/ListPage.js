@@ -2,12 +2,14 @@
 import React from 'react';
 import throttle from 'throttle-debounce/throttle';
 import {Link} from 'react-router-dom';
+import Spinner from '../Spinner';
 import type {ReactChildren} from '../../types';
 import './listPage.css';
 
 type Props = {
   title: ReactChildren<*>,
   links: Array<LinkSpec>,
+  loading: boolean,
 };
 
 type State = {
@@ -96,6 +98,7 @@ export default class ListPage extends React.PureComponent {
     return (
       <div styleName="root">
         <h1 styleName="title">{this.props.title}</h1>
+        {this.props.loading && <Spinner />}
         {this.state.renderedLinks.map(({url, title, stats}) => (
           <AnimatedLink key={url} url={url} title={title} stats={stats} />
         ))}
