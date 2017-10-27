@@ -518,4 +518,4 @@ const mockData: Array<PhoneModel> = [
   }
 ];
 
-export default createAsyncStore(() => delayedPromisify(mockData, 1000));
+export default createAsyncStore(() => fetch('/models').then(res => res.json()));
