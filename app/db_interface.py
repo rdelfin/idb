@@ -9,7 +9,7 @@ from app import models
 
 
 class Database:
-    def __init__(self, engine=create_engine(conf.db_source, echo=True)):
+    def __init__(self, engine=create_engine(conf.db_source, echo=False)):
         self.engine = engine
         self.Session = sessionmaker(bind=self.engine)
 
@@ -104,14 +104,13 @@ class Database:
         os_list = []
         session = self.Session()
         for os in session.query(tables.OS).order_by(tables.OS.id).all():
-            os_models = os.models
-
-            brands = {mod.brand for mod in os_models}
+            os_models = list({model.name for model in os.models})
+            brand_names = list({mod.brand.name for mod in os.models})
 
             new_os = models.OS(os.image, os.name, os.developer, os.release_date,
                                os.version, os.os_kernel, os.os_family,
                                json.loads(os.supported_cpu_instruction_sets) if os.supported_cpu_instruction_sets is not None else [],
-                               os.predecessor, list(brands), os_models, os.codename, os.successor)
+                               os.predecessor, brand_names, os_models, os.codename, os.successor)
 
             os_list += [new_os]
         session.commit()

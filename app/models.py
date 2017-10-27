@@ -166,6 +166,13 @@ class Software:
         self.os = os
         self.software_extras = software_extras
 
+    def serialize(self):
+        return {
+            'platform': self.platform,
+            'os': self.os,
+            'software_extras': self.software_extras
+        }
+
 class Model:
     def __init__(self, image, name, brand, model, release_date,
                  hardware_designer, manufacturers, codename, market_countries,
@@ -205,7 +212,7 @@ class Model:
             'software': self.software.serialize(),
             'hardware': self.hardware.serialize(),
             'display': self.display.serialize(),
-            'cameras': self.cameras.serialize()
+            'cameras': [camera.serialize() for camera in self.cameras]
         }
 
 

@@ -46,12 +46,12 @@ class Model(Base):
         return "<Model(name='%s', brand_id='%d', model='%s', " \
                "release_date='%s', hardware_designer='%s', manufacturers='%s', " \
                "codename='%s', market_countries='%s', " \
-               "physical_attributes='%s', software='%s', hardware='%s', " \
+               "physical_attributes='%s', os='%s', hardware='%s', " \
                "display='%s', cameras='%s', image='%s')>" % \
                (self.name, self.brand_id, self.model, self.release_date,
                 self.hardware_designer, self.manufacturers, self.codename,
                 self.market_countries, self.physical_attributes,
-                self.software, self.hardware, self.display, self.cameras,
+                self.os, self.hardware, self.display, self.cameras,
                 self.image)
 
 
@@ -78,12 +78,10 @@ class Brand(Base):
     def __repr__(self):
         return "<Brand(name='%s', type_m='%s', industries='%s', " \
                "found_date='%s', location='%s', area_served='%s', " \
-               "phone_models='%s', os='%s', founders='%s', " \
-               "parent='%s', image='%s')>" % \
+               "models='%s', founders='%s', parent='%s', image='%s')>" % \
                (self.name, self.type_m, self.industries,
                 self.found_date, self.location, self.area_served,
-                self.phone_models, self.os, self.founders,
-                self.parent, self.image)
+                self.models, self.founders, self.parent, self.image)
 
 
 class OS(Base):

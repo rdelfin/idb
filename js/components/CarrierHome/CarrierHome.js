@@ -27,7 +27,7 @@ export default class CarrierHome extends React.Component {
       title: carrier.short_name,
       stats: Array.isArray(carrier.covered_countries) ?
           carrier.covered_countries : [carrier.covered_countries]
-        .concat(carrier.cellular_networks.installed),
+        .concat(carrier.cellular_networks || []),
     }));
   }
 

@@ -89,6 +89,8 @@ class GSMScraper() :
 				software_os = find_info('OS', phone_info)
 				if software_os == '<a href="glossary.php3?term' :
 					software_os = None
+				if software_os == None :
+					software_os = 'No Operating System'
 				for os in oss:
 					if brand not in os.brands :
 						os.brands.append(brand)
@@ -164,7 +166,7 @@ class GSMScraper() :
 
 				brand_models.append(name)
 				for os in oss :
-					if (software_os != None) and (software_os not in brand_oss) : 
+					if (software_os != 'No Operating System') and (software_os not in brand_oss) : 
 						brand_oss.append(software_os)
 				
 

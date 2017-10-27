@@ -48,8 +48,8 @@ export default class CarrierPage extends PureComponent {
           },
           {
             title: 'Networks',
-            shown: carrier.cellular_networks.installed,
-            value: () => joinLines(carrier.cellular_networks.installed),
+            shown: carrier.cellular_networks,
+            value: () => carrier.cellular_networks,
           },
           {
             title: 'Data Links',
