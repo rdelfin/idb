@@ -31,7 +31,7 @@ class Hardware:
             'cpu': self.cpu.serialize(),
             'gpu': self.gpu.serialize(),
             'ram': self.ram.serialize(),
-            'nonvolatile_memory': self.nonvolatile_memory
+            'nonvolatile_memory': self.nonvolatile_memory.serialize()
         }
 
 

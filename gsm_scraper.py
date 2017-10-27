@@ -88,12 +88,14 @@ class GSMScraper() :
 
 				software_os = find_info('OS', phone_info)
 				for os in oss:
+					if brand not in os.brands :
+						os.brands.append(brand)
 					if os.name == software_os:
 						os.models.append(name)
-					if brand != None and brand not in os.brands :
-						os.brands.append(brand)
+						break
 				else : 
-					oss.append(models.OS(None, software_os, None, None, None, None, None, [], None, [], [], None, None))
+					if software_os != None and software_os != '<a href="glossary.php3?term': 
+						oss.append(models.OS(None, software_os, None, None, None, None, None, [], None, [], [], None, None))
 				software = models.Software(software_os, software_os, [])
 				# print(os)
 				
@@ -160,7 +162,7 @@ class GSMScraper() :
 
 				brand_models.append(name)
 				for os in oss :
-					if software_os != None and brand not in os.brands : 
+					if (software_os != None) and (software_os != '<a href="glossary.php3?term') and (software_os not in brand_oss) : 
 						brand_oss.append(software_os)
 				
 
@@ -169,9 +171,18 @@ class GSMScraper() :
 			print(brand_oss)
 			brands.append(models.Brand(None, brand, None, [], None, None, None, brand_models, [], brand_oss, [], None))
 			
-		
+		print("Finished GSM scraper")
 		carrier_scraper = phonedb_carrier_scraper.PhoneDBScraper()
-		inserter.insert_all(models = phones, brands = brands, oss = oss, carriers = carrier_scraper.getCarriers())
+		carriers = carrier_scraper.getCarriers()
+		unique_carriers = []
+		for c in carriers : 
+			for uc in unique_carriers :
+				if c.name == uc.name :
+					break
+			else :
+				unique_carriers.append(c)
+
+		inserter.insert_all(models = phones, brands = brands, oss = oss, carriers = unique_carriers)
 
 
 gsm = GSMScraper()
