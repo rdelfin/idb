@@ -44,7 +44,7 @@ class AnimatedLink extends React.PureComponent {
             styleName={this.state.rendered ? "item shown" : "item"}>
         <div styleName="name">{this.props.title}</div>
         <div styleName="stats">
-          {this.props.stats.map((stat, i) => <div key={i}>{stat}</div>)}
+          {this.props.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <div key={i}>{stat}</div>)}
         </div>
       </Link>
     );
