@@ -136,4 +136,4 @@ const mockData: Array<Manufacturer> = [
   }
 ];
 
-export default createAsyncStore(() => delayedPromisify(mockData, 1000));
+export default createAsyncStore(() => fetch('/brands').then(res => res.json()));
