@@ -11,19 +11,19 @@ def hello_world():
 
 @app.route('/models', methods=['GET'])
 def models_get():
-    return jsonify(db.get_model_all())
+    return jsonify([model.serialize() for model in db.get_model_all()])
 
 @app.route('/brands', methods=['GET'])
 def brands_get():
-    return jsonify(db.get_brand_all())
+    return jsonify([brand.serialize() for brand in db.get_brand_all()])
 
 @app.route('/os', methods=['GET'])
 def os_get():
-    return jsonify(db.get_os_all())
+    return jsonify([os.serialize() for os in db.get_os_all()])
 
 @app.route('/carriers', methods=['GET'])
 def carriers_get():
-    return jsonify(db.get_carrier_all())
+    return jsonify([carrier.serialize() for carrier in db.get_carrier_all()])
 
 if __name__ == '__main__':
   app.run(debug=True)
