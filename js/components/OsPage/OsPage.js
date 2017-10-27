@@ -1,20 +1,41 @@
 // @flow
 import React, {PureComponent} from 'react';
-import {getIdByName as getManufacturerId} from '../../store/Manufacturers';
-import {getById} from '../../store/Os';
-import {getIdByName as getPhoneId} from '../../store/PhoneModels';
+import Manufacturers from '../../store/Manufacturers';
+import Os from '../../store/Os';
+import PhoneModels from '../../store/PhoneModels';
+import Spinner from '../Spinner';
 import TablePage from '../TablePage';
 import {joinLines, joinLinkLines} from '../../util';
 import type {TableSpec} from '../TableCard/TableCard';
-import type {Os} from '../../store/Os';
+import type {Os as OsData} from '../../store/Os';
 import type {Match} from '../../types';
 
 type Props = {
   match: Match,
 };
 
-export default class OsPage extends PureComponent<void, Props, void> {
-  getTables(os: Os): Array<TableSpec> {
+type State = {
+  data: ?OsData,
+  loading: boolean,
+};
+
+export default class OsPage extends PureComponent {
+  state: State = {
+    data: null,
+    loading: true,
+  };
+
+  componentDidMount() {
+    Promise.all([
+      Os.getById(this.props.match.params.os),
+      Manufacturers.fetch(),
+      PhoneModels.fetch(),
+    ]).then(([data, ..._]) => {
+      this.setState({data, loading: false});
+    });
+  }
+
+  getTables(os: OsData): Array<TableSpec> {
     return [
       {
         title: 'General',
@@ -54,12 +75,12 @@ export default class OsPage extends PureComponent<void, Props, void> {
           {
             title: 'Brands',
             shown: os.brands,
-            value: () => joinLinkLines(os.brands, 'manufacturers', getManufacturerId),
+            value: () => joinLinkLines(os.brands, 'manufacturers', Manufacturers.getIdByNameSync),
           },
           {
             title: 'Phone Models',
             shown: os.models,
-            value: () => joinLinkLines(os.models, 'phones', getPhoneId),
+            value: () => joinLinkLines(os.models, 'phones', PhoneModels.getIdByNameSync),
           },
         ],
       },
@@ -73,9 +94,9 @@ export default class OsPage extends PureComponent<void, Props, void> {
 
   render() {
     const {os} = this.props.match.params;
-    const osData = getById(os);
+    const osData = this.state.data;
     if (!osData)
-      return <div />
+      return <Spinner marginTop={true} />
     return (
       <TablePage title={osData.name} image={osData.image} tables={this.getTables(osData)} />
     );

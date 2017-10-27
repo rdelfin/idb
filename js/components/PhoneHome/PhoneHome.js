@@ -1,11 +1,29 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import {getAll} from '../../store/PhoneModels';
+import Spniner from '../Spinner';
+import PhoneModels from '../../store/PhoneModels';
+import type {PhoneModel} from '../../store/PhoneModels';
+
+type State = {
+  data: Array<PhoneModel>,
+  loading: boolean,
+};
 
 export default class PhoneHome extends React.Component {
+  state: State = {
+    data: [],
+    loading: true,
+  };
+
+  componentDidMount() {
+    PhoneModels.getAll().then(data => {
+      this.setState({data, loading: false});
+    });
+  }
+
   getList() {
-    return getAll().map((model, i) => ({
+    return this.state.data.map((model, i) => ({
       url: `/phones/${i}`,
       title: model.name,
       stats: [
@@ -20,7 +38,10 @@ export default class PhoneHome extends React.Component {
 
   render() {
     return (
-      <ListPage title="Phones" links={this.getList()} />
+      <ListPage
+        title="Phones"
+        links={this.getList()}
+        loading={this.state.loading} />
       );
   }
 }
