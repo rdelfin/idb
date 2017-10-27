@@ -87,6 +87,8 @@ class GSMScraper() :
 				physical_attributes = models.PhysicalAttributes(None, None, None, dimensions, mass)
 
 				software_os = find_info('OS', phone_info)
+				if software_os == '<a href="glossary.php3?term' :
+					software_os = None
 				for os in oss:
 					if brand not in os.brands :
 						os.brands.append(brand)
@@ -94,7 +96,7 @@ class GSMScraper() :
 						os.models.append(name)
 						break
 				else : 
-					if software_os != None and software_os != '<a href="glossary.php3?term': 
+					if software_os != None : 
 						oss.append(models.OS(None, software_os, None, None, None, None, None, [], None, [], [], None, None))
 				software = models.Software(software_os, software_os, [])
 				# print(os)
@@ -162,7 +164,7 @@ class GSMScraper() :
 
 				brand_models.append(name)
 				for os in oss :
-					if (software_os != None) and (software_os != '<a href="glossary.php3?term') and (software_os not in brand_oss) : 
+					if (software_os != None) and (software_os not in brand_oss) : 
 						brand_oss.append(software_os)
 				
 

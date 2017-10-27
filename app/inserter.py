@@ -68,7 +68,7 @@ def insert_models(models, session):
         print('Filter: {}'.format(model.software.os))
         print('All OS: {}'.format(session.query(tables.OS).all()))
 
-        os = session.query(tables.OS).filter_by(name=model.software.os).one()
+        os = session.query(tables.OS).filter_by(name=model.software.os).first()
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
 
         new_model = tables.Model(name=model.name, model=model.model,
