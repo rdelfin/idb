@@ -105,15 +105,12 @@ class OS(Base):
 
     def __repr__(self):
         return "<OS(name='%s', developer='%s', release_date='%s', version='%s', " \
-               "os_kernel='%s', os_family='%s', " \
-               "supported_cpu_instruction_sets='%s', predecessor='%s', " \
-               "brands='%s', models='%s', codename='%s', successor='%s', " \
-               "image='%s')>" % \
+               "os_kernel='%s', os_family='%s', supported_cpu_instruction_sets='%s', " \
+               "predecessor='%s', codename='%s', successor='%s', image='%s')>" % \
                (self.name, self.developer, self.release_date, self.version,
                 self.os_kernel, self.os_family,
                 self.supported_cpu_instruction_sets, self.predecessor,
-                self.brands, self.models, self.codename, self.successor,
-                self.image)
+                self.codename, self.successor, self.image)
 
 class Carrier(Base):
     __tablename__ = 'carrier'
