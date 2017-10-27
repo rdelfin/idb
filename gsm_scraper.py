@@ -147,10 +147,10 @@ class GSMScraper() :
 				cameras = []
 				if (primary) :
 					cameras.append(models.Camera(primary_placement, None, None, None, None, primary_num_pixels, 
-								   None, None, None, None, None, None))
+								   None, None, None, None, models.Camcorder(None, None), None))
 				if (secondary) :
 					cameras.append(models.Camera(secondary_placement, None, None, None, None, secondary_num_pixels, 
-								   None, None, None, None, None, None))
+								   None, None, None, None, models.Camcorder(None, None), None))
 				# print(primary_num_pixels)
 				# print(secondary_num_pixels)
 

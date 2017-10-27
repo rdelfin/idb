@@ -128,7 +128,7 @@ class Camera:
         self.optical_zoom = optical_zoom
         self.digital_zoom = digital_zoom
         self.focus = focus
-        self.camcorder = camcorder.serialize()
+        self.camcorder = camcorder
         self.flash = flash
 
     def serialize(self):
@@ -143,7 +143,7 @@ class Camera:
             'optical_zoom': self.optical_zoom,
             'digital_zoom': self.digital_zoom,
             'focus': self.focus,
-            'camcorder': None if self.camcorder is None else self.camcorder.serialize(),
+            'camcorder': self.camcorder.serialize(),
             'flash': self.flash
         }
 
