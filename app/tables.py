@@ -32,7 +32,7 @@ class PhysicalAttribute(Base):
                (self.width, self.height, self.depth, self.dimensions,
                 self.mass)
 
-class Cpu:
+class Cpu(Base):
     __tablename__ = 'cpu'
 
     id = Column(Integer, primary_key=True)
@@ -46,7 +46,7 @@ class Cpu:
         return "<Cpu(model='%s', additional_info='%s', clock_speed='%s')>" \
                 % (self.model, self.additional_info, self.clock_speed)
 
-class Gpu:
+class Gpu(Base):
     __tablename__ = 'gpu'
 
     id = Column(Integer, primary_key=True)
@@ -59,7 +59,7 @@ class Gpu:
         return "<Gpu(model='%s', clock_speed='%s')>" \
                 % (self.model, self.clock_speed)
 
-class Ram:
+class Ram(Base):
     __tablename__ = 'ram'
 
     id = Column(Integer, primary_key=True)
@@ -72,7 +72,7 @@ class Ram:
         return "<Ram(type_m='%s', capacity='%s')>" \
                 % (self.type_m, self.capacity)
 
-class NonvolatileMemory:
+class NonvolatileMemory(Base):
     __tablename__ = 'nonvolatile_memory'
 
     id = Column(Integer, primary_key=True)
@@ -85,7 +85,7 @@ class NonvolatileMemory:
         return "<NonvolatileMemory(type_m='%s', capacity='%s')>" \
                 % (self.type_m, self.capacity)
 
-class Hardware:
+class Hardware(Base):
     __tablename__ = 'hardware'
 
     id = Column(Integer, primary_key=True)
