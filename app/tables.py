@@ -129,6 +129,42 @@ class Display(Base):
                self.area_utilization, self.pixel_density, self.type_m, 
                self.color_depth, self.screen)
 
+
+class Camcorder(Base):
+    __tablename__ = 'camcorder'
+
+    id = Column(Integer, primary_key=True)
+    resolution = Column(String)
+    formats = Column(String)
+    camera_id = Column(Integer, ForeignKey('camera.id'))
+
+    camera = relationship('Camera', back_populates='camcorders')
+
+    def __repr__(self):
+        return "<Camcorder(resolution='%s', formats='%s')" % \
+               (self.resolution, self.formats)
+
+class Camera(Base):
+    __tablename__ = 'camera'
+
+    id = Column(Integer, primary_key=True)
+    placement = Column(String)
+    module = Column(String)
+    sensor = Column(String)
+    sensor_format = Column(String)
+    resolution = Column(String)
+    num_pixels = Column(String)
+    aperture = Column(String)
+    optical_zoom = Column(String)
+    digital_zoom = Column(String)
+    focus = Column(String)
+    flash = Column(String)
+    model_id = Column(Integer, ForeignKey('model.id'))
+
+    camcorders = relationship("Camcorder", back_populates="camera")
+    model = relationship('Model', back_populates='cameras')
+
+
 class Model(Base):
     __tablename__ = 'model'
 
@@ -154,6 +190,7 @@ class Model(Base):
     physical_attribute = relationship('PhysicalAttribute', back_populates='models')
     hardware = relationship('Hardware', back_populates='models')
     display = relationship('Display', back_populates='models')
+    cameras = relationship('Camera', back_populates='model')
 
     carriers = relationship(
         "Carrier",
