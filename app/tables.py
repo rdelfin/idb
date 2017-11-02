@@ -103,6 +103,31 @@ class Hardware(Base):
     def __repr__(self):
         return "<Hardware()>"
 
+class Display(Base):
+    __tablename__ = 'display'
+
+    id = Column(Integer, primary_key=True)
+    resolution = Column(String)
+    diagonal = Column(String)
+    width = Column(String)
+    height = Column(String)
+    bezel_width = Column(String)
+    area_utilization = Column(String)
+    pixel_density = Column(String)
+    type_m = Column(String)
+    color_depth = Column(String)
+    screen = Column(String)
+
+    models = relationship('Model', back_populates='display')
+
+    def __repr__(self):
+        return "<Display(resolution='%s', diagonal='%s', width='%s', " \
+               "height='%s', bezel_width='%s', area_utilization='%s', " \
+               "pixel_density='%s', type_m='%s', color_depth='%s', " \
+               "screen='%s')>" % (self.resolution, self.diagonal,
+               self.width, self.height, self.bezel_width,
+               self.area_utilization, self.pixel_density, self.type_m, 
+               self.color_depth, self.screen)
 
 class Model(Base):
     __tablename__ = 'model'
@@ -120,7 +145,7 @@ class Model(Base):
     market_regions = Column(String)
     physical_attribute_id = Column(Integer, ForeignKey('physical_attribute'))
     hardware_id = Column(Integer, ForeignKey('hardware'))
-    display = Column(String)
+    display_id = Column(Integer, ForeignKey('display'))
     cameras = Column(String)
     image = Column(String)
 
@@ -128,6 +153,7 @@ class Model(Base):
     os = relationship('OS', back_populates='models')
     physical_attribute = relationship('PhysicalAttribute', back_populates='models')
     hardware = relationship('Hardware', back_populates='models')
+    display = relationship('Display', back_populates='models')
 
     carriers = relationship(
         "Carrier",
