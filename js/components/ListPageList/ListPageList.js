@@ -3,41 +3,47 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import throttle from 'throttle-debounce/throttle';
 import Spinner from '../Spinner';
+import type {FuseResult} from '../../types';
 import type {LinkSpec} from '../ListPage/ListPage';
 import './listPageList.css';
 
 type Props = {
-  links: Array<LinkSpec>,
+  links: Array<FuseResult<LinkSpec>>,
   loading: boolean,
 };
 
 type State = {
   nextIndex: number,
-  renderedLinks: Array<LinkSpec>,
+  renderedLinks: Array<FuseResult<LinkSpec>>,
 };
 
 class AnimatedLink extends React.PureComponent {
-  props: LinkSpec;
+  props: {link: FuseResult<LinkSpec>};
   state: {rendered: boolean} = {
     rendered: false,
   };
+  timeout: number;
 
   componentDidMount() {
-    setTimeout((() => {
+    this.timeout = setTimeout((() => {
       this.setState({
         rendered: true,
       });
     }), 100);
   }
 
+  componentWillUnmount() {
+    clearTimeout(this.timeout);
+  }
+
   render() {
     return (
-      <Link key={this.props.url}
-            to={this.props.url}
+      <Link key={this.props.link.item.url}
+            to={this.props.link.item.url}
             styleName={this.state.rendered ? "item shown" : "item"}>
-        <div styleName="name">{this.props.title}</div>
+        <div styleName="name">{this.props.link.item.title}</div>
         <div styleName="stats">
-          {this.props.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <div key={i}>{stat}</div>)}
+          {this.props.link.item.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <div key={i}>{stat}</div>)}
         </div>
       </Link>
     );
@@ -91,8 +97,8 @@ export default class ListPageList extends React.PureComponent {
     return (
       <div>
         {this.props.loading && <Spinner />}
-        {this.state.renderedLinks.map(({url, title, stats}) => (
-          <AnimatedLink key={url} url={url} title={title} stats={stats} />
+        {this.state.renderedLinks.map(link => (
+          <AnimatedLink key={link.item.url} link={link} />
         ))}
       </div>
     );
