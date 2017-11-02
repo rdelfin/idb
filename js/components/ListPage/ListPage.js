@@ -20,7 +20,7 @@ type State = {
 export type LinkSpec = {
   url: string,
   title: ReactChildren<*>,
-  stats: Array<ReactChildren<*>>,
+  stats: Array<string>,
 };
 
 class AnimatedLink extends React.PureComponent {

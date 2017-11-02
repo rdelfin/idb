@@ -51,11 +51,6 @@ export default class CarrierPage extends PureComponent {
             shown: carrier.cellular_networks,
             value: () => carrier.cellular_networks,
           },
-          {
-            title: 'Data Links',
-            shown: carrier.cellular_networks.supported_data_links,
-            value: () => joinLines(carrier.cellular_networks.supported_data_links),
-          },
         ],
       },
       {

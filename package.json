@@ -31,6 +31,7 @@
     "css-loader": "^0.28.7",
     "empty": "^0.10.1",
     "flow-bin": "^0.55.0",
+    "fuse.js": "^3.2.0",
     "node-sass": "^4.5.3",
     "postcss-scss": "^1.0.2",
     "sass-loader": "^6.0.6",

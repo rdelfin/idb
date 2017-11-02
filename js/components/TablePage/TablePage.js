@@ -53,7 +53,7 @@ export default class TablePage extends React.PureComponent {
     const numColumns = Math.max(1, Math.floor(clientWidth / CARD_WIDTH));
     if (numColumns === this.state.numColumns)
       return;
-    const columns = Array.apply(null, {length: numColumns}).map(() => []);
+    const columns = (Array: any).apply(null, {length: numColumns}).map(() => []);
     this.setState({
       columns,
       clientWidth,
