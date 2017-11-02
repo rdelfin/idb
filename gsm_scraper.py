@@ -177,7 +177,7 @@ class GSMScraper() :
 			
 		print("Finished GSM scraper")
 		carrier_scraper = phonedb_carrier_scraper.PhoneDBScraper()
-		carriers = carrier_scraper.getCarriers()
+		carriers = carrier_scraper.get_carriers()
 		unique_carriers = []
 		for c in carriers : 
 			for uc in unique_carriers :
