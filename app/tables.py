@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -14,6 +14,96 @@ carrier_model_table = Table('carrier_model', Base.metadata,
     Column('model_id', Integer, ForeignKey('model.id'))
 )
 
+class PhysicalAttribute(Base):
+    __tablename__ = 'physical_attribute'
+
+    id = Column(Integer, primary_key=True)
+    width = Column(Float)
+    height = Column(Float)
+    depth = Column(Float)
+    dimensions = Column(String)
+    mass = Column(String)
+
+    models = relationship('Model', back_populates='physical_attribute')
+
+    def __repr__(self):
+        return "<PhysicalAttributes(width='%s', height='%d', depth='%s', " \
+               "dimensions='%s', mass='%s')>" % \
+               (self.width, self.height, self.depth, self.dimensions,
+                self.mass)
+
+class Cpu:
+    __tablename__ = 'cpu'
+
+    id = Column(Integer, primary_key=True)
+    model = Column(String)
+    additional_info = Column(String)
+    clock_speed = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='cpu')
+
+    def __repr__(self):
+        return "<Cpu(model='%s', additional_info='%s', clock_speed='%s')>" \
+                % (self.model, self.additional_info, self.clock_speed)
+
+class Gpu:
+    __tablename__ = 'gpu'
+
+    id = Column(Integer, primary_key=True)
+    model = Column(String)
+    clock_speed = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='gpu')
+
+    def __repr__(self):
+        return "<Gpu(model='%s', clock_speed='%s')>" \
+                % (self.model, self.clock_speed)
+
+class Ram:
+    __tablename__ = 'ram'
+
+    id = Column(Integer, primary_key=True)
+    type_m = Column(String)
+    capacity = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='ram')
+
+    def __repr__(self):
+        return "<Ram(type_m='%s', capacity='%s')>" \
+                % (self.type_m, self.capacity)
+
+class NonvolatileMemory:
+    __tablename__ = 'nonvolatile_memory'
+
+    id = Column(Integer, primary_key=True)
+    type_m = Column(String)
+    capacity = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='nonvolatile_memory')
+
+    def __repr__(self):
+        return "<NonvolatileMemory(type_m='%s', capacity='%s')>" \
+                % (self.type_m, self.capacity)
+
+class Hardware:
+    __tablename__ = 'hardware'
+
+    id = Column(Integer, primary_key=True)
+    cpu_id = Column(Integer, ForeignKey('cpu.id'))
+    gpu_id = Column(Integer, ForeignKey('gpu.id'))
+    ram_id = Column(Integer, ForeignKey('ram.id'))
+    nonvolatile_memory_id = Column(Integer, ForeignKey('nonvolatile_memory.id'))
+
+    cpu = relationship('Cpu', back_populates='hardwares')
+    gpu = relationship('Gpu', back_populates='hardwares')
+    ram = relationship('Ram', back_populates='hardwares')
+    nonvolatile_memory = relationship('NonvolatileMemory', back_populates='hardwares')
+    models = relationship('Model', back_populates='hardware')
+
+    def __repr__(self):
+        return "<Hardware()>"
+
+
 class Model(Base):
     __tablename__ = 'model'
 
@@ -28,14 +118,16 @@ class Model(Base):
     codename = Column(String)
     market_countries = Column(String)
     market_regions = Column(String)
-    physical_attributes = Column(String)
-    hardware = Column(String)
+    physical_attribute_id = Column(Integer, ForeignKey('physical_attribute'))
+    hardware_id = Column(Integer, ForeignKey('hardware'))
     display = Column(String)
     cameras = Column(String)
     image = Column(String)
 
     brand = relationship('Brand', back_populates='models')
     os = relationship('OS', back_populates='models')
+    physical_attribute = relationship('PhysicalAttribute', back_populates='models')
+    hardware = relationship('Hardware', back_populates='models')
 
     carriers = relationship(
         "Carrier",
