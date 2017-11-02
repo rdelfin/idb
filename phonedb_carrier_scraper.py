@@ -40,19 +40,42 @@ class PhoneDBScraper :
             display_attr_map = {}
             cameras_attr_map = {}
 
-            attr_map_map = {}
+            attr_map_map = {
+                'General Attributes': general_attr_map,
+                'Physical Attributes': physical_attr_map,
+                'Hardware Attributes': hardware_attr_map,
+                'Software Environment': software_attr_map,
+                'Application processor, Chipset': hardware_attr_map,
+                'Operative Memory': hardware_attr_map,
+                'Display': display_attr_map,
+                'Built-in Digital Camera': cameras_attr_map,
+                'Built-in Secondary Digital Camera': cameras_attr_map
+            }
 
             order_in_page = 1
             for title in title_blocks:
                 print("Processing phone %d" % (0 + order_in_page))
                 order_in_page += 1
+
                 link = next(title.children)
                 phone_name = link.get('title')
                 phone_url = urllib.request.urlopen(url + link.get('href'))
                 sub_soup = BeautifulSoup(phone_url, 'html.parser')
 
+                phone_general_attributes = {}
+                phone_physical_attributes = {}
+                phone_hardware_attributes = {}
+                phone_software_attributes = {}
+                phone_display_attributes = {}
+                phone_camera_attributes = {}
+
                 phone_image = sub_soup.find(lambda tag: tag.name == 'img' and
                                             tag.get('alt') == phone_name)
+
+                section_attributes_mapping = {
+                    'General Attributes': phone_general_attributes,
+                    'Physical Attributes': phone_physical_attributes
+                }
 
                 if phone_image:
                     phone_image = url + phone_image.get('src')
@@ -60,36 +83,50 @@ class PhoneDBScraper :
                 info_table = sub_soup.find(lambda tag: tag.name == 'table' and
                                            re.compile("width : 98%; margin : 2px;").search(str(tag.get('style'))))
 
-                table_rows = info_table.find_all('td')
-                attributes = {}
+                table_rows = info_table.find_all('tr')
+                # attributes = {}
                 i = 0
                 current_section = ''
-                while i < len(table_rows):
-                    row = table_rows[i]
-                    try:
-                        dim = next(row.children)
-                    except StopIteration:
-                        pass
-                    attr_name = row.find('strong')
-                    if attr_name:
-                        attr_name = next(attr_name.children)
-                        attr_content = table_rows[i+1].find_all(lambda tag: tag.has_attr('title')
-                                                                and all(str(type(tag)) ==
-                                                                        "<class 'bs4.element.NavigableString'>"
-                                                                        or not tag.name == 'img'
-                                                                        for tag in tag.children))
+                # while i < len(table_rows):
+                for row in table_rows:
+                    # row = table_rows[i]
+                    row_contents = row.contents
 
-                        if len(attr_content) == 1:
-                            c = attr_content[0]
-                            if c.name == 'a':
-                                c = next(c.children)
-                            attributes[attr_name] = c
-                        else:
-                            attributes[attr_name] = []
-                            for c in attr_content:
+                    if len(row_contents) == 3:
+                        # This is a section header
+                        section_tag = row.find('img')
+                        if section_tag:
+                            current_section = section_tag.get('title')
+                    elif len(row_contents) == 5:
+                        key = row_contents[1]
+                        val = row_contents[3]
+                        attr_name = key.find('strong')
+                        if not attr_name:
+                            attr_name = key
+                        try:
+                            attr_name = next(attr_name.children)
+                        except StopIteration:
+                            continue
+
+                        if attr_name in attr_map_map[current_section]:
+                            attributes = section_attributes_mapping[current_section]
+                            attr_content = val.find_all(lambda tag: tag.has_attr('title')
+                                                        and all(str(type(tag)) ==
+                                                                "<class 'bs4.element.NavigableString'>"
+                                                                or not tag.name == 'img'
+                                                                for tag in tag.children))
+
+                            if len(attr_content) == 1:
+                                c = attr_content[0]
                                 if c.name == 'a':
                                     c = next(c.children)
-                                attributes[attr_name] += c
+                                attributes[attr_name] = c
+                            else:
+                                attributes[attr_name] = []
+                                for c in attr_content:
+                                    if c.name == 'a':
+                                        c = next(c.children)
+                                    attributes[attr_name] += c
                         i += 2
                         if attr_name == 'Mass':
                             i += 2
@@ -97,10 +134,7 @@ class PhoneDBScraper :
                         attributes[dim] = table_rows[i+1].contents[1]
                         i += 2
                     else:
-                        section_tag = row.find('img')
-                        if section_tag:
-                            current_section = section_tag.get('title')
-                        i += 1
+                        pass
 
                 attributes = {general_attr_map[key]: attributes[key]
                               for key in attributes if key in general_attr_map}
