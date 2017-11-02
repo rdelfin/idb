@@ -136,7 +136,6 @@ class Camcorder(Base):
     id = Column(Integer, primary_key=True)
     resolution = Column(String)
     formats = Column(String)
-    camera_id = Column(Integer, ForeignKey('camera.id'))
 
     camera = relationship('Camera', back_populates='camcorders')
 
@@ -160,6 +159,7 @@ class Camera(Base):
     focus = Column(String)
     flash = Column(String)
     model_id = Column(Integer, ForeignKey('model.id'))
+    camcorder_id = Column(Integer, ForeignKey('camcorder.id'))
 
     camcorders = relationship("Camcorder", back_populates="camera")
     model = relationship('Model', back_populates='cameras')
