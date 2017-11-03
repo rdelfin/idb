@@ -67,7 +67,7 @@ export default class ListPageList extends React.PureComponent {
     this.throttledLoadLink();
   }
 
-  componentWillUpdate(nextProps: Props) {
+  componentWillReceiveProps(nextProps: Props) {
     if (this.props.links !== nextProps.links) {
       this.setState({
         nextIndex: 0,
