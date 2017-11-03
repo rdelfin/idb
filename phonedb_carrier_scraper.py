@@ -22,8 +22,8 @@ class PhoneDBScraper:
             soup = BeautifulSoup(page, 'html.parser')
 
             title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
-                                                     and re.compile("content_block_title").search(
-                str(tag.get('class'))))
+                                                     and re.compile("content_block_title")
+                                         .search(str(tag.get('class'))))
 
             general_attr_map = {
                 'Model': 'model',
@@ -34,10 +34,17 @@ class PhoneDBScraper:
                 'Codename': 'codename',
                 'Market Countries': 'market_countries',
                 'Market Regions': 'market_regions',
-                'Vendor': 'carriers',
+                'Vendor': 'carriers'
             }
 
-            physical_attr_map = {}
+            physical_attr_map = {
+                'Width': 'width',
+                'Height': 'height',
+                'Depth': 'depth',
+                'Dimensions': 'dimensions',
+                'Mass': 'mass'
+            }
+
             hardware_attr_map = {}
             software_attr_map = {}
             display_attr_map = {}
@@ -142,10 +149,22 @@ class PhoneDBScraper:
                     else:
                         pass
 
-                self.phones += [app.models.Model(image=phone_image, **attributes)]
+                # Physical Attributes
+                physical = app.models.PhysicalAttributes(**phone_physical_attributes)
+
+                # Hardware
+
+                # Software
+
+                # Display
+
+                # Cameras
+
+                self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
+                                                 **phone_general_attributes)]
                 break
             return self.phones
-        raise NotImplementedError
+        raise self.phones
 
     def get_carriers(self):
         if not self.carriers:
