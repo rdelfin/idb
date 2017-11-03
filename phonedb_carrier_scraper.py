@@ -66,7 +66,30 @@ class PhoneDBScraper:
                 'Scratch Resistant Screen': 'screen'
             }
 
-            cameras_attr_map = {}
+            cameras_attr_map = {
+                'Camera Placement': 'placement',
+                'Camera Module': 'module',
+                'Camera Image Sensor': 'sensor',
+                'Image Sensor Format': 'sensor_format',
+                'Number of pixels': 'num_pixels',
+                'Aperture (W)': 'aperture',
+                'Optical Zoom': 'optical_zoom',
+                'Digital Zoom': 'digital_zoom',
+                'Focus': 'focus',
+                'Camcorder Resolution': 'camcorder__resolution',
+                'Camcorder Formats': 'camcorder__formats',
+                'Secondary Camera Placement': 'secondary__placement',
+                'Secondary Camera Module': 'secondary__module',
+                'Secondary Camera Image Sensor': 'secondary__sensor',
+                'Secondary Image Sensor Format': 'secondary__sensor_format',
+                'Secondary Number of pixels': 'secondary__num_pixels',
+                'Secondary Aperture (W)': 'secondary__aperture',
+                'Secondary Optical Zoom': 'secondary__optical_zoom',
+                'Secondary Digital Zoom': 'secondary__digital_zoom',
+                'Secondary Focus': 'secondary__focus',
+                'Secondary Camcorder Resolution': 'secondary__camcorder__resolution',
+                'Secondary Camcorder Formats': 'secondary__camcorder__formats'
+            }
 
             attr_map_map = {
                 'General Attributes': general_attr_map,
@@ -105,7 +128,9 @@ class PhoneDBScraper:
                     'General Attributes': phone_general_attributes,
                     'Physical Attributes': phone_physical_attributes,
                     'Software Environment': phone_software_attributes,
-                    'Display': phone_display_attributes
+                    'Display': phone_display_attributes,
+                    'Built-in Digital Camera': phone_camera_attributes,
+                    'Built-in Secondary Digital Camera': phone_camera_attributes
                 }
 
                 if phone_image:
@@ -180,6 +205,21 @@ class PhoneDBScraper:
                 display = app.models.Display(**phone_display_attributes)
 
                 # Cameras
+                cam_it = iter(phone_camera_attributes)
+                primary_camera_attr = {}
+                secondary_camera_attr = {}
+
+                for k in cam_it:
+                    v = phone_camera_attributes[k]
+                    if len(k) >= 11 and k[:11] == 'secondary__':
+                        secondary_camera_attr[k[11:]] = v
+                    else:
+                        primary_camera_attr[k] = v
+
+                for k in cam_it:
+                    v = phone_camera_attributes[k]
+                    secondary_camera_attr[k[11:]] = v
+
 
                 self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
                                                  software=software, display=display,
