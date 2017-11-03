@@ -101,16 +101,16 @@ class Display:
 
     def serialize(self):
         return {
-           'resolution': self.resolution,
-           'diagonal': self.diagonal,
-           'width': self.width,
-           'height': self.height,
-           'bezel_width': self.bezel_width,
-           'area_utilization': self.area_utilization,
-           'pixel_density': self.pixel_density,
-           'type': self.type_m,
-           'color_depth': self.color_depth,
-           'screen': self.screen
+            'resolution': self.resolution,
+            'diagonal': self.diagonal,
+            'width': self.width,
+            'height': self.height,
+            'bezel_width': self.bezel_width,
+            'area_utilization': self.area_utilization,
+            'pixel_density': self.pixel_density,
+            'type': self.type_m,
+            'color_depth': self.color_depth,
+            'screen': self.screen
         }
 
 
@@ -173,22 +173,33 @@ class Software:
             'software_extras': self.software_extras
         }
 
+
 class Model:
-    def __init__(self, image, name, brand, model, release_date,
-                 hardware_designer, manufacturers, codename, market_countries,
-                 market_regions, carriers, physical_attributes,
-                 hardware, software, display, cameras):
+    def __init__(self, image=None, name=None, brand=None, model=None, release_date=None,
+                 hardware_designer=None, manufacturers=None, codename=None, market_countries=None,
+                 market_regions=None, carriers=None, physical_attributes=None,
+                 hardware=None, software=None, display=None, cameras=None):
+
+        # singular attributes
         self.image = image
         self.name = name
         self.brand = brand
         self.model = model
         self.release_date = release_date
         self.hardware_designer = hardware_designer
-        self.manufacturers = manufacturers
         self.codename = codename
-        self.market_countries = market_countries
-        self.market_regions = market_regions
-        self.carriers = carriers
+
+        # list attributes (convert to list if it's neither str nor None)
+        self.manufacturers = manufacturers \
+            if not manufacturers or not isinstance(manufacturers, str) else [manufacturers]
+        self.market_countries = market_countries \
+            if not market_countries or not isinstance(market_countries, str) else [market_countries]
+        self.market_regions = market_regions \
+            if not market_regions or not isinstance(market_regions, str) else [market_regions]
+        self.carriers = carriers \
+            if not carriers or not isinstance(carriers, str) else [carriers]
+
+        # classed attributes
         self.physical_attributes = physical_attributes
         self.hardware = hardware
         self.software = software

@@ -1,11 +1,13 @@
 import urllib.request
 import re
+
+import builtins
 from bs4 import BeautifulSoup
 import app.models
 import pickle
 
 
-class PhoneDBScraper :
+class PhoneDBScraper:
     def __init__(self):
         self.phones = None
         self.carriers = None
@@ -20,7 +22,8 @@ class PhoneDBScraper :
             soup = BeautifulSoup(page, 'html.parser')
 
             title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
-                                         and re.compile("content_block_title").search(str(tag.get('class'))))
+                                                     and re.compile("content_block_title").search(
+                str(tag.get('class'))))
 
             general_attr_map = {
                 'Model': 'model',
@@ -47,6 +50,7 @@ class PhoneDBScraper :
                 'Software Environment': software_attr_map,
                 'Application processor, Chipset': hardware_attr_map,
                 'Operative Memory': hardware_attr_map,
+                'Non-volatile Memory': hardware_attr_map,
                 'Display': display_attr_map,
                 'Built-in Digital Camera': cameras_attr_map,
                 'Built-in Secondary Digital Camera': cameras_attr_map
@@ -70,7 +74,7 @@ class PhoneDBScraper :
                 phone_camera_attributes = {}
 
                 phone_image = sub_soup.find(lambda tag: tag.name == 'img' and
-                                            tag.get('alt') == phone_name)
+                                                        tag.get('alt') == phone_name)
 
                 section_attributes_mapping = {
                     'General Attributes': phone_general_attributes,
@@ -80,16 +84,14 @@ class PhoneDBScraper :
                 if phone_image:
                     phone_image = url + phone_image.get('src')
 
-                info_table = sub_soup.find(lambda tag: tag.name == 'table' and
-                                           re.compile("width : 98%; margin : 2px;").search(str(tag.get('style'))))
+                info_table = sub_soup.find(lambda tag: tag.name == 'table'
+                                           and re.compile("width : 98%; margin : 2px;").search(
+                                                           str(tag.get('style'))))
 
                 table_rows = info_table.find_all('tr')
                 # attributes = {}
-                i = 0
                 current_section = ''
-                # while i < len(table_rows):
                 for row in table_rows:
-                    # row = table_rows[i]
                     row_contents = row.contents
 
                     if len(row_contents) == 3:
@@ -98,6 +100,8 @@ class PhoneDBScraper :
                         if section_tag:
                             current_section = section_tag.get('title')
                     elif len(row_contents) == 5:
+                        if current_section not in attr_map_map:
+                            continue
                         key = row_contents[1]
                         val = row_contents[3]
                         attr_name = key.find('strong')
@@ -107,43 +111,43 @@ class PhoneDBScraper :
                             attr_name = next(attr_name.children)
                         except StopIteration:
                             continue
-
                         if attr_name in attr_map_map[current_section]:
                             attributes = section_attributes_mapping[current_section]
-                            attr_content = val.find_all(lambda tag: tag.has_attr('title')
-                                                        and all(str(type(tag)) ==
-                                                                "<class 'bs4.element.NavigableString'>"
-                                                                or not tag.name == 'img'
-                                                                for tag in tag.children))
 
-                            if len(attr_content) == 1:
+                            def choose_appropriate_content(tag):
+                                if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
+                                    return True
+                                elif tag.has_attr('title') and tag.name != 'img':
+                                    if all(str(type(sub)) == "<class 'bs4.element.NavigableString'>"
+                                           for sub in tag.children):
+                                        return True
+
+                            attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
+
+                            if len(attr_content) < 1:
+                                attributes[attr_name] = None
+                            elif len(attr_content) == 1:
                                 c = attr_content[0]
                                 if c.name == 'a':
                                     c = next(c.children)
-                                attributes[attr_name] = c
+                                attributes[attr_map_map[current_section][attr_name]] = c.encode().decode().strip()
                             else:
-                                attributes[attr_name] = []
+                                attributes[attr_map_map[current_section][attr_name]] = []
                                 for c in attr_content:
                                     if c.name == 'a':
                                         c = next(c.children)
-                                    attributes[attr_name] += c
-                        i += 2
-                        if attr_name == 'Mass':
-                            i += 2
-                    elif dim == 'Dimensions':
-                        attributes[dim] = table_rows[i+1].contents[1]
-                        i += 2
+                                    if c != ', ':
+                                        attributes[attr_map_map[current_section][attr_name]] += \
+                                            [c.encode().decode().strip()]
                     else:
                         pass
 
-                attributes = {general_attr_map[key]: attributes[key]
-                              for key in attributes if key in general_attr_map}
-
                 self.phones += [app.models.Model(image=phone_image, **attributes)]
+                break
             return self.phones
         raise NotImplementedError
 
-    def get_carriers (self):
+    def get_carriers(self):
         if not self.carriers:
             self.carriers = []
             for n in range(0, 28 * 4, 28):
@@ -153,7 +157,8 @@ class PhoneDBScraper :
                 soup = BeautifulSoup(page, 'html.parser')
 
                 title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
-                                             and re.compile("content_block_title").search(str(tag.get('class'))))
+                                                         and re.compile("content_block_title").search(
+                    str(tag.get('class'))))
 
                 attr_name_map = {
                     'Model': 'name',
@@ -177,7 +182,8 @@ class PhoneDBScraper :
                         carrier_image = url + carrier_image.get('src')
 
                     info_table = sub_soup.find(lambda tag: tag.name == 'table' and
-                                               re.compile("width : 98%; margin : 2px;").search(str(tag.get('style'))))
+                                                           re.compile("width : 98%; margin : 2px;").search(
+                                                               str(tag.get('style'))))
 
                     table_rows = info_table.find_all('td')
                     attributes = {}
@@ -187,7 +193,7 @@ class PhoneDBScraper :
                         attr_name = row.find('strong')
                         if attr_name:
                             attr_name = next(attr_name.children)
-                            attr_content = table_rows[i+1].contents[1]
+                            attr_content = table_rows[i + 1].contents[1]
                             if attr_content.name == 'a':
                                 attr_content = next(attr_content.children)
                             attributes[attr_name] = attr_content
