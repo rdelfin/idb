@@ -137,7 +137,7 @@ class Camcorder(Base):
     resolution = Column(String)
     formats = Column(String)
 
-    camera = relationship('Camera', back_populates='camcorders')
+    camera = relationship('Camera', back_populates='camcorder')
 
     def __repr__(self):
         return "<Camcorder(resolution='%s', formats='%s')" % \
@@ -161,7 +161,7 @@ class Camera(Base):
     model_id = Column(Integer, ForeignKey('model.id'))
     camcorder_id = Column(Integer, ForeignKey('camcorder.id'))
 
-    camcorders = relationship("Camcorder", back_populates="camera")
+    camcorder = relationship("Camcorder", back_populates="camera")
     model = relationship('Model', back_populates='cameras')
 
 
