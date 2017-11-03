@@ -86,8 +86,8 @@ class NonvolatileMemory:
 
 
 class Display:
-    def __init__(self, resolution, diagonal, width, height, bezel_width,
-                 area_utilization, pixel_density, type_m, color_depth, screen):
+    def __init__(self, resolution=None, diagonal=None, width=None, height=None, bezel_width=None,
+                 area_utilization=None, pixel_density=None, type_m=None, color_depth=None, screen=None):
         self.resolution = resolution
         self.diagonal = diagonal
         self.width = width
@@ -164,7 +164,8 @@ class Software:
     def __init__(self, platform=None, os=None, software_extras=None):
         self.platform = platform
         self.os = os
-        self.software_extras = software_extras
+        self.software_extras = software_extras \
+            if not software_extras or not isinstance(software_extras, str) else [software_extras]
 
     def serialize(self):
         return {

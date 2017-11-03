@@ -53,7 +53,19 @@ class PhoneDBScraper:
                 'Software Extras': 'software_extras'
             }
 
-            display_attr_map = {}
+            display_attr_map = {
+                'Display Resolution': 'resolution',
+                'Display Diagonal': 'diagonal',
+                'Horizontal Full Bezel Width': 'bezel_width',
+                'Display Area Utilization': 'area_utilization',
+                'Pixel Density': 'pixel_density',
+                'Display Type': 'type_m',
+                'Width': 'width',
+                'Height': 'height',
+                'Color Depth': 'color_depth',
+                'Scratch Resistant Screen': 'screen'
+            }
+
             cameras_attr_map = {}
 
             attr_map_map = {
@@ -92,7 +104,8 @@ class PhoneDBScraper:
                 section_attributes_mapping = {
                     'General Attributes': phone_general_attributes,
                     'Physical Attributes': phone_physical_attributes,
-                    'Software Environment': phone_software_attributes
+                    'Software Environment': phone_software_attributes,
+                    'Display': phone_display_attributes
                 }
 
                 if phone_image:
@@ -103,7 +116,6 @@ class PhoneDBScraper:
                                                            str(tag.get('style'))))
 
                 table_rows = info_table.find_all('tr')
-                # attributes = {}
                 current_section = ''
                 for row in table_rows:
                     row_contents = row.contents
@@ -165,11 +177,12 @@ class PhoneDBScraper:
                 software = app.models.Software(**phone_software_attributes)
 
                 # Display
+                display = app.models.Display(**phone_display_attributes)
 
                 # Cameras
 
                 self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
-                                                 software=software,
+                                                 software=software, display=display,
                                                  **phone_general_attributes)]
                 break
             return self.phones
