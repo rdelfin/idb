@@ -1,1 +1,2 @@
-db_source = 'sqlite:///db/mydb.db'
+db_file = "db/mydb.db"
+db_source = 'sqlite:///%s' % db_file
