@@ -46,7 +46,13 @@ class PhoneDBScraper:
             }
 
             hardware_attr_map = {}
-            software_attr_map = {}
+
+            software_attr_map = {
+                'Platform': 'platform',
+                'Operating System': 'os',
+                'Software Extras': 'software_extras'
+            }
+
             display_attr_map = {}
             cameras_attr_map = {}
 
@@ -85,7 +91,8 @@ class PhoneDBScraper:
 
                 section_attributes_mapping = {
                     'General Attributes': phone_general_attributes,
-                    'Physical Attributes': phone_physical_attributes
+                    'Physical Attributes': phone_physical_attributes,
+                    'Software Environment': phone_software_attributes
                 }
 
                 if phone_image:
@@ -155,12 +162,14 @@ class PhoneDBScraper:
                 # Hardware
 
                 # Software
+                software = app.models.Software(**phone_software_attributes)
 
                 # Display
 
                 # Cameras
 
                 self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
+                                                 software=software,
                                                  **phone_general_attributes)]
                 break
             return self.phones

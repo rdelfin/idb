@@ -2,7 +2,7 @@
 
 
 class PhysicalAttributes:
-    def __init__(self, width, height, depth, dimensions, mass):
+    def __init__(self, width=None, height=None, depth=None, dimensions=None, mass=None):
         self.width = width
         self.height = height
         self.depth = depth
@@ -161,7 +161,7 @@ class Camcorder:
 
 
 class Software:
-    def __init__(self, platform, os, software_extras):
+    def __init__(self, platform=None, os=None, software_extras=None):
         self.platform = platform
         self.os = os
         self.software_extras = software_extras
