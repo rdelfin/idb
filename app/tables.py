@@ -179,9 +179,9 @@ class Model(Base):
     codename = Column(String)
     market_countries = Column(String)
     market_regions = Column(String)
-    physical_attribute_id = Column(Integer, ForeignKey('physical_attribute'))
-    hardware_id = Column(Integer, ForeignKey('hardware'))
-    display_id = Column(Integer, ForeignKey('display'))
+    physical_attribute_id = Column(Integer, ForeignKey('physical_attribute.id'))
+    hardware_id = Column(Integer, ForeignKey('hardware.id'))
+    display_id = Column(Integer, ForeignKey('display.id'))
     cameras = Column(String)
     image = Column(String)
 
@@ -201,11 +201,11 @@ class Model(Base):
         return "<Model(name='%s', brand_id='%d', model='%s', " \
                "release_date='%s', hardware_designer='%s', manufacturers='%s', " \
                "codename='%s', market_countries='%s', " \
-               "physical_attributes='%s', os='%s', hardware='%s', " \
+               "physical_attribute='%s', os='%s', hardware='%s', " \
                "display='%s', cameras='%s', image='%s')>" % \
                (self.name, self.brand_id, self.model, self.release_date,
                 self.hardware_designer, self.manufacturers, self.codename,
-                self.market_countries, self.physical_attributes,
+                self.market_countries, self.physical_attribute,
                 self.os, self.hardware, self.display, self.cameras,
                 self.image)
 
