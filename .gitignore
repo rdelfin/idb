@@ -112,3 +112,6 @@ static/bundle.js
 
 # IDEA project files
 .idea/
+
+# VS Code Project files
+.vscode/
