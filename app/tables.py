@@ -1,4 +1,4 @@
-from sqlalchemy import Table, Column, Integer, String, ForeignKey
+from sqlalchemy import Table, Column, Integer, String, Float, ForeignKey
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
 
@@ -14,6 +14,157 @@ carrier_model_table = Table('carrier_model', Base.metadata,
     Column('model_id', Integer, ForeignKey('model.id'))
 )
 
+class PhysicalAttribute(Base):
+    __tablename__ = 'physical_attribute'
+
+    id = Column(Integer, primary_key=True)
+    width = Column(Float)
+    height = Column(Float)
+    depth = Column(Float)
+    dimensions = Column(String)
+    mass = Column(String)
+
+    models = relationship('Model', back_populates='physical_attribute')
+
+    def __repr__(self):
+        return "<PhysicalAttributes(width='%s', height='%d', depth='%s', " \
+               "dimensions='%s', mass='%s')>" % \
+               (self.width, self.height, self.depth, self.dimensions,
+                self.mass)
+
+class Cpu(Base):
+    __tablename__ = 'cpu'
+
+    id = Column(Integer, primary_key=True)
+    model = Column(String)
+    additional_info = Column(String)
+    clock_speed = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='cpu')
+
+    def __repr__(self):
+        return "<Cpu(model='%s', additional_info='%s', clock_speed='%s')>" \
+                % (self.model, self.additional_info, self.clock_speed)
+
+class Gpu(Base):
+    __tablename__ = 'gpu'
+
+    id = Column(Integer, primary_key=True)
+    model = Column(String)
+    clock_speed = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='gpu')
+
+    def __repr__(self):
+        return "<Gpu(model='%s', clock_speed='%s')>" \
+                % (self.model, self.clock_speed)
+
+class Ram(Base):
+    __tablename__ = 'ram'
+
+    id = Column(Integer, primary_key=True)
+    type_m = Column(String)
+    capacity = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='ram')
+
+    def __repr__(self):
+        return "<Ram(type_m='%s', capacity='%s')>" \
+                % (self.type_m, self.capacity)
+
+class NonvolatileMemory(Base):
+    __tablename__ = 'nonvolatile_memory'
+
+    id = Column(Integer, primary_key=True)
+    type_m = Column(String)
+    capacity = Column(String)
+
+    hardwares = relationship('Hardware', back_populates='nonvolatile_memory')
+
+    def __repr__(self):
+        return "<NonvolatileMemory(type_m='%s', capacity='%s')>" \
+                % (self.type_m, self.capacity)
+
+class Hardware(Base):
+    __tablename__ = 'hardware'
+
+    id = Column(Integer, primary_key=True)
+    cpu_id = Column(Integer, ForeignKey('cpu.id'))
+    gpu_id = Column(Integer, ForeignKey('gpu.id'))
+    ram_id = Column(Integer, ForeignKey('ram.id'))
+    nonvolatile_memory_id = Column(Integer, ForeignKey('nonvolatile_memory.id'))
+
+    cpu = relationship('Cpu', back_populates='hardwares')
+    gpu = relationship('Gpu', back_populates='hardwares')
+    ram = relationship('Ram', back_populates='hardwares')
+    nonvolatile_memory = relationship('NonvolatileMemory', back_populates='hardwares')
+    models = relationship('Model', back_populates='hardware')
+
+    def __repr__(self):
+        return "<Hardware()>"
+
+class Display(Base):
+    __tablename__ = 'display'
+
+    id = Column(Integer, primary_key=True)
+    resolution = Column(String)
+    diagonal = Column(String)
+    width = Column(String)
+    height = Column(String)
+    bezel_width = Column(String)
+    area_utilization = Column(String)
+    pixel_density = Column(String)
+    type_m = Column(String)
+    color_depth = Column(String)
+    screen = Column(String)
+
+    models = relationship('Model', back_populates='display')
+
+    def __repr__(self):
+        return "<Display(resolution='%s', diagonal='%s', width='%s', " \
+               "height='%s', bezel_width='%s', area_utilization='%s', " \
+               "pixel_density='%s', type_m='%s', color_depth='%s', " \
+               "screen='%s')>" % (self.resolution, self.diagonal,
+               self.width, self.height, self.bezel_width,
+               self.area_utilization, self.pixel_density, self.type_m, 
+               self.color_depth, self.screen)
+
+
+class Camcorder(Base):
+    __tablename__ = 'camcorder'
+
+    id = Column(Integer, primary_key=True)
+    resolution = Column(String)
+    formats = Column(String)
+
+    camera = relationship('Camera', back_populates='camcorder')
+
+    def __repr__(self):
+        return "<Camcorder(resolution='%s', formats='%s')" % \
+               (self.resolution, self.formats)
+
+class Camera(Base):
+    __tablename__ = 'camera'
+
+    id = Column(Integer, primary_key=True)
+    placement = Column(String)
+    module = Column(String)
+    sensor = Column(String)
+    sensor_format = Column(String)
+    resolution = Column(String)
+    num_pixels = Column(String)
+    aperture = Column(String)
+    optical_zoom = Column(String)
+    digital_zoom = Column(String)
+    focus = Column(String)
+    flash = Column(String)
+    model_id = Column(Integer, ForeignKey('model.id'))
+    camcorder_id = Column(Integer, ForeignKey('camcorder.id'))
+
+    camcorder = relationship("Camcorder", back_populates="camera")
+    model = relationship('Model', back_populates='cameras')
+
+
 class Model(Base):
     __tablename__ = 'model'
 
@@ -28,14 +179,18 @@ class Model(Base):
     codename = Column(String)
     market_countries = Column(String)
     market_regions = Column(String)
-    physical_attributes = Column(String)
-    hardware = Column(String)
-    display = Column(String)
+    physical_attribute_id = Column(Integer, ForeignKey('physical_attribute.id'))
+    hardware_id = Column(Integer, ForeignKey('hardware.id'))
+    display_id = Column(Integer, ForeignKey('display.id'))
     cameras = Column(String)
     image = Column(String)
 
     brand = relationship('Brand', back_populates='models')
     os = relationship('OS', back_populates='models')
+    physical_attribute = relationship('PhysicalAttribute', back_populates='models')
+    hardware = relationship('Hardware', back_populates='models')
+    display = relationship('Display', back_populates='models')
+    cameras = relationship('Camera', back_populates='model')
 
     carriers = relationship(
         "Carrier",
@@ -46,11 +201,11 @@ class Model(Base):
         return "<Model(name='%s', brand_id='%d', model='%s', " \
                "release_date='%s', hardware_designer='%s', manufacturers='%s', " \
                "codename='%s', market_countries='%s', " \
-               "physical_attributes='%s', os='%s', hardware='%s', " \
+               "physical_attribute='%s', os='%s', hardware='%s', " \
                "display='%s', cameras='%s', image='%s')>" % \
                (self.name, self.brand_id, self.model, self.release_date,
                 self.hardware_designer, self.manufacturers, self.codename,
-                self.market_countries, self.physical_attributes,
+                self.market_countries, self.physical_attribute,
                 self.os, self.hardware, self.display, self.cameras,
                 self.image)
 

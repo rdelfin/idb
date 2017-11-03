@@ -71,6 +71,53 @@ def insert_models(models, session):
         os = session.query(tables.OS).filter_by(name=model.software.os).first()
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
 
+        cpu = tables.Cpu(model=model.hardware.cpu.model,
+                         additional_info=model.hardware.cpu.additional_info,
+                         clock_speed=model.hardware.cpu.clock_speed)
+        gpu = tables.Gpu(model=model.hardware.gpu.model,
+                         clock_speed=model.hardware.gpu.clock_speed)
+        ram = tables.Ram(type_m=model.hardware.ram.type_m,
+                         capacity=model.hardware.ram.capacity)
+        nv_memory = tables.NonvolatileMemory(type_m=model.hardware.nonvolatile_memory.type_m,
+                                             capacity=model.hardware.nonvolatile_memory.capacity)
+        hardware = tables.Hardware(cpu=cpu, gpu=gpu, ram=ram, nonvolatile_memory=nv_memory)
+
+        physical_attributes = tables.PhysicalAttribute(width=model.physical_attributes.width,
+                                                       height=model.physical_attributes.height,
+                                                       depth=model.physical_attributes.depth,
+                                                       dimensions=model.physical_attributes.dimensions,
+                                                       mass=model.physical_attributes.mass)
+
+        display = tables.Display(resolution=model.display.resolution,
+                                 diagonal=model.display.resolution,
+                                 width=model.display.resolution,
+                                 height=model.display.resolution,
+                                 bezel_width=model.display.resolution,
+                                 area_utilization=model.display.resolution,
+                                 pixel_density=model.display.resolution,
+                                 type_m=model.display.resolution,
+                                 color_depth=model.display.resolution,
+                                 screen=model.display.resolution)
+
+        cameras = []
+        for camera in model.cameras:
+            camcorder = tables.Camcorder(resolution=camera.camcorder.resolution,
+                                         formats=camera.camcorder.formats)
+                                         if camera.camcorder is None else None
+            cameras += [tables.Camera(placement=camera.placement,
+                                      module=camera.module,
+                                      sensor=camera.sensor,
+                                      sensor_format=camera.sensor_format,
+                                      resolution=camera.resolution,
+                                      num_pixels=camera.num_pixels,
+                                      aperture=camera.aperture,
+                                      optical_zoom=camera.optical_zoom,
+                                      digital_zoom=camera.digital_zoom,
+                                      focus=camera.focus,
+                                      flash=camera.flash,
+                                      camcorder=camera.camcorder)]
+
+
         new_model = tables.Model(name=model.name, model=model.model,
                                  release_date=model.release_date,
                                  hardware_designer=model.hardware_designer,
@@ -78,10 +125,10 @@ def insert_models(models, session):
                                  codename=model.codename,
                                  market_countries=json.dumps(model.market_countries),
                                  market_regions=json.dumps(model.market_regions),
-                                 physical_attributes=json.dumps(model.physical_attributes.serialize()),
-                                 hardware=json.dumps(model.hardware.serialize()),
-                                 display=json.dumps(model.display.serialize()),
-                                 cameras=json.dumps([camera.serialize() for camera in model.cameras]),
+                                 physical_attributes=physical_attributes,
+                                 hardware=hardware,
+                                 display=display,
+                                 cameras=cameras,
                                  image=model.image)
 
         new_model.os = os
