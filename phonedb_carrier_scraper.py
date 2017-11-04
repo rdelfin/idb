@@ -197,6 +197,7 @@ class PhoneDBScraper:
                 physical = app.models.PhysicalAttributes(**phone_physical_attributes)
 
                 # Hardware
+                
 
                 # Software
                 software = app.models.Software(**phone_software_attributes)
@@ -205,28 +206,42 @@ class PhoneDBScraper:
                 display = app.models.Display(**phone_display_attributes)
 
                 # Cameras
-                cam_it = iter(phone_camera_attributes)
+                cameras = []
                 primary_camera_attr = {}
+                primary_camcorder_attr = {}
                 secondary_camera_attr = {}
+                secondary_camcorder_attr = {}
 
-                for k in cam_it:
+                for k in phone_camera_attributes:
                     v = phone_camera_attributes[k]
                     if len(k) >= 11 and k[:11] == 'secondary__':
-                        secondary_camera_attr[k[11:]] = v
+                        k = k[11:]
+                        if len(k) >= 11 and k[:11] == 'camcorder__':
+                            k = k[11:]
+                            secondary_camcorder_attr[k] = v
+                        else:
+                            secondary_camera_attr[k] = v
                     else:
-                        primary_camera_attr[k] = v
+                        if len(k) >= 11 and k[:11] == 'camcorder__':
+                            k = k[11:]
+                            primary_camcorder_attr[k] = v
+                        else:
+                            primary_camera_attr[k] = v
 
-                for k in cam_it:
-                    v = phone_camera_attributes[k]
-                    secondary_camera_attr[k[11:]] = v
+                pri_camcorder = app.models.Camcorder(**primary_camcorder_attr) if primary_camcorder_attr != {} else None
+                sec_camcorder = app.models.Camcorder(**secondary_camcorder_attr) if secondary_camcorder_attr != {} else None
 
+                cameras += [app.models.Camera(camcorder=pri_camcorder, **primary_camera_attr)]
+
+                if sec_camcorder or secondary_camera_attr != {}:
+                    cameras += [app.models.Camera(camcorder=sec_camcorder, **secondary_camera_attr)]
 
                 self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
-                                                 software=software, display=display,
+                                                 software=software, display=display, cameras=cameras,
                                                  **phone_general_attributes)]
                 break
             return self.phones
-        raise self.phones
+        return self.phones
 
     def get_carriers(self):
         if not self.carriers:

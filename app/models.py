@@ -115,9 +115,9 @@ class Display:
 
 
 class Camera:
-    def __init__(self, placement, module, sensor, sensor_format, resolution,
-                 num_pixels, aperture, optical_zoom, digital_zoom, focus,
-                 camcorder, flash):
+    def __init__(self, placement=None, module=None, sensor=None, sensor_format=None, resolution=None,
+                 num_pixels=None, aperture=None, optical_zoom=None, digital_zoom=None, focus=None,
+                 camcorder=None, flash=None):
         self.placement = placement
         self.module = module
         self.sensor = sensor
@@ -149,7 +149,7 @@ class Camera:
 
 
 class Camcorder:
-    def __init__(self, resolution, formats):
+    def __init__(self, resolution=None, formats=None):
         self.resolution = resolution
         self.formats = formats
 
