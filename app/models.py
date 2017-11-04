@@ -20,7 +20,7 @@ class PhysicalAttributes:
 
 
 class Hardware:
-    def __init__(self, cpu, gpu, ram, nonvolatile_memory):
+    def __init__(self, cpu=None, gpu=None, ram=None, nonvolatile_memory=None):
         self.cpu = cpu
         self.gpu = gpu
         self.ram = ram
@@ -36,10 +36,13 @@ class Hardware:
 
 
 class Cpu:
-    def __init__(self, model, additional_info, clock_speed):
+    def __init__(self, model=None, additional_info=None, clock_speed=None):
         self.model = model
-        self.additional_info = additional_info
         self.clock_speed = clock_speed
+
+        self.additional_info = additional_info \
+            if not additional_info or not isinstance(additional_info, str) \
+            else [additional_info]
 
     def serialize(self):
         return {
@@ -50,7 +53,7 @@ class Cpu:
 
 
 class Gpu:
-    def __init__(self, model, clock_speed):
+    def __init__(self, model=None, clock_speed=None):
         self.model = model
         self.clock_speed = clock_speed
 
@@ -62,7 +65,7 @@ class Gpu:
 
 
 class Ram:
-    def __init__(self, type_m, capacity):
+    def __init__(self, type_m=None, capacity=None):
         self.type_m = type_m
         self.capacity = capacity
 
@@ -74,7 +77,7 @@ class Ram:
 
 
 class NonvolatileMemory:
-    def __init__(self, type_m, capacity):
+    def __init__(self, type_m=None, capacity=None):
         self.type_m = type_m
         self.capacity = capacity
 
@@ -165,7 +168,8 @@ class Software:
         self.platform = platform
         self.os = os
         self.software_extras = software_extras \
-            if not software_extras or not isinstance(software_extras, str) else [software_extras]
+            if not software_extras or not isinstance(software_extras, str) \
+            else [software_extras]
 
     def serialize(self):
         return {
@@ -235,15 +239,21 @@ class Brand:
         self.image = image
         self.name = name
         self.type_m = type_m
-        self.industries = industries
         self.found_date = found_date
         self.location = location
         self.area_served = area_served
-        self.phone_models = phone_models
-        self.carriers = carriers
-        self.os = os
-        self.founders = founders
         self.parent = parent
+
+        self.industries = industries \
+            if not industries or not isinstance(industries, str) else [industries]
+        self.phone_models = phone_models \
+            if not phone_models or not isinstance(phone_models, str) else [phone_models]
+        self.carriers = carriers \
+            if not carriers or not isinstance(carriers, str) else [carriers]
+        self.os = os \
+            if not os or not isinstance(os, str) else [os]
+        self.founders = founders \
+            if not founders or not isinstance(founders, str) else [founders]
 
     def serialize(self):
         return {
@@ -274,10 +284,15 @@ class OS:
         self.version = version
         self.os_kernel = os_kernel
         self.os_family = os_family
-        self.supported_cpu_instruction_sets = supported_cpu_instruction_sets
+        self.supported_cpu_instruction_sets = supported_cpu_instruction_sets \
+            if not supported_cpu_instruction_sets or not isinstance(supported_cpu_instruction_sets, str) \
+            else [supported_cpu_instruction_sets]
+
         self.predecessor = predecessor
-        self.brands = brands
-        self.models = models
+        self.brands = brands \
+            if not brands or not isinstance(brands, str) else [brands]
+        self.models = models \
+            if not models or not isinstance(models, str) else [models]
         self.codename = codename
         self.successor = successor
 
@@ -305,10 +320,15 @@ class Carrier:
         self.image = image
         self.name = name
         self.short_name = short_name
-        self.cellular_networks = cellular_networks
-        self.covered_countries = covered_countries
-        self.brands = brands
-        self.models = models
+
+        self.cellular_networks = cellular_networks \
+            if not cellular_networks or not isinstance(cellular_networks, str) else [cellular_networks]
+        self.covered_countries = covered_countries \
+            if not covered_countries or not isinstance(covered_countries, str) else [covered_countries]
+        self.brands = brands \
+            if not brands or not isinstance(brands, str) else [brands]
+        self.models = models \
+            if not models or not isinstance(models, str) else [models]
 
     def serialize(self):
         return {

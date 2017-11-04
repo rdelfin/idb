@@ -15,15 +15,6 @@ class PhoneDBScraper:
 
     def get_phones(self):
         if not self.phones:
-            self.phones = []
-            page_suffix = ""
-            url = "http://phonedb.net/index.php?m=device&s=list" + page_suffix
-            page = urllib.request.urlopen(url)
-            soup = BeautifulSoup(page, 'html.parser')
-
-            title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
-                                                     and re.compile("content_block_title")
-                                         .search(str(tag.get('class'))))
 
             general_attr_map = {
                 'Model': 'model',
@@ -45,7 +36,16 @@ class PhoneDBScraper:
                 'Mass': 'mass'
             }
 
-            hardware_attr_map = {}
+            hardware_attr_map = {
+                'CPU Clock': 'cpu__clock_speed',
+                'CPU': 'cpu__model_additional',
+                'RAM Type': 'ram__type_m',
+                'RAM Capacity (converted)': 'ram__capacity',
+                'Non-volatile Memory Type': 'nvm__type_m',
+                'Non-volatile Memory Capacity (converted)': 'nvm__capacity',
+                'Graphical Controller': 'gpu__model',
+                'GPU Clock': 'gpu__clock_speed'
+            }
 
             software_attr_map = {
                 'Platform': 'platform',
@@ -94,7 +94,7 @@ class PhoneDBScraper:
             attr_map_map = {
                 'General Attributes': general_attr_map,
                 'Physical Attributes': physical_attr_map,
-                'Hardware Attributes': hardware_attr_map,
+                'Graphical Subsystem': hardware_attr_map,
                 'Software Environment': software_attr_map,
                 'Application processor, Chipset': hardware_attr_map,
                 'Operative Memory': hardware_attr_map,
@@ -104,141 +104,198 @@ class PhoneDBScraper:
                 'Built-in Secondary Digital Camera': cameras_attr_map
             }
 
-            order_in_page = 1
-            for title in title_blocks:
-                print("Processing phone %d" % (0 + order_in_page))
-                order_in_page += 1
+            per_page = 58
+            pages = (12470 // per_page) + 1
 
-                link = next(title.children)
-                phone_name = link.get('title')
-                phone_url = urllib.request.urlopen(url + link.get('href'))
-                sub_soup = BeautifulSoup(phone_url, 'html.parser')
+            self.phones = []
+            for n in range(0, per_page * pages, per_page):
+                page_suffix = ""
+                url = "http://phonedb.net/index.php?m=device&s=list" + page_suffix
+                page = urllib.request.urlopen(url)
+                soup = BeautifulSoup(page, 'html.parser')
 
-                phone_general_attributes = {}
-                phone_physical_attributes = {}
-                phone_hardware_attributes = {}
-                phone_software_attributes = {}
-                phone_display_attributes = {}
-                phone_camera_attributes = {}
+                title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
+                                             and re.compile("content_block_title")
+                                             .search(str(tag.get('class'))))
 
-                phone_image = sub_soup.find(lambda tag: tag.name == 'img' and
-                                                        tag.get('alt') == phone_name)
+                order_in_page = 1
+                for title in title_blocks:
+                    print("Processing phone %d" % (n + order_in_page))
+                    order_in_page += 1
 
-                section_attributes_mapping = {
-                    'General Attributes': phone_general_attributes,
-                    'Physical Attributes': phone_physical_attributes,
-                    'Software Environment': phone_software_attributes,
-                    'Display': phone_display_attributes,
-                    'Built-in Digital Camera': phone_camera_attributes,
-                    'Built-in Secondary Digital Camera': phone_camera_attributes
-                }
+                    link = next(title.children)
+                    phone_name = link.get('title')
+                    phone_url = urllib.request.urlopen(url + link.get('href'))
+                    sub_soup = BeautifulSoup(phone_url, 'html.parser')
 
-                if phone_image:
-                    phone_image = url + phone_image.get('src')
+                    phone_general_attributes = {}
+                    phone_physical_attributes = {}
+                    phone_hardware_attributes = {}
+                    phone_software_attributes = {}
+                    phone_display_attributes = {}
+                    phone_camera_attributes = {}
 
-                info_table = sub_soup.find(lambda tag: tag.name == 'table'
-                                           and re.compile("width : 98%; margin : 2px;").search(
-                                                           str(tag.get('style'))))
+                    phone_image = sub_soup.find(lambda tag: tag.name == 'img' and
+                                                tag.get('alt') == phone_name)
 
-                table_rows = info_table.find_all('tr')
-                current_section = ''
-                for row in table_rows:
-                    row_contents = row.contents
+                    section_attributes_mapping = {
+                        'General Attributes': phone_general_attributes,
+                        'Physical Attributes': phone_physical_attributes,
+                        'Software Environment': phone_software_attributes,
+                        'Display': phone_display_attributes,
+                        'Built-in Digital Camera': phone_camera_attributes,
+                        'Built-in Secondary Digital Camera': phone_camera_attributes,
+                        'Graphical Subsystem': phone_hardware_attributes,
+                        'Application processor, Chipset': phone_hardware_attributes,
+                        'Operative Memory': phone_hardware_attributes,
+                        'Non-volatile Memory': phone_hardware_attributes
+                    }
 
-                    if len(row_contents) == 3:
-                        # This is a section header
-                        section_tag = row.find('img')
-                        if section_tag:
-                            current_section = section_tag.get('title')
-                    elif len(row_contents) == 5:
-                        if current_section not in attr_map_map:
-                            continue
-                        key = row_contents[1]
-                        val = row_contents[3]
-                        attr_name = key.find('strong')
-                        if not attr_name:
-                            attr_name = key
-                        try:
-                            attr_name = next(attr_name.children)
-                        except StopIteration:
-                            continue
-                        if attr_name in attr_map_map[current_section]:
-                            attributes = section_attributes_mapping[current_section]
+                    if phone_image:
+                        phone_image = url + phone_image.get('src')
 
-                            def choose_appropriate_content(tag):
-                                if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
-                                    return True
-                                elif tag.has_attr('title') and tag.name != 'img':
-                                    if all(str(type(sub)) == "<class 'bs4.element.NavigableString'>"
-                                           for sub in tag.children):
+                    info_table = sub_soup.find(lambda tag: tag.name == 'table'
+                                               and re.compile("width : 98%; margin : 2px;").search(
+                                                               str(tag.get('style'))))
+
+                    table_rows = info_table.find_all('tr')
+                    current_section = ''
+                    for row in table_rows:
+                        row_contents = row.contents
+
+                        if len(row_contents) == 3:
+                            # This is a section header
+                            section_tag = row.find('img')
+                            if section_tag:
+                                current_section = section_tag.get('title')
+                        elif len(row_contents) == 5:
+                            if current_section not in attr_map_map:
+                                continue
+                            key = row_contents[1]
+                            val = row_contents[3]
+                            attr_name = key.find('strong')
+                            if not attr_name:
+                                attr_name = key
+                            try:
+                                attr_name = next(attr_name.children)
+                            except StopIteration:
+                                continue
+                            if attr_name in attr_map_map[current_section]:
+                                attributes = section_attributes_mapping[current_section]
+
+                                def choose_appropriate_content(tag):
+                                    if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
                                         return True
+                                    elif tag.has_attr('title') and tag.name != 'img':
+                                        if all(str(type(sub)) == "<class 'bs4.element.NavigableString'>"
+                                               for sub in tag.children):
+                                            return True
 
-                            attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
+                                attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
 
-                            if len(attr_content) < 1:
-                                attributes[attr_name] = None
-                            elif len(attr_content) == 1:
-                                c = attr_content[0]
-                                if c.name == 'a':
-                                    c = next(c.children)
-                                attributes[attr_map_map[current_section][attr_name]] = c.encode().decode().strip()
-                            else:
-                                attributes[attr_map_map[current_section][attr_name]] = []
-                                for c in attr_content:
+                                if len(attr_content) < 1:
+                                    attributes[attr_name] = None
+                                elif len(attr_content) == 1:
+                                    c = attr_content[0]
                                     if c.name == 'a':
                                         c = next(c.children)
-                                    if c != ', ':
-                                        attributes[attr_map_map[current_section][attr_name]] += \
-                                            [c.encode().decode().strip()]
-                    else:
-                        pass
-
-                # Physical Attributes
-                physical = app.models.PhysicalAttributes(**phone_physical_attributes)
-
-                # Hardware
-                
-
-                # Software
-                software = app.models.Software(**phone_software_attributes)
-
-                # Display
-                display = app.models.Display(**phone_display_attributes)
-
-                # Cameras
-                cameras = []
-                primary_camera_attr = {}
-                primary_camcorder_attr = {}
-                secondary_camera_attr = {}
-                secondary_camcorder_attr = {}
-
-                for k in phone_camera_attributes:
-                    v = phone_camera_attributes[k]
-                    if len(k) >= 11 and k[:11] == 'secondary__':
-                        k = k[11:]
-                        if len(k) >= 11 and k[:11] == 'camcorder__':
-                            k = k[11:]
-                            secondary_camcorder_attr[k] = v
+                                    attributes[attr_map_map[current_section][attr_name]] = c.encode().decode().strip()
+                                else:
+                                    attributes[attr_map_map[current_section][attr_name]] = []
+                                    for c in attr_content:
+                                        if c.name == 'a':
+                                            c = next(c.children)
+                                        if c != ', ':
+                                            attributes[attr_map_map[current_section][attr_name]] += \
+                                                [c.encode().decode().strip()]
                         else:
-                            secondary_camera_attr[k] = v
-                    else:
-                        if len(k) >= 11 and k[:11] == 'camcorder__':
+                            pass
+
+                    # Physical Attributes
+                    physical = app.models.PhysicalAttributes(**phone_physical_attributes)
+
+                    # Hardware
+                    cpu_attr = {}
+                    gpu_attr = {}
+                    ram_attr = {}
+                    nvm_attr = {}
+
+                    for k in phone_hardware_attributes:
+                        if len(k) < 5:
+                            continue
+                        v = phone_hardware_attributes[k]
+                        if k[:5] == 'cpu__':
+                            k = k[5:]
+                            cpu_attr[k] = v
+                        elif k[:5] == 'gpu__':
+                            k = k[5:]
+                            gpu_attr[k] = v
+                        elif k[:5] == 'ram__':
+                            k = k[5:]
+                            ram_attr[k] = v
+                        elif k[:5] == 'nvm__':
+                            k = k[5:]
+                            nvm_attr[k] = v
+
+                    mod_addl = 'model_additional'
+                    if mod_addl in cpu_attr:
+                        v = cpu_attr[mod_addl]
+                        cpu_attr.pop(mod_addl)
+                        v = v.split(', ')
+                        cpu_attr['model'] = v[0]
+                        cpu_attr['additional_info'] = v[1:-1]
+
+                    cpu = app.models.Cpu(**cpu_attr) if cpu_attr != {} else None
+                    gpu = app.models.Gpu(**gpu_attr) if gpu_attr != {} else None
+                    ram = app.models.Ram(**ram_attr) if ram_attr != {} else None
+                    nvm = app.models.NonvolatileMemory(**nvm_attr) if nvm_attr != {} else None
+
+                    hardware = app.models.Hardware(cpu, gpu, ram, nvm)
+
+                    # Software
+                    software = app.models.Software(**phone_software_attributes)
+
+                    # Display
+                    display = app.models.Display(**phone_display_attributes)
+
+                    # Cameras
+                    cameras = []
+                    primary_camera_attr = {}
+                    primary_camcorder_attr = {}
+                    secondary_camera_attr = {}
+                    secondary_camcorder_attr = {}
+
+                    for k in phone_camera_attributes:
+                        v = phone_camera_attributes[k]
+                        if len(k) >= 11 and k[:11] == 'secondary__':
                             k = k[11:]
-                            primary_camcorder_attr[k] = v
+                            if len(k) >= 11 and k[:11] == 'camcorder__':
+                                k = k[11:]
+                                secondary_camcorder_attr[k] = v
+                            else:
+                                secondary_camera_attr[k] = v
                         else:
-                            primary_camera_attr[k] = v
+                            if len(k) >= 11 and k[:11] == 'camcorder__':
+                                k = k[11:]
+                                primary_camcorder_attr[k] = v
+                            else:
+                                primary_camera_attr[k] = v
 
-                pri_camcorder = app.models.Camcorder(**primary_camcorder_attr) if primary_camcorder_attr != {} else None
-                sec_camcorder = app.models.Camcorder(**secondary_camcorder_attr) if secondary_camcorder_attr != {} else None
+                    pri_camcorder = app.models.Camcorder(**primary_camcorder_attr) \
+                        if primary_camcorder_attr != {} else None
+                    sec_camcorder = app.models.Camcorder(**secondary_camcorder_attr) \
+                        if secondary_camcorder_attr != {} else None
 
-                cameras += [app.models.Camera(camcorder=pri_camcorder, **primary_camera_attr)]
+                    cameras += [app.models.Camera(camcorder=pri_camcorder, **primary_camera_attr)]
 
-                if sec_camcorder or secondary_camera_attr != {}:
-                    cameras += [app.models.Camera(camcorder=sec_camcorder, **secondary_camera_attr)]
+                    if sec_camcorder or secondary_camera_attr != {}:
+                        cameras += [app.models.Camera(camcorder=sec_camcorder, **secondary_camera_attr)]
 
-                self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
-                                                 software=software, display=display, cameras=cameras,
-                                                 **phone_general_attributes)]
+                    self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
+                                                     software=software, display=display, cameras=cameras,
+                                                     hardware=hardware,
+                                                     **phone_general_attributes)]
+                    break
                 break
             return self.phones
         return self.phones
