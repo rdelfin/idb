@@ -5,6 +5,7 @@ import builtins
 from bs4 import BeautifulSoup
 import app.models
 import pickle
+import time
 
 
 class PhoneDBScraper:
@@ -15,7 +16,7 @@ class PhoneDBScraper:
 
     def get_phones(self):
         if not self.phones:
-
+            time_start = time.time()
             general_attr_map = {
                 'Model': 'model',
                 'Brand': 'brand',
@@ -109,7 +110,7 @@ class PhoneDBScraper:
 
             self.phones = []
             for n in range(0, per_page * pages, per_page):
-                page_suffix = ""
+                page_suffix = "" if n == 0 else '&filter=%d' % n
                 url = "http://phonedb.net/index.php?m=device&s=list" + page_suffix
                 page = urllib.request.urlopen(url)
                 soup = BeautifulSoup(page, 'html.parser')
@@ -295,8 +296,17 @@ class PhoneDBScraper:
                                                      software=software, display=display, cameras=cameras,
                                                      hardware=hardware,
                                                      **phone_general_attributes)]
-                    break
-                break
+                    # break
+                # break
+            time_end = time.time()
+            time_elapsed = time_end - time_start
+            elapsed_minutes = time_elapsed // 60
+            elapsed_seconds = time_elapsed % 60
+            print("Finished processing phones. Time elapsed: %dm %ds" % (elapsed_minutes, elapsed_seconds))
+            with open('phones.pickle', 'wb') as f:
+                print('Dumping Pickle')
+                pickle.dump(self.phones, f)
+                print('Done.')
             return self.phones
         return self.phones
 
@@ -304,7 +314,7 @@ class PhoneDBScraper:
         if not self.carriers:
             self.carriers = []
             for n in range(0, 28 * 4, 28):
-                page_suffix = "" if n == 0 else "&filter=%d" % (n)
+                page_suffix = "" if n == 0 else "&filter=%d" % n
                 url = "http://phonedb.net/index.php?m=vendor&s=list" + page_suffix
                 page = urllib.request.urlopen(url)
                 soup = BeautifulSoup(page, 'html.parser')
