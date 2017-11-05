@@ -121,7 +121,7 @@ class PhoneDBScraper:
 
                 order_in_page = 1
                 for title in title_blocks:
-                    print("Processing phone %d" % (n + order_in_page))
+                    print("Processing phone %5d" % (n + order_in_page), end='')
                     order_in_page += 1
 
                     link = next(title.children)
@@ -211,6 +211,9 @@ class PhoneDBScraper:
                                                 [c.encode().decode().strip()]
                         else:
                             pass
+                    # General
+                    name = phone_general_attributes['brand'] + ' ' + phone_general_attributes['model']
+                    print(': %s' % name)
 
                     # Physical Attributes
                     physical = app.models.PhysicalAttributes(**phone_physical_attributes)
@@ -292,7 +295,7 @@ class PhoneDBScraper:
                     if sec_camcorder or secondary_camera_attr != {}:
                         cameras += [app.models.Camera(camcorder=sec_camcorder, **secondary_camera_attr)]
 
-                    self.phones += [app.models.Model(image=phone_image, physical_attributes=physical,
+                    self.phones += [app.models.Model(name=name, image=phone_image, physical_attributes=physical,
                                                      software=software, display=display, cameras=cameras,
                                                      hardware=hardware,
                                                      **phone_general_attributes)]
