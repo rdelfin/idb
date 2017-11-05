@@ -273,10 +273,10 @@ class Brand:
 
 
 class OS:
-    def __init__(self, image, name, developer, release_date, version,
-                 os_kernel, os_family, supported_cpu_instruction_sets,
-                 predecessor, brands, models, codename,
-                 successor):
+    def __init__(self, image=None, name=None, developer=None, release_date=None, version=None,
+                 os_kernel=None, os_family=None, supported_cpu_instruction_sets=None,
+                 predecessor=None, brands=None, models=None, codename=None,
+                 successor=None):
         self.image = image
         self.name = name
         self.developer = developer

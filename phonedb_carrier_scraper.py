@@ -6,13 +6,85 @@ from bs4 import BeautifulSoup
 import app.models
 import pickle
 import time
+import sys
+import random
+
+os_attr_map = {
+    'Developer': 'developer',
+    'Released': 'release_date',
+    'Full Name': 'name',
+    'Version': 'short_name',
+    'Codename': 'codename',
+    'Operating System Kernel': 'os_kernel',
+    'Operating System Family': 'os_family',
+    'Supported CPU Instruction Set(s)': 'supported_cpu_instruction_sets'
+}
+
+
+def choose_appropriate_content(tag):
+    if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
+        return True
+    elif tag.has_attr('title') and tag.name != 'img':
+        if all(str(type(sub)) == "<class 'bs4.element.NavigableString'>"
+               for sub in tag.children):
+            return True
+
+
+def os_scrape(os_link, phone_brand, phone_model):
+    page = urllib.request.urlopen(os_link)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    attr = {}
+
+    table = soup.find(lambda tag: tag.name == 'table'
+                      and re.compile('width : 98%; margin : 2px')
+                      .search(str(tag.get('style'))))
+
+    table_rows = table.find_all('tr')
+    for row in table_rows:
+        row_contents = row.contents
+
+        if len(row_contents) == 5:
+            key = row_contents[1]
+            val = row_contents[3]
+            attr_name = key.find('strong')
+            if not attr_name:
+                attr_name = key
+            try:
+                attr_name = next(attr_name.children)
+            except StopIteration:
+                continue
+
+            attr_name = attr_name.encode().decode()
+
+            if attr_name in os_attr_map:
+                attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
+
+                if len(attr_content) < 1:
+                    attr[attr_name.encode().decode()] = None
+                elif attr_name == 'Operating System Family' or len(attr_content) == 1:
+                    c = attr_content[0]
+                    if c.name == 'a':
+                        c = next(c.children)
+                    attr[os_attr_map[attr_name]] = c.encode().decode().strip()
+                else:
+                    attr[os_attr_map[attr_name]] = []
+                    for c in attr_content:
+                        if c.name == 'a':
+                            c = next(c.children)
+                        if c != ', ':
+                            attr[os_attr_map[attr_name]] += [c.encode().decode().strip()]
+    return app.models.OS(brands={phone_brand}, models=[phone_brand + ' ' + phone_model], **attr)
 
 
 class PhoneDBScraper:
     def __init__(self):
         self.phones = None
-        self.carriers = None
-        self.brands = None
+        self.oss = {}
+        self.carriers = {}
+        self.brands = {}
+        self.model_limit = None
+        self.model_rand = None
 
     def get_phones(self):
         if not self.phones:
@@ -110,6 +182,9 @@ class PhoneDBScraper:
 
             self.phones = []
             for n in range(0, per_page * pages, per_page):
+                if self.model_limit:
+                    if n > self.model_limit:
+                        break
                 page_suffix = "" if n == 0 else '&filter=%d' % n
                 url = "http://phonedb.net/index.php?m=device&s=list" + page_suffix
                 page = urllib.request.urlopen(url)
@@ -119,10 +194,17 @@ class PhoneDBScraper:
                                              and re.compile("content_block_title")
                                              .search(str(tag.get('class'))))
 
-                order_in_page = 1
+                order_in_page = 0
                 for title in title_blocks:
-                    print("Processing phone %5d" % (n + order_in_page), end='')
                     order_in_page += 1
+                    if self.model_limit:
+                        if n + order_in_page > self.model_limit:
+                            break
+                    if self.model_rand:
+                        r = random.randint(1, self.model_rand)
+                        if r != 1:
+                            continue
+                    print("Processing phone %5d" % (n + order_in_page), end='')
 
                     link = next(title.children)
                     phone_name = link.get('title')
@@ -170,6 +252,7 @@ class PhoneDBScraper:
                             if section_tag:
                                 current_section = section_tag.get('title')
                         elif len(row_contents) == 5:
+                            # This is a data row
                             if current_section not in attr_map_map:
                                 continue
                             key = row_contents[1]
@@ -181,16 +264,11 @@ class PhoneDBScraper:
                                 attr_name = next(attr_name.children)
                             except StopIteration:
                                 continue
+
+                            attr_name = attr_name.encode().decode()
+
                             if attr_name in attr_map_map[current_section]:
                                 attributes = section_attributes_mapping[current_section]
-
-                                def choose_appropriate_content(tag):
-                                    if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
-                                        return True
-                                    elif tag.has_attr('title') and tag.name != 'img':
-                                        if all(str(type(sub)) == "<class 'bs4.element.NavigableString'>"
-                                               for sub in tag.children):
-                                            return True
 
                                 attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
 
@@ -199,12 +277,28 @@ class PhoneDBScraper:
                                 elif len(attr_content) == 1:
                                     c = attr_content[0]
                                     if c.name == 'a':
-                                        c = next(c.children)
+                                        if attr_name == 'Operating System':
+                                            os_link = 'http://phonedb.net/' + c.get('href')
+                                            c = next(c.children)
+                                            str_os = c.encode().decode()
+                                            if str_os not in self.oss:
+                                                self.oss[str_os] = os_scrape(os_link,
+                                                                             phone_general_attributes['brand'],
+                                                                             phone_general_attributes['model'])
+                                            else:
+                                                self.oss[str_os].brands |= {phone_general_attributes['brand']}
+                                                self.oss[str_os].models += [phone_general_attributes['brand']
+                                                                            + ' '
+                                                                            + phone_general_attributes['model']]
+                                        else:
+                                            c = next(c.children)
                                     attributes[attr_map_map[current_section][attr_name]] = c.encode().decode().strip()
                                 else:
                                     attributes[attr_map_map[current_section][attr_name]] = []
                                     for c in attr_content:
                                         if c.name == 'a':
+                                            if attr_name == 'Vendor':
+                                                pass
                                             c = next(c.children)
                                         if c != ', ':
                                             attributes[attr_map_map[current_section][attr_name]] += \
@@ -307,8 +401,12 @@ class PhoneDBScraper:
             elapsed_seconds = time_elapsed % 60
             print("Finished processing phones. Time elapsed: %dm %ds" % (elapsed_minutes, elapsed_seconds))
             with open('phones.pickle', 'wb') as f:
-                print('Dumping Pickle')
+                print('Dumping phone pickle')
                 pickle.dump(self.phones, f)
+                print('Done.')
+            with open('oss.pickle', 'wb') as f:
+                print('Dumping os pickle')
+                pickle.dump(self.oss, f)
                 print('Done.')
             return self.phones
         return self.phones
@@ -391,4 +489,12 @@ if __name__ == "__main__":
     #         print("Done.")
     # finally:
     #     result = pdadb.get_carriers()
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'random':
+            pdadb.model_rand = int(sys.argv[2])
+        else:
+            pdadb.model_limit = int(sys.argv[1])
+    else:
+        pdadb.model_limit = None
+        pdadb.model_rand = None
     phones = pdadb.get_phones()
