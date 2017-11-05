@@ -101,8 +101,8 @@ def insert_models(models, session):
 
         cameras = []
         for camera in model.cameras:
-            camcorder = tables.Camcorder(resolution=camera.camcorder.resolution,
-                                         formats=camera.camcorder.formats)
+            camcorder = tables.Camcorder(resolution=camera.camcorder.resolution, \
+                                         formats=camera.camcorder.formats)       \
                                          if camera.camcorder is None else None
             cameras += [tables.Camera(placement=camera.placement,
                                       module=camera.module,
