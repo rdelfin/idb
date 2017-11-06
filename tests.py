@@ -176,8 +176,8 @@ class FullModelTest(TestCase):
         self.assertEqual(self.db.get_model_all()[0].brand, "LG")
         self.assertEqual(self.db.get_model_all()[0].carriers, ["Verizon"])
         self.assertEqual(self.db.get_model_all()[0].release_date, "10/02/2015")
-        self.assertEqual(self.db.get_model_all()[0].market_countries, "South Korea")
-        self.assertEqual(self.db.get_model_all()[0].market_regions, "Asia")
+        self.assertEqual(self.db.get_model_all()[0].market_countries, ["South Korea"])
+        self.assertEqual(self.db.get_model_all()[0].market_regions, ["Asia"])
 
 
 
