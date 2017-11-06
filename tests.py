@@ -207,6 +207,7 @@ class InsertOsTest(TestCase):
                     codename="iPhone {0}".format(i),
                     successor="iPhone {0}".format(i + 1))
             oss += [os]
+        return oss
 
     def test_os_insert(self):
         oss = self.os_builder(10)
