@@ -212,6 +212,7 @@ class InsertOsTest(TestCase):
     def test_os_insert(self):
         oss = self.os_builder(10)
         Inserter.insert_os(oss, self.session)
+        self.session.commit()
         os_get = self.db.get_os_all()
         self.assertEqual(len(os_get), 10)
         i = 0
