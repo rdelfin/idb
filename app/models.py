@@ -18,6 +18,9 @@ class PhysicalAttributes:
             'mass': self.mass
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class Hardware:
     def __init__(self, cpu=None, gpu=None, ram=None, nonvolatile_memory=None):
@@ -33,6 +36,9 @@ class Hardware:
             'ram': self.ram.serialize(),
             'nonvolatile_memory': self.nonvolatile_memory.serialize()
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Cpu:
@@ -51,6 +57,9 @@ class Cpu:
             'clock_speed': self.clock_speed
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class Gpu:
     def __init__(self, model=None, clock_speed=None):
@@ -62,6 +71,9 @@ class Gpu:
             'model': self.model,
             'clock_speed': self.clock_speed
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Ram:
@@ -75,6 +87,9 @@ class Ram:
             'capacity': self.capacity
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class NonvolatileMemory:
     def __init__(self, type_m=None, capacity=None):
@@ -86,6 +101,9 @@ class NonvolatileMemory:
             'type': self.type_m,
             'capacity': self.capacity
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Display:
@@ -115,6 +133,9 @@ class Display:
             'color_depth': self.color_depth,
             'screen': self.screen
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Camera:
@@ -150,6 +171,9 @@ class Camera:
             'flash': self.flash
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class Camcorder:
     def __init__(self, resolution=None, formats=None):
@@ -161,6 +185,9 @@ class Camcorder:
             'resolution': self.resolution,
             'formats': self.formats
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Software:
@@ -177,6 +204,9 @@ class Software:
             'os': self.os,
             'software_extras': self.software_extras
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class Model:
@@ -231,6 +261,9 @@ class Model:
             'cameras': [camera.serialize() for camera in self.cameras]
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class Brand:
     def __init__(self, image, name, type_m, industries, found_date, location,
@@ -270,6 +303,9 @@ class Brand:
             'founders': self.founders,
             'parent': self.parent
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
 
 
 class OS:
@@ -313,6 +349,9 @@ class OS:
             'successor': self.successor
         }
 
+    def __repr__(self):
+        return repr(self.serialize)
+
 
 class Carrier:
     def __init__(self, image, name, short_name=None, cellular_networks=None,
@@ -340,3 +379,6 @@ class Carrier:
             'brands': self.brands,
             'models': self.models
         }
+
+    def __repr__(self):
+        return repr(self.serialize)
