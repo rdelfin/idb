@@ -11,6 +11,7 @@ from flask import jsonify
 
 from app.tables import *
 import app.inserter as Inserter
+import app.models as Models
 
 class DbInterfaceTests (TestCase):
     def setUp(self):
@@ -192,7 +193,7 @@ class InsertOsTest(TestCase):
     def os_builder(self, quantity):
         oss = []
         for i in range(0, quantity):
-            os = OS(image="http://placekitten.com/{0}".format(i),
+            os = Models.OS(image="http://placekitten.com/{0}".format(i),
                     name="iPhone {0}".format(i),
                     developer="Apple {0}".format(i),
                     release_date="01/01/1999",
@@ -209,7 +210,7 @@ class InsertOsTest(TestCase):
 
     def test_os_insert(self):
         oss = self.os_builder(10)
-        insert_os(oss, session)
+        Inserter.insert_os(oss, self.session)
         os_get = self.db.get_os_all()
         self.assertEqual(len(os_get), 10)
         i = 0
