@@ -42,7 +42,7 @@ class AnimatedLink extends React.PureComponent {
             to={this.props.link.item.url}
             styleName={this.state.rendered ? "item shown" : "item"}>
         <div styleName="name">{this.props.link.item.title}</div>
-        <img styleName="image" src={this.props.link.item.spec.image} />
+        {this.props.link.item.spec.image && this.props.link.item.spec.image.length && <img styleName="image" src={this.props.link.item.spec.image} />}
         <ul styleName="stats">
           {this.props.link.item.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <li key={i}>{stat}</li>)}
         </ul>
