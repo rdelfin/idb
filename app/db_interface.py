@@ -127,17 +127,17 @@ class Database:
     def get_brand_id(self, id):
         session = self.Session()
         brand_table = session.query(tables.Brand).filter(tables.Brand.id == id).one_or_none()
-        return table_brand_to_model(brand_table)
+        return table_brand_to_model(brand_table) if brand_table is not None else None
 
     def get_os_id(self, id):
         session = self.Session()
         os_table = session.query(tables.OS).filter(tables.OS.id == id).one_or_none()
-        return table_os_to_model(os_table)
+        return table_os_to_model(os_table) if os_table is not None else None
 
     def get_carrier_id(self, id):
         session = self.Session()
         carrier_table = session.query(tables.Carrier).filter(tables.Carrier.id == id).one_or_none()
-        return table_carrier_to_model(carrier_table)
+        return table_carrier_to_model(carrier_table) if carrier_table is not None else None
 
     def get_model_all(self):
         session = self.Session()
