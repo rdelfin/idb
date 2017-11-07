@@ -82,7 +82,7 @@ def table_model_to_model(model):
                 phys_attr, hardware, software,
                 display, cameras)
 
-def table_brand_to_model(self, brand):
+def table_brand_to_model(brand):
     model_names = [model.name for model in brand.models]
     carrier_names = [carrier.name for carrier in brand.carriers]
     os_names = list({model.os.name for model in brand.models})
@@ -95,7 +95,7 @@ def table_brand_to_model(self, brand):
                         json.loads(brand.founders) if brand.founders is not None else [],
                         brand.parent)
 
-def table_os_to_model(self, os):
+def table_os_to_model(os):
     os_models = list({model.name for model in os.models})
     brand_names = list({mod.brand.name for mod in os.models})
 
@@ -104,7 +104,7 @@ def table_os_to_model(self, os):
                      json.loads(os.supported_cpu_instruction_sets) if os.supported_cpu_instruction_sets is not None else [],
                      os.predecessor, brand_names, os_models, os.codename, os.successor)
 
-def table_carrier_to_model(self, carrier):
+def table_carrier_to_model(carrier):
     brand_names = [brand.name for brand in carrier.brands]
     model_names = [model.name for model in carrier.models]
 
