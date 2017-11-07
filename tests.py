@@ -1,6 +1,5 @@
 # This is where we will test our APIs through unit tests
 from unittest import main, TestCase
-
 from app.db_interface import Database
 
 import sqlalchemy
@@ -11,7 +10,8 @@ from sqlalchemy.orm import sessionmaker
 from flask import jsonify 
 
 from app.tables import *
-
+import app.inserter as Inserter
+import app.models as Models
 
 class DbInterfaceTests (TestCase):
     def setUp(self):
@@ -46,6 +46,27 @@ class DbInterfaceTests (TestCase):
     def test_model(self):
         self.assertEqual(len(self.db.get_model_all()), 1)
         self.assertEqual(self.db.get_model_all()[0].name, "LG v10")
+
+    def test_single_model(self):
+        self.assertNotEqual(self.db.get_model_id(1), None)
+        self.assertEqual(self.db.get_model_id(1).name, "LG v10")
+        self.assertEqual(self.db.get_model_id(2), None)
+    
+    def test_single_brand(self):
+        self.assertNotEqual(self.db.get_brand_id(1), None)
+        self.assertEqual(self.db.get_brand_id(1).name, "LG")
+        self.assertEqual(self.db.get_brand_id(2), None)
+
+    def test_single_os(self):
+        self.assertNotEqual(self.db.get_os_id(1), None)
+        self.assertEqual(self.db.get_os_id(1).name, "Android")
+        self.assertEqual(self.db.get_os_id(2), None)
+
+    def test_single_carriers(self):
+        self.assertNotEqual(self.db.get_carrier_id(1), None)
+        self.assertEqual(self.db.get_carrier_id(1).name, "Verizon")
+        self.assertEqual(self.db.get_carrier_id(2), None)
+
 
 class MultiplePhonesTests(TestCase):
     def setUp(self):
@@ -176,11 +197,61 @@ class FullModelTest(TestCase):
         self.assertEqual(self.db.get_model_all()[0].brand, "LG")
         self.assertEqual(self.db.get_model_all()[0].carriers, ["Verizon"])
         self.assertEqual(self.db.get_model_all()[0].release_date, "10/02/2015")
-        self.assertEqual(self.db.get_model_all()[0].market_countries, "South Korea")
-        self.assertEqual(self.db.get_model_all()[0].market_regions, "Asia")
+        self.assertEqual(self.db.get_model_all()[0].market_countries, ["South Korea"])
+        self.assertEqual(self.db.get_model_all()[0].market_regions, ["Asia"])
 
+class InsertOsTest(TestCase):
+    def setUp(self):
+        self.engine = create_engine('sqlite:///:memory:', echo=False)
+        Session = sessionmaker(bind=self.engine)
+        session = Session()
 
+        Base.metadata.create_all(self.engine)
+        session.commit()
+        self.db = Database(self.engine)
+        self.session = session
 
+    def os_builder(self, quantity):
+        oss = []
+        for i in range(0, quantity):
+            os = Models.OS(image="http://placekitten.com/{0}".format(i),
+                    name="iPhone {0}".format(i),
+                    developer="Apple {0}".format(i),
+                    release_date="01/01/1999",
+                    version="0.{0}".format(i),
+                    os_kernel="0.{0}".format(i),
+                    os_family="0.{0}".format(i),
+                    supported_cpu_instruction_sets=list(range(0, i)),
+                    predecessor="iPhone {0}".format(i - 1),
+                    brands=list(range(0, i)),
+                    models=list(range(0, i)),
+                    codename="iPhone {0}".format(i),
+                    successor="iPhone {0}".format(i + 1))
+            oss += [os]
+        return oss
+
+    def test_os_insert(self):
+        oss = self.os_builder(10)
+        Inserter.insert_os(oss, self.session)
+        self.session.commit()
+        os_get = self.db.get_os_all()
+        self.assertEqual(len(os_get), 10)
+        i = 0
+        for os in os_get:
+            self.assertEqual(os.image, "http://placekitten.com/{0}".format(i))
+            self.assertEqual(os.name, "iPhone {0}".format(i))
+            self.assertEqual(os.developer, "Apple {0}".format(i))
+            self.assertEqual(os.release_date, "01/01/1999")
+            self.assertEqual(os.version, "0.{0}".format(i))
+            self.assertEqual(os.os_kernel, "0.{0}".format(i))
+            self.assertEqual(os.os_family, "0.{0}".format(i))
+            self.assertEqual(os.supported_cpu_instruction_sets, list(range(0, i)))
+            self.assertEqual(os.predecessor, "iPhone {0}".format(i - 1))
+            self.assertEqual(os.brands, list(range(0, i)))
+            self.assertEqual(os.models, list(range(0, i)))
+            self.assertEqual(os.codename, "iPhone {0}".format(i))
+            self.assertEqual(os.successor, "iPhone {0}".format(i + 1))
+            i += 1
 
 # class JsonTest(TestCase):
 #     def setUp(self):
