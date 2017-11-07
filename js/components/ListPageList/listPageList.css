@@ -1,13 +1,21 @@
 @import '../../shared/var';
 
+.root {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+}
+
 .item {
   display: block;
   position: relative;
   top: -32px;
+  width: 300px;
   opacity: 0;
   box-sizing: border-box;
   padding: 24px;
-  margin: 24px 0;
+  margin: 16px;
   background: lighten($body-background, 5%);
   color: #fff;
   box-shadow: 0 1px 2px darken($body-background, 20%);
@@ -26,28 +34,25 @@
   background: lighten($body-background, 10%);
 }
 
+.image {
+  margin: 16px -24px 0;
+  width: 300px;
+  height: auto;
+}
+
 .name {
-  font-size: 28px;
-  font-weight: 300;
+  font-size: 20px;
+  font-weight: 600;
   color: inherit;
   text-decoration: none;
 }
 
 .stats {
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  justify-content: flex-start;
-  margin-top: 16px;
-  margin-bottom: 0;
+  padding-left: 0;
 }
 
-.stats > div {
-  font-size: 16px;
-  padding: 8px 12px;
-  margin-right: 16px;
-  margin-bottom: 16px;
-  background: lighten($body-background, 10%);
-  box-shadow: 0px 1px 2px darken($body-background, 5%);
-  border-radius: 4px;
+.stats > li {
+  list-style-type: none;
+  font-size: 14px;
+  padding-top: 6px;
 }

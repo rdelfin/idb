@@ -42,9 +42,10 @@ class AnimatedLink extends React.PureComponent {
             to={this.props.link.item.url}
             styleName={this.state.rendered ? "item shown" : "item"}>
         <div styleName="name">{this.props.link.item.title}</div>
-        <div styleName="stats">
-          {this.props.link.item.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <div key={i}>{stat}</div>)}
-        </div>
+        <img styleName="image" src={this.props.link.item.spec.image} />
+        <ul styleName="stats">
+          {this.props.link.item.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <li key={i}>{stat}</li>)}
+        </ul>
       </Link>
     );
   }
@@ -97,9 +98,11 @@ export default class ListPageList extends React.PureComponent {
     return (
       <div>
         {this.props.loading && <Spinner />}
+        <div styleName="root">
         {this.state.renderedLinks.map(link => (
           <AnimatedLink key={link.item.url} link={link} />
         ))}
+        </div>
       </div>
     );
   }

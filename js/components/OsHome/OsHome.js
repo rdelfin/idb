@@ -31,6 +31,7 @@ export default class OsHome extends React.Component {
         os.os_kernel && `${os.os_kernel} kernel`,
         os.os_family,
       ].concat(os.supported_cpu_instruction_sets),
+      spec: os,
     }));
   }
 

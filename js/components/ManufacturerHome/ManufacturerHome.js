@@ -32,6 +32,7 @@ export default class ManufacturerHome extends React.PureComponent {
         manufacturer.location,
         manufacturer.area_served,
       ],
+      spec: manufacturer,
     }));
   }
 

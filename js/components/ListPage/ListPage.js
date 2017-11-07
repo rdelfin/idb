@@ -24,6 +24,7 @@ export type LinkSpec = {
   url: string,
   title: string,
   stats: Array<string>,
+  spec: {image: string},
 };
 
 export default class ListPage extends React.PureComponent {

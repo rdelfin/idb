@@ -28,7 +28,7 @@ export default class FilterSort<T: {title: string}> {
     source: Array<T>,
     initSearch: string = '',
     initSortKey: $Keys<T> = 'title',
-    initPageSize: number = 10,
+    initPageSize: number = 20,
   ) {
     this.source = source;
     this.fuse = new Fuse(source, FUSE_OPTIONS);
