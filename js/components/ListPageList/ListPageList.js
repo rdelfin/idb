@@ -12,13 +12,8 @@ type Props = {
   loading: boolean,
 };
 
-type State = {
-  nextIndex: number,
-  renderedLinks: Array<FuseResult<LinkSpec>>,
-};
-
 class AnimatedLink extends React.PureComponent {
-  props: {link: FuseResult<LinkSpec>};
+  props: {link: FuseResult<LinkSpec>, delay: number};
   state: {rendered: boolean} = {
     rendered: false,
   };
@@ -29,7 +24,7 @@ class AnimatedLink extends React.PureComponent {
       this.setState({
         rendered: true,
       });
-    }), 100);
+    }), this.props.delay);
   }
 
   componentWillUnmount() {
@@ -44,66 +39,22 @@ class AnimatedLink extends React.PureComponent {
         <div styleName="name">{this.props.link.item.title}</div>
         {this.props.link.item.spec.image && this.props.link.item.spec.image.length && <img styleName="image" src={this.props.link.item.spec.image} />}
         <ul styleName="stats">
-          {this.props.link.item.stats.filter(stat => stat && stat.trim().length).map((stat, i) => <li key={i}>{stat}</li>)}
+          {this.props.link.item.stats.filter(stat => stat && /\w/.test(stat)).map((stat, i) => <li key={i}>{stat}</li>)}
         </ul>
       </Link>
     );
   }
 }
 
-export default class ListPageList extends React.PureComponent {
-  props: Props;
-  state: State = {
-    nextIndex: 0,
-    renderedLinks: [],
-  };
-  throttledLoadLink: () => void;
+const ListPageList = (props: Props) => (
+  <div>
+    {props.loading && <Spinner />}
+    <div styleName="root">
+    {props.links.map((link, i) => (
+      <AnimatedLink key={link.item.url} link={link} delay={i * 50} />
+    ))}
+    </div>
+  </div>
+);
 
-  constructor(props: Props) {
-    super(props);
-    this.throttledLoadLink = throttle(50, this.loadLink);
-  }
-
-  componentDidMount() {
-    this.throttledLoadLink();
-  }
-
-  componentWillReceiveProps(nextProps: Props) {
-    if (this.props.links !== nextProps.links) {
-      this.setState({
-        nextIndex: 0,
-        renderedLinks: [],
-      });
-    }
-  }
-
-  componentDidUpdate(prevProps: Props) {
-    this.throttledLoadLink();
-  }
-
-  loadLink = () => {
-    if (this.state.nextIndex >= this.props.links.length) {
-      return;
-    }
-
-    const renderedLinks = this.state.renderedLinks.slice(0);
-    renderedLinks.push(this.props.links[this.state.nextIndex]);
-    this.setState({
-      renderedLinks,
-      nextIndex: this.state.nextIndex + 1,
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        {this.props.loading && <Spinner />}
-        <div styleName="root">
-        {this.state.renderedLinks.map(link => (
-          <AnimatedLink key={link.item.url} link={link} />
-        ))}
-        </div>
-      </div>
-    );
-  }
-}
+export default ListPageList;
