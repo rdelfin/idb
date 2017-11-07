@@ -122,7 +122,7 @@ class Database:
     def get_model_id(self, id):
         session = self.Session()
         model_table = session.query(tables.Model).filter(tables.Model.id == id).one_or_none()
-        return table_model_to_model(model_table)
+        return table_model_to_model(model_table) if model_table is not None else None
 
     def get_brand_id(self, id):
         session = self.Session()
