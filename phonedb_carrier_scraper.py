@@ -20,6 +20,13 @@ os_attr_map = {
     'Supported CPU Instruction Set(s)': 'supported_cpu_instruction_sets'
 }
 
+carrier_attr_map = {
+    'Full name': 'name',
+    'Short name': 'short_name',
+    'Cellular Networks Installed': 'cellular_networks',
+    'Covered Countries': 'covered_countries'
+}
+
 
 def choose_appropriate_content(tag):
     if str(type(tag)) == "<class 'bs4.element.NavigableString'>":
@@ -74,7 +81,54 @@ def os_scrape(os_link, phone_brand, phone_model):
                             c = next(c.children)
                         if c != ', ':
                             attr[os_attr_map[attr_name]] += [c.encode().decode().strip()]
-    return app.models.OS(brands={phone_brand}, models=[phone_brand + ' ' + phone_model], **attr)
+    return app.models.OS(brands=[phone_brand], models=[phone_brand + ' ' + phone_model], **attr)
+
+
+def carrier_scrape (link, brand, model):
+    page = urllib.request.urlopen(link)
+    soup = BeautifulSoup(page, 'html.parser')
+
+    attr = {}
+
+    table = soup.find(lambda tag: tag.name == 'table'
+                      and re.compile('width : 98%; margin : 2px')
+                      .search(str(tag.get('style'))))
+
+    table_rows = table.find_all('tr')
+    for row in table_rows:
+        row_contents = row.contents
+
+        if len(row_contents) == 5:
+            key = row_contents[1]
+            val = row_contents[3]
+            attr_name = key.find('strong')
+            if not attr_name:
+                attr_name = key
+            try:
+                attr_name = next(attr_name.children)
+            except StopIteration:
+                continue
+
+            attr_name = attr_name.encode().decode()
+
+            if attr_name in carrier_attr_map:
+                attr_content = [tag for tag in val.children if choose_appropriate_content(tag)]
+
+                if len(attr_content) < 1:
+                    attr[attr_name.encode().decode()] = None
+                elif len(attr_content) == 1:
+                    c = attr_content[0]
+                    if c.name == 'a':
+                        c = next(c.children)
+                    attr[carrier_attr_map[attr_name]] = c.encode().decode().strip()
+                else:
+                    attr[carrier_attr_map[attr_name]] = []
+                    for c in attr_content:
+                        if c.name == 'a':
+                            c = next(c.children)
+                        if c != ', ':
+                            attr[carrier_attr_map[attr_name]] += [c.encode().decode().strip()]
+    return app.models.Carrier(brands=[brand], models=[brand + ' ' + model], **attr)
 
 
 class PhoneDBScraper:
@@ -243,6 +297,7 @@ class PhoneDBScraper:
 
                     table_rows = info_table.find_all('tr')
                     current_section = ''
+                    carrier_links = []
                     for row in table_rows:
                         row_contents = row.contents
 
@@ -279,26 +334,16 @@ class PhoneDBScraper:
                                     if c.name == 'a':
                                         if attr_name == 'Operating System':
                                             os_link = 'http://phonedb.net/' + c.get('href')
-                                            c = next(c.children)
-                                            str_os = c.encode().decode()
-                                            if str_os not in self.oss:
-                                                self.oss[str_os] = os_scrape(os_link,
-                                                                             phone_general_attributes['brand'],
-                                                                             phone_general_attributes['model'])
-                                            else:
-                                                self.oss[str_os].brands |= {phone_general_attributes['brand']}
-                                                self.oss[str_os].models += [phone_general_attributes['brand']
-                                                                            + ' '
-                                                                            + phone_general_attributes['model']]
-                                        else:
-                                            c = next(c.children)
+                                        elif attr_name == 'Vendor':
+                                            carrier_links += ['http://phonedb.net/' + c.get('href')]
+                                        c = next(c.children)
                                     attributes[attr_map_map[current_section][attr_name]] = c.encode().decode().strip()
                                 else:
                                     attributes[attr_map_map[current_section][attr_name]] = []
                                     for c in attr_content:
                                         if c.name == 'a':
                                             if attr_name == 'Vendor':
-                                                pass
+                                                carrier_links += ['http://phonedb.net/' + c.get('href')]
                                             c = next(c.children)
                                         if c != ', ':
                                             attributes[attr_map_map[current_section][attr_name]] += \
@@ -308,6 +353,56 @@ class PhoneDBScraper:
                     # General
                     name = phone_general_attributes['brand'] + ' ' + phone_general_attributes['model']
                     print(': %s' % name)
+
+                    if 'brand' in phone_general_attributes and phone_general_attributes['brand']:
+                        if phone_general_attributes['brand'] not in self.brands:
+                            self.brands[phone_general_attributes['brand']] = \
+                                app.models.Brand(phone_models=[name],
+                                                 carriers=phone_general_attributes['carriers'] if 'carriers' in phone_general_attributes else [],
+                                                 os=[phone_software_attributes['os']] if 'os' in phone_software_attributes else None)
+                        else:
+                            if 'carriers' in phone_general_attributes and phone_general_attributes['carriers']:
+                                if isinstance(c, list):
+                                    for c in phone_general_attributes['carriers']:
+                                        if c not in self.brands[phone_general_attributes['brand']].carriers:
+                                            self.brands[phone_general_attributes['brand']].carriers += [c]
+                                else:
+                                    if phone_general_attributes['carriers'] not in self.brands[phone_general_attributes['brand']].carriers:
+                                        self.brands[phone_general_attributes['brand']].carriers += [phone_general_attributes['carriers']]
+                            if 'os' in phone_software_attributes and phone_software_attributes['os']:
+                                if phone_software_attributes['os'] not in self.brands[phone_general_attributes['brand']].os:
+                                    self.brands[phone_general_attributes['brand']].os += [phone_software_attributes['os']]
+                            self.brands[phone_general_attributes['brand']].phone_models += [name]
+
+                    if 'carriers' in phone_general_attributes and phone_general_attributes['carriers']:
+                        cars = phone_general_attributes['carriers']
+                        for i in range(0, len(carrier_links)):
+                            c = cars[i]
+                            link = carrier_links[i]
+                            if c not in self.carriers:
+                                self.carriers[c] = \
+                                    carrier_scrape(link,
+                                                   phone_general_attributes['brand'],
+                                                   phone_general_attributes['model'])
+                            else:
+                                if phone_general_attributes['brand'] not in self.carriers[c].brands:
+                                    self.carriers[c].brands += [phone_general_attributes['brand']]
+                                self.carriers[c].models += [phone_general_attributes['brand']
+                                                            + ' '
+                                                            + phone_general_attributes['model']]
+
+                    if 'os' in phone_software_attributes and phone_software_attributes['os']:
+                        str_os = phone_software_attributes['os']
+                        if str_os not in self.oss:
+                            self.oss[str_os] = os_scrape(os_link,
+                                                         phone_general_attributes['brand'],
+                                                         phone_general_attributes['model'])
+                        else:
+                            if phone_general_attributes['brand'] not in self.oss[str_os].brands:
+                                self.oss[str_os].brands += [phone_general_attributes['brand']]
+                            self.oss[str_os].models += [phone_general_attributes['brand']
+                                                        + ' '
+                                                        + phone_general_attributes['model']]
 
                     # Physical Attributes
                     physical = app.models.PhysicalAttributes(**phone_physical_attributes)
@@ -406,7 +501,15 @@ class PhoneDBScraper:
                 print('Done.')
             with open('oss.pickle', 'wb') as f:
                 print('Dumping os pickle')
-                pickle.dump(self.oss, f)
+                pickle.dump([self.oss[k] for k in self.oss], f)
+                print('Done.')
+            with open('brands.pickle', 'wb') as f:
+                print('Dumping brands pickle')
+                pickle.dump([self.brands[k] for k in self.brands], f)
+                print('Done.')
+            with open('carriers.pickle', 'wb') as f:
+                print('Dumping carriers pickle')
+                pickle.dump([self.carriers[k] for k in self.carriers], f)
                 print('Done.')
             return self.phones
         return self.phones
