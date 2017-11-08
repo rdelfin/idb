@@ -33,7 +33,11 @@
   margin: 20px 0 32px;
 }
 
-.pagination button {
+.pagination > div + div {
+  margin-top: 12px;
+}
+
+.pagination button, .pagination span {
   outline: none;
   border: none;
   margin: 0 2px;
@@ -47,8 +51,18 @@
   transition: all 50ms linear;
 }
 
+.pagination span {
+  cursor: default;
+}
+
 .pagination button.selected, .pagination button:hover {
   background: lighten($body-background, 15%);
   box-shadow: 0px 1px 2px darken($body-background, 10%);
   color: #fff;
+}
+
+.spacer {
+  display: inline-block;
+  width: 12px;
+  text-align: center;
 }

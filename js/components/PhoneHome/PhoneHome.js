@@ -2,7 +2,7 @@
 import React from 'react';
 import ListPage from '../ListPage';
 import Spniner from '../Spinner';
-import PhoneModels from '../../store/PhoneModels';
+import PhoneModels, {sortKeys} from '../../store/PhoneModels';
 import type {PhoneModel} from '../../store/PhoneModels';
 
 type State = {
@@ -42,7 +42,8 @@ export default class PhoneHome extends React.Component {
       <ListPage
         title="Phones"
         links={this.getList()}
-        loading={this.state.loading} />
+        loading={this.state.loading}
+        sortKeys={sortKeys} />
       );
   }
 }

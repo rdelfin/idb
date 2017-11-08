@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import Manufacturers from '../../store/Manufacturers';
+import Manufacturers, {sortKeys} from '../../store/Manufacturers';
 import type {Manufacturer} from '../../store/Manufacturers';
 
 type State = {
@@ -41,7 +41,8 @@ export default class ManufacturerHome extends React.PureComponent {
       <ListPage
         title="Manufacturers"
         links={this.getList()}
-        loading={this.state.loading} />
+        loading={this.state.loading}
+        sortKeys={sortKeys} />
       );
   }
 }
