@@ -112,7 +112,7 @@ def insert_models(models, session):
                                       digital_zoom=camera.digital_zoom,
                                       focus=camera.focus,
                                       flash=camera.flash,
-                                      camcorder=camera.camcorder)]
+                                      camcorder=camcorder)]
 
 
         new_model = tables.Model(name=model.name, model=model.model,
