@@ -53,7 +53,7 @@ def insert_carriers(carriers, session):
     carrier_table = [ tables.Carrier(name=carrier.name,
                                      short_name=carrier.short_name,
                                      cellular_networks=json.dumps(carrier.cellular_networks),
-                                     covered_countries=carrier.covered_countries,
+                                     covered_countries=json.dumps(carrier.covered_countries),
                                      image=carrier.image) for carrier in carriers ]
 
     session.add_all(carrier_table)

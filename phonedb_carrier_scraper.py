@@ -360,7 +360,8 @@ class PhoneDBScraper:
                         # ...and we haven't seen the brand before, make a new brand
                         if phone_general_attributes['brand'] not in self.brands:
                             self.brands[phone_general_attributes['brand']] = \
-                                app.models.Brand(phone_models=[name],
+                                app.models.Brand(name=phone_general_attributes['brand'],
+						 phone_models=[name],
                                                  carriers=phone_general_attributes['carriers'] if 'carriers' in phone_general_attributes else [],
                                                  os=[phone_software_attributes['os']] if 'os' in phone_software_attributes else [])
 
