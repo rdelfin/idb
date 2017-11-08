@@ -370,8 +370,11 @@ class PhoneDBScraper:
                                     if phone_general_attributes['carriers'] not in self.brands[phone_general_attributes['brand']].carriers:
                                         self.brands[phone_general_attributes['brand']].carriers += [phone_general_attributes['carriers']]
                             if 'os' in phone_software_attributes and phone_software_attributes['os']:
-                                if phone_software_attributes['os'] not in self.brands[phone_general_attributes['brand']].os:
-                                    self.brands[phone_general_attributes['brand']].os += [phone_software_attributes['os']]
+                                if self.brands[phone_general_attributes['brand']].os:
+                                    if phone_software_attributes['os'] not in self.brands[phone_general_attributes['brand']].os:
+                                        self.brands[phone_general_attributes['brand']].os += [phone_software_attributes['os']]
+                                else:
+                                    self.brands[phone_general_attributes['brand']].os = [phone_software_attributes['os']]
                             self.brands[phone_general_attributes['brand']].phone_models += [name]
 
                     if 'carriers' in phone_general_attributes and phone_general_attributes['carriers']:
@@ -496,19 +499,19 @@ class PhoneDBScraper:
             elapsed_seconds = time_elapsed % 60
             print("Finished processing phones. Time elapsed: %dm %ds" % (elapsed_minutes, elapsed_seconds))
             with open('phones.pickle', 'wb') as f:
-                print('Dumping phone pickle')
+                print('Dumping phone pickle: %d phones total' % len(self.phones))
                 pickle.dump(self.phones, f)
                 print('Done.')
             with open('oss.pickle', 'wb') as f:
-                print('Dumping os pickle')
+                print('Dumping os pickle: %d os total' % len(self.oss))
                 pickle.dump([self.oss[k] for k in self.oss], f)
                 print('Done.')
             with open('brands.pickle', 'wb') as f:
-                print('Dumping brands pickle')
+                print('Dumping brands pickle: %d brands total' % len(self.brands))
                 pickle.dump([self.brands[k] for k in self.brands], f)
                 print('Done.')
             with open('carriers.pickle', 'wb') as f:
-                print('Dumping carriers pickle')
+                print('Dumping carriers pickle: %d carriers total' % len(self.carriers))
                 pickle.dump([self.carriers[k] for k in self.carriers], f)
                 print('Done.')
             return self.phones
