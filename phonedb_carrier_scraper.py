@@ -354,15 +354,20 @@ class PhoneDBScraper:
                     name = phone_general_attributes['brand'] + ' ' + phone_general_attributes['model']
                     print(': %s' % name)
 
+                    # If the phone has a brand...
                     if 'brand' in phone_general_attributes and phone_general_attributes['brand']:
+
+                        # ...and we haven't seen the brand before, make a new brand
                         if phone_general_attributes['brand'] not in self.brands:
                             self.brands[phone_general_attributes['brand']] = \
                                 app.models.Brand(phone_models=[name],
                                                  carriers=phone_general_attributes['carriers'] if 'carriers' in phone_general_attributes else [],
-                                                 os=[phone_software_attributes['os']] if 'os' in phone_software_attributes else None)
+                                                 os=[phone_software_attributes['os']] if 'os' in phone_software_attributes else [])
+
+                        # ...otherwise, link to the existing brand
                         else:
                             if 'carriers' in phone_general_attributes and phone_general_attributes['carriers']:
-                                if isinstance(c, list):
+                                if isinstance(phone_general_attributes['carriers'], list):
                                     for c in phone_general_attributes['carriers']:
                                         if c not in self.brands[phone_general_attributes['brand']].carriers:
                                             self.brands[phone_general_attributes['brand']].carriers += [c]
