@@ -39,4 +39,5 @@ export type FuseResult<T> = {
 export type FuseMatches = {
   indices: Array<[number, number]>,
   key: string,
+  arrayIndex?: number,
 };

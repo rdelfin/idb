@@ -37,10 +37,17 @@ export function joinLinkLines(
 export function getRangesForProp(
   matches: Array<FuseMatches>,
   prop: string,
+  arrayIndex?: number,
 ): Array<[number, number]> {
-  const match = matches.find(match => match.key === prop);
-  if (match) {
-    return match.indices;
+  let match = matches.filter(match => match.key === prop);
+  if (match.length) {
+    if (arrayIndex !== undefined) {
+      match = match.find(m => m.arrayIndex === arrayIndex);
+      if (match)
+        return match.indices;
+      return [];
+    }
+    return match[0].indices;
   }
   return [];
 }
