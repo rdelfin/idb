@@ -14,19 +14,37 @@ type Props = {
   loading: boolean,
 };
 
+type AnimatedLinkProps = {
+  link: FuseResult<LinkSpec>,
+  delay: number,
+};
+
 class AnimatedLink extends React.PureComponent {
-  props: {link: FuseResult<LinkSpec>, delay: number};
+  props: AnimatedLinkProps;
   state: {rendered: boolean} = {
     rendered: false,
   };
   timeout: number;
 
   componentDidMount() {
+    this.animateIn();
+  }
+
+  componentWillReceiveProps(nextProps: AnimatedLinkProps) {
+    if (this.props.delay !== nextProps.delay) {
+      this.setState({
+        rendered: false,
+      });
+      this.animateIn(nextProps.delay);
+    }
+  }
+
+  animateIn(delay = this.props.delay) {
     this.timeout = setTimeout((() => {
       this.setState({
         rendered: true,
       });
-    }), this.props.delay);
+    }), delay);
   }
 
   componentWillUnmount() {
@@ -39,11 +57,14 @@ class AnimatedLink extends React.PureComponent {
             to={this.props.link.item.url}
             styleName={this.state.rendered ? "item shown" : "item"}>
         <div styleName="name">
-          <Highlighter ranges={getRangesForProp(this.props.link.matches, 'title')}>
+          <Highlighter
+            ranges={getRangesForProp(this.props.link.matches, 'title')}>
             {this.props.link.item.title || ''}
           </Highlighter>
         </div>
-        {this.props.link.item.spec.image && this.props.link.item.spec.image.length && <img styleName="image" src={this.props.link.item.spec.image} />}
+        {this.props.link.item.spec.image
+          && this.props.link.item.spec.image.length &&
+          <div styleName="image" style={{backgroundImage: `url(${this.props.link.item.spec.image})`}} />}
         <ul styleName="stats">
           {this.props.link.item.stats.filter(stat => stat && /\w/.test(stat)).map((stat, i) => (
             <li key={i}>

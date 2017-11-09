@@ -22,12 +22,12 @@
   text-decoration: none;
   transition: 100ms linear background;
   cursor: pointer;
-  transition: 1s cubic-bezier(0.19, 1, 0.22, 1) all;
 }
 
 .item.shown {
   top: 0;
   opacity: 1;
+  transition: 1s cubic-bezier(0.19, 1, 0.22, 1) all;
 }
 
 .item:hover {
@@ -37,7 +37,11 @@
 .image {
   margin: 16px -24px 0;
   width: 300px;
-  height: auto;
+  height: 300px;
+  background-color: #fff;
+  background-size: contain;
+  background-position: 50% 50%;
+  background-repeat: no-repeat;
 }
 
 .name {
@@ -45,6 +49,9 @@
   font-weight: 600;
   color: inherit;
   text-decoration: none;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .stats {
