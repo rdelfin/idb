@@ -1,7 +1,8 @@
 // @flow
+import _ from 'lodash';
 import React from 'react';
 import {Link} from 'react-router-dom';
-import type {ReactChildren} from './types';
+import type {FuseMatches, ReactChildren} from './types';
 
 export function joinLines(arr: Array<string>) {
   const ret = [];
@@ -27,4 +28,15 @@ export function joinLinkLines(
     ret.push(<br key={i * 2 + 1} />);
   });
   return ret;
+}
+
+export function getRangesForProp(
+  matches: Array<FuseMatches>,
+  prop: string,
+): Array<[number, number]> {
+  const match = matches.find(match => match.key === prop);
+  if (match) {
+    return match.indices;
+  }
+  return [];
 }
