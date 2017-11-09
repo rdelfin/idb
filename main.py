@@ -28,28 +28,28 @@ def carriers_get():
 @app.route('/models/<id>')
 def model_id_get(id):
     model = db.get_model_id(id)
-    if model is None
+    if model is None:
         return jsonify({"error": "Model not found"}), 404
     return jsonify(model.serialize())
 
 @app.route('/brands/<id>')
 def brands_id_get(id):
     brand = db.get_brand_id(id)
-    if brand is None
+    if brand is None:
         return jsonify({"error": "Brand not found"}), 404
     return jsonify(brand.serialize())
 
 @app.route('/os/<id>')
 def os_id_get(id):
     os = db.get_os_id(id)
-    if os is None
+    if os is None:
         return jsonify({"error": "OS not found"}), 404
     return jsonify(os.serialize())
 
 @app.route('/carriers/<id>')
 def carriers_id_get(id):
     carrier = db.get_model_id(id)
-    if carrier is None
+    if carrier is None:
         return jsonify({"error": "Carrier not found"}), 404
     return jsonify(carrier.serialize())
 
