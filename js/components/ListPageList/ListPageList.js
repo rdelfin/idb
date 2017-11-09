@@ -40,7 +40,7 @@ class AnimatedLink extends React.PureComponent {
             styleName={this.state.rendered ? "item shown" : "item"}>
         <div styleName="name">
           <Highlighter ranges={getRangesForProp(this.props.link.matches, 'title')}>
-            {this.props.link.item.title}
+            {this.props.link.item.title || ''}
           </Highlighter>
         </div>
         {this.props.link.item.spec.image && this.props.link.item.spec.image.length && <img styleName="image" src={this.props.link.item.spec.image} />}

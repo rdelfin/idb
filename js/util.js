@@ -4,9 +4,13 @@ import React from 'react';
 import {Link} from 'react-router-dom';
 import type {FuseMatches, ReactChildren} from './types';
 
-export function joinLines(arr: Array<string>) {
+export function joinLines(arr: Array<string> | string) {
+  if (typeof arr === 'string') {
+    return arr;
+  }
   const ret = [];
   arr.forEach((item, i) => {
+    if (!item || !item.length) return;
     ret.push(<span key={i * 2}>{item}</span>);
     ret.push(<br key={i * 2 + 1} />);
   });
