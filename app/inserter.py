@@ -72,15 +72,20 @@ def insert_models(models, session):
         os = session.query(tables.OS).filter_by(name=model.software.os).first()
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
 
+
         cpu = tables.Cpu(model=model.hardware.cpu.model,
                          additional_info=json.dumps(model.hardware.cpu.additional_info),
-                         clock_speed=model.hardware.cpu.clock_speed)
+                         clock_speed=model.hardware.cpu.clock_speed) if model.hardware.cpu is not None else None
+
         gpu = tables.Gpu(model=model.hardware.gpu.model,
-                         clock_speed=model.hardware.gpu.clock_speed)
+                         clock_speed=model.hardware.gpu.clock_speed) if model.hardware.gpu is not None else None
+
         ram = tables.Ram(type_m=model.hardware.ram.type_m,
-                         capacity=model.hardware.ram.capacity)
+                         capacity=model.hardware.ram.capacity) if model.hardware.ram is not None else None
+
         nv_memory = tables.NonvolatileMemory(type_m=model.hardware.nonvolatile_memory.type_m,
-                                             capacity=model.hardware.nonvolatile_memory.capacity)
+                                             capacity=model.hardware.nonvolatile_memory.capacity) if model.hardware.nonvolatile_memory is not None else None
+
         hardware = tables.Hardware(cpu=cpu, gpu=gpu, ram=ram, nonvolatile_memory=nv_memory)
 
         physical_attributes = tables.PhysicalAttribute(width=model.physical_attributes.width,
@@ -142,8 +147,8 @@ def insert_carrier_brand(carriers, session):
     for carrier in carriers:
         orm_carrier = session.query(tables.Carrier).filter_by(name=carrier.name).one()
         for brand in carrier.brands:
-            orm_brand = session.query(tables.Brand).filter_by(name=brand.name).one()
-            orm_carrier.brands += orm_brand
+            orm_brand = session.query(tables.Brand).filter_by(name=brand).one()
+            orm_carrier.brands += [orm_brand]
 
 
 def insert_carrier_model(carriers, session):

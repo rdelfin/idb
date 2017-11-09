@@ -18,9 +18,9 @@ class PhysicalAttribute(Base):
     __tablename__ = 'physical_attribute'
 
     id = Column(Integer, primary_key=True)
-    width = Column(Float)
-    height = Column(Float)
-    depth = Column(Float)
+    width = Column(String)
+    height = Column(String)
+    depth = Column(String)
     dimensions = Column(String)
     mass = Column(String)
 
