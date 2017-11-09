@@ -19,7 +19,7 @@ class PhysicalAttributes:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Hardware:
@@ -38,7 +38,7 @@ class Hardware:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Cpu:
@@ -58,7 +58,7 @@ class Cpu:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Gpu:
@@ -73,7 +73,7 @@ class Gpu:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Ram:
@@ -88,7 +88,7 @@ class Ram:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class NonvolatileMemory:
@@ -103,7 +103,7 @@ class NonvolatileMemory:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Display:
@@ -135,7 +135,7 @@ class Display:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Camera:
@@ -172,7 +172,7 @@ class Camera:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Camcorder:
@@ -187,7 +187,7 @@ class Camcorder:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Software:
@@ -206,7 +206,7 @@ class Software:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Model:
@@ -262,7 +262,7 @@ class Model:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Brand:
@@ -305,7 +305,7 @@ class Brand:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class OS:
@@ -350,7 +350,7 @@ class OS:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
 
 
 class Carrier:
@@ -381,4 +381,4 @@ class Carrier:
         }
 
     def __repr__(self):
-        return repr(self.serialize)
+        return repr(self.serialize())
