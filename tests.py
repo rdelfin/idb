@@ -47,6 +47,27 @@ class DbInterfaceTests (TestCase):
         self.assertEqual(len(self.db.get_model_all()), 1)
         self.assertEqual(self.db.get_model_all()[0].name, "LG v10")
 
+    def test_single_model(self):
+        self.assertNotEqual(self.db.get_model_id(1), None)
+        self.assertEqual(self.db.get_model_id(1).name, "LG v10")
+        self.assertEqual(self.db.get_model_id(2), None)
+    
+    def test_single_brand(self):
+        self.assertNotEqual(self.db.get_brand_id(1), None)
+        self.assertEqual(self.db.get_brand_id(1).name, "LG")
+        self.assertEqual(self.db.get_brand_id(2), None)
+
+    def test_single_os(self):
+        self.assertNotEqual(self.db.get_os_id(1), None)
+        self.assertEqual(self.db.get_os_id(1).name, "Android")
+        self.assertEqual(self.db.get_os_id(2), None)
+
+    def test_single_carriers(self):
+        self.assertNotEqual(self.db.get_carrier_id(1), None)
+        self.assertEqual(self.db.get_carrier_id(1).name, "Verizon")
+        self.assertEqual(self.db.get_carrier_id(2), None)
+
+
 class MultiplePhonesTests(TestCase):
     def setUp(self):
         self.engine = create_engine('sqlite:///:memory:', echo=False)

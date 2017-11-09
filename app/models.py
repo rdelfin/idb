@@ -266,9 +266,9 @@ class Model:
 
 
 class Brand:
-    def __init__(self, image, name, type_m, industries, found_date, location,
-                 area_served, phone_models, carriers, os, founders,
-                 parent):
+    def __init__(self, image=None, name=None, type_m=None, industries=None, found_date=None, location=None,
+                 area_served=None, phone_models=None, carriers=None, os=None, founders=None,
+                 parent=None):
         self.image = image
         self.name = name
         self.type_m = type_m
@@ -354,7 +354,7 @@ class OS:
 
 
 class Carrier:
-    def __init__(self, image, name, short_name=None, cellular_networks=None,
+    def __init__(self, image=None, name=None, short_name=None, cellular_networks=None,
                  covered_countries=None, brands=None, models=None):
         self.image = image
         self.name = name
