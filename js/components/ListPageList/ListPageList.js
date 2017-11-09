@@ -64,9 +64,11 @@ class AnimatedLink extends React.PureComponent {
         </div>
         {this.props.link.item.spec.image
           && this.props.link.item.spec.image.length &&
-          <div styleName="image" style={{backgroundImage: `url(${this.props.link.item.spec.image})`}} />}
+          <div styleName="image" style={{backgroundImage: `url(${this.props.link.item.spec.image})`}} /> ||
+          <div styleName="image" style={{backgroundImage: 'url(http://placekitten.com/g/300/300)'}} />}
         <ul styleName="stats">
-          {this.props.link.item.stats.filter(stat => stat && /\w/.test(stat)).map((stat, i) => (
+          {this.props.link.item.stats.map((stat, i) => (
+            stat && /\w/.test(stat) &&
             <li key={i}>
               <Highlighter ranges={getRangesForProp(this.props.link.matches, 'stats', i)}>
                 {stat}

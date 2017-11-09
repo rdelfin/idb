@@ -98,6 +98,11 @@ export default class FilterSort {
     let filtered;
     if (this.search.length) {
       filtered = this.fuse.search(this.search);
+      filtered.forEach(result => {
+        result.matches.forEach(match => {
+          match.indices = match.indices.filter(([i, j]) => j - i > 1);
+        });
+      });
     } else {
       filtered = this.source.map(item => ({item, matches: []}));
       const sortKey = this.sortKey;
