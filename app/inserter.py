@@ -54,11 +54,20 @@ def insert_brands(brands, session):
     session.add_all(brand_table)
 
 def insert_carriers(carriers, session):
+    unique_carrier_set = set()
+    unique_carrier_names = set()
+    for carrier in carriers:
+        if carrier.name in unique_carrier_names:
+            print("WARNING: CARRIER NAME SET ALREADY CONTAINS {0}".format(carrier.name))
+        else:
+            unique_carrier_set.add(carrier)
+            unique_carrier_names.add(carrier.name)
+        
     carrier_table = [ tables.Carrier(name=carrier.name,
                                      short_name=carrier.short_name,
                                      cellular_networks=json.dumps(carrier.cellular_networks),
                                      covered_countries=json.dumps(carrier.covered_countries),
-                                     image=carrier.image) for carrier in carriers ]
+                                     image=carrier.image) for carrier in unique_carrier_set ]
 
     session.add_all(carrier_table)
 
@@ -66,8 +75,8 @@ def insert_models(models, session):
     model_table = []
 
     for model in models:
-        print('Filter: {}'.format(model.software.os))
-        print('All OS: {}'.format(session.query(tables.OS).all()))
+        #print('Filter: {}'.format(model.software.os))
+        #print('All OS: {}'.format(session.query(tables.OS).all()))
 
         os = session.query(tables.OS).filter_by(name=model.software.os).first()
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
@@ -155,5 +164,6 @@ def insert_carrier_model(carriers, session):
     for carrier in carriers:
         orm_carrier = session.query(tables.Carrier).filter_by(name=carrier.name).one()
         for model in carrier.models:
-            orm_model = session.query(tables.Model).filter_by(name=model.name).one()
-            orm_carrier.models += orm_model
+            # print(model)
+            orm_model = session.query(tables.Model).filter_by(name=model).one()
+            orm_carrier.models += [orm_model]
