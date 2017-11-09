@@ -28,7 +28,7 @@ export default class ManufacturerHome extends React.PureComponent {
       title: manufacturer.name,
       stats: _.at(manufacturer, [
         'type',
-        'industries[0]',
+        'found_date',
         'location',
         'area_served',
       ]),

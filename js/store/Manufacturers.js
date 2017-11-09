@@ -22,6 +22,18 @@ export const sortKeys: Array<KeyDef> = [
     path: 'name',
     displayName: 'Name',
   },
+  {
+    path: 'type',
+    displayName: 'Funding Type',
+  },
+  {
+    path: 'found_date',
+    displayName: 'Date Founded',
+  },
+  {
+    path: 'location',
+    displayName: 'Location',
+  },
 ];
 
 export default createAsyncStore(() => fetch('/brands').then(res => res.json()));

@@ -23,6 +23,22 @@ export const sortKeys: Array<KeyDef> = [
     path: 'name',
     displayName: 'Name',
   },
+  {
+    path: 'release_date',
+    displayName: 'Release Date',
+  },
+  {
+    path: 'developer',
+    displayName: 'Developer',
+  },
+  {
+    path: 'os_kernel',
+    displayName: 'Kernel',
+  },
+  {
+    path: 'family',
+    displayName: 'Family',
+  },
 ];
 
 export default createAsyncStore(() => fetch('/os').then(res => res.json()));
