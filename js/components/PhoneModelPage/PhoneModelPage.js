@@ -128,49 +128,9 @@ export default class PhoneModelPage extends PureComponent {
         icon: 'desktop',
         rows: [
           {
-            title: 'Size',
-            shown: model.display.diagonal,
-            value: () => {
-              if (model.display.width && model.display.height)
-                return `${model.display.diagonal} (${model.display.width} x ${model.display.height})`;
-              else
-                return model.display.diagonal;
-            },
-          },
-          {
             title: 'Resolution',
             shown: model.display.resolution,
-            value: () => {
-              if (model.display.pixel_density)
-                return `${model.display.resolution} @ ${model.display.pixel_density}`;
-              else
-                return model.display.resolution;
-            },
-          },
-          {
-            title: 'Type',
-            shown: model.display.type,
-            value: () => model.display.type,
-          },
-          {
-            title: 'Color Depth',
-            shown: model.display.color_depth,
-            value: () => model.display.color_depth,
-          },
-          {
-            title: 'Bezel',
-            shown: model.display.bezel_width,
-            value: () => {
-              if (model.display.area_utilization)
-                return `${model.display.bezel_width} (${model.display.area_utilization} utilization)`;
-              else
-                return model.display.bezel_width;
-            },
-          },
-          {
-            title: 'Glass',
-            shown: model.display.screen,
-            value: () => model.display.screen,
+            value: () => model.display.resolution,
           },
         ],
       }
