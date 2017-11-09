@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import Fuse from 'fuse.js';
 import type {Fuse as FuseType, FuseResult, FuseMatches} from './types';
 
@@ -16,25 +17,33 @@ const FUSE_OPTIONS = {
   keys: ["title"],
 };
 
-export default class FilterSort<T: {title: string}> {
+type Options<T> = {
+  source?: Array<T>,
+  search?: string,
+  sortKey?: string,
+  sortDesc?: boolean,
+  pageSize?: number,
+};
+
+export default class FilterSort<T: {title: string, spec: Object}> {
   source: Array<T>;
   fuse: FuseType<T>;
   search: string;
-  sortKey: $Keys<T>;
+  sortKey: string;
+  sortDesc: boolean;
   pageSize: number;
   filtered: Array<FuseResult<T>>;
 
   constructor(
     source: Array<T>,
-    initSearch: string = '',
-    initSortKey: $Keys<T> = 'title',
-    initPageSize: number = 10,
+    {search, sortKey, sortDesc, pageSize}: Options<T> = {},
   ) {
     this.source = source;
     this.fuse = new Fuse(source, FUSE_OPTIONS);
-    this.search = initSearch;
-    this.sortKey = initSortKey;
-    this.pageSize = initPageSize;
+    this.search = search || '';
+    this.sortKey = sortKey || 'name';
+    this.sortDesc = !!sortDesc;
+    this.pageSize = pageSize || 20;
     this.filtered = this._filter();
   }
 
@@ -44,12 +53,7 @@ export default class FilterSort<T: {title: string}> {
     this.filtered = this._filter();
   }
 
-  setFilterParams({source, search, sortKey, pageSize}: {
-    source?: Array<T>,
-    search?: string,
-    sortKey?: $Keys<T>,
-    pageSize?: number,
-  }): number {
+  setFilterParams({source, search, sortKey, sortDesc, pageSize}: Options<T>): number {
     let shouldRefilter = false;
     if (source != null && this.source !== source) {
       this.source = source;
@@ -63,6 +67,10 @@ export default class FilterSort<T: {title: string}> {
     if (sortKey != null && this.sortKey !== sortKey) {
       shouldRefilter = true;
       this.sortKey = sortKey;
+    }
+    if (sortDesc != null && this.sortDesc !== sortDesc) {
+      shouldRefilter = true;
+      this.sortDesc = sortDesc;
     }
     if (shouldRefilter) {
       this.filtered = this._filter();
@@ -88,7 +96,12 @@ export default class FilterSort<T: {title: string}> {
       filtered = this.fuse.search(this.search);
     } else {
       filtered = this.source.map(item => ({item, matches: []}));
-      filtered.sort((a, b) => +(a.item[this.sortKey] < b.item[this.sortKey]));
+      const sortKey = this.sortKey;
+      filtered.sort((a, b) =>
+        (_.at(a.item.spec, sortKey)[0] || '').toUpperCase().localeCompare(
+          (_.at(b.item.spec, sortKey)[0] || '').toUpperCase()));
+      if (this.sortDesc)
+        filtered.reverse();
     }
     return filtered;
   }

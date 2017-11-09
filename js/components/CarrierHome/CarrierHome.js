@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import Carriers from '../../store/Carriers';
+import Carriers, {sortKeys} from '../../store/Carriers';
 import type {Carrier} from '../../store/Carriers';
 
 type State = {
@@ -28,6 +28,7 @@ export default class CarrierHome extends React.Component {
       stats: Array.isArray(carrier.covered_countries) ?
           carrier.covered_countries : [carrier.covered_countries]
         .concat(carrier.cellular_networks || []),
+      spec: carrier,
     }));
   }
 
@@ -36,7 +37,8 @@ export default class CarrierHome extends React.Component {
       <ListPage
         title="Carriers"
         links={this.getList()}
-        loading={this.state.loading} />
+        loading={this.state.loading}
+        sortKeys={sortKeys} />
       );
   }
 }

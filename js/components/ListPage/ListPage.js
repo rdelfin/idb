@@ -5,12 +5,14 @@ import {Link} from 'react-router-dom';
 import FilterSort from '../../FilterSort';
 import ListPageList from '../ListPageList';
 import type {ReactChildren} from '../../types';
+import type {KeyDef} from '../../store/util';
 import './listPage.css';
 
 type Props = {
   title: ReactChildren<*>,
   links: Array<LinkSpec>,
   loading: boolean,
+  sortKeys: Array<KeyDef>,
 };
 
 type State = {
@@ -18,12 +20,15 @@ type State = {
   searchQuery: string,
   page: number,
   numPages: number,
+  sortKey: string,
+  sortDesc: boolean,
 };
 
 export type LinkSpec = {
   url: string,
   title: string,
   stats: Array<string>,
+  spec: {image: string},
 };
 
 export default class ListPage extends React.PureComponent {
@@ -38,6 +43,8 @@ export default class ListPage extends React.PureComponent {
       filterSort: filterSort,
       page: 0,
       numPages: filterSort.getNumPages(),
+      sortKey: props.sortKeys[0].path,
+      sortDesc: false,
     };
   }
 
@@ -71,6 +78,21 @@ export default class ListPage extends React.PureComponent {
     this.setState({page});
   };
 
+  handleSelectSortKey = (sortKey: string) => () => {
+    this.state.filterSort.setFilterParams({sortKey});
+    this.setState({sortKey, page: 0});
+  };
+
+  handleSortDesc = () => {
+    this.state.filterSort.setFilterParams({sortDesc: true});
+    this.setState({sortDesc: true, page: 0});
+  };
+
+  handleSortAsc = () => {
+    this.state.filterSort.setFilterParams({sortDesc: false});
+    this.setState({sortDesc: false, page: 0});
+  };
+
   render() {
     return (
       <div styleName="root">
@@ -84,16 +106,40 @@ export default class ListPage extends React.PureComponent {
             value={this.state.searchQuery} />
         </div>
         <div styleName="pagination">
-          <button onClick={this.handlePrevPageClick}>Prev</button>
-          {(Array: any).apply(null, {length: this.state.numPages}).map((_, i) =>
+          <div>
+            <button onClick={this.handlePrevPageClick}>Prev</button>
+            {(Array: any).apply(null, {length: this.state.numPages}).map((_, i) =>
+              <button
+                key={i}
+                onClick={this.handleJumpToPageClick(i)}
+                styleName={i === this.state.page ? 'selected' : ''}>
+                {i + 1}
+              </button>
+            )}
+            <button onClick={this.handleNextPageClick}>Next</button>
+          </div>
+          <div>
+            <span>Sort By:</span>
+            {this.props.sortKeys.map(({path, displayName}, i) =>
+              <button
+                key={i}
+                styleName={path === this.state.sortKey ? 'selected' : ''}
+                onClick={this.handleSelectSortKey(path)}>
+                {displayName}
+              </button>
+            )}
+            <span styleName="spacer">|</span>
             <button
-              key={i}
-              onClick={this.handleJumpToPageClick(i)}
-              styleName={i === this.state.page ? 'selected' : ''}>
-              {i + 1}
+              styleName={this.state.sortDesc ? '' : 'selected'}
+              onClick={this.handleSortAsc}>
+              Ascending
             </button>
-          )}
-          <button onClick={this.handleNextPageClick}>Next</button>
+            <button
+              styleName={this.state.sortDesc ? 'selected' : ''}
+              onClick={this.handleSortDesc}>
+              Descending
+            </button>
+          </div>
         </div>
         <ListPageList
           links={this.state.filterSort.getPage(this.state.page)}

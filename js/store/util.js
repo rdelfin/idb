@@ -90,3 +90,8 @@ export function delayedPromisify<T>(result: T, delay: number): Promise<T> {
     }, delay);
   });
 }
+
+export type KeyDef = {
+  path: string,
+  displayName: string,
+};

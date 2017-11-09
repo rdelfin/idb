@@ -1,7 +1,7 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import Os from '../../store/Os';
+import Os, {sortKeys} from '../../store/Os';
 import type {Os as OsData} from '../../store/Os';
 
 type State = {
@@ -31,6 +31,7 @@ export default class OsHome extends React.Component {
         os.os_kernel && `${os.os_kernel} kernel`,
         os.os_family,
       ].concat(os.supported_cpu_instruction_sets),
+      spec: os,
     }));
   }
 
@@ -39,7 +40,8 @@ export default class OsHome extends React.Component {
       <ListPage
         title="Operating Systems"
         links={this.getList()}
-        loading={this.state.loading} />
+        loading={this.state.loading}
+        sortKeys={sortKeys} />
       );
   }
 }

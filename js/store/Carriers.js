@@ -1,5 +1,6 @@
 // @flow
 import {createAsyncStore, delayedPromisify} from './util';
+import type {KeyDef} from './util';
 
 export type Carrier = {
   image: string,
@@ -10,5 +11,12 @@ export type Carrier = {
   brands: Array<string>,
   models: Array<string>,
 };
+
+export const sortKeys: Array<KeyDef> = [
+  {
+    path: 'name',
+    displayName: 'Name',
+  },
+];
 
 export default createAsyncStore(() => fetch('/carriers').then(res => res.json()));
