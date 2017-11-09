@@ -31,10 +31,10 @@ class Hardware:
 
     def serialize(self):
         return {
-            'cpu': self.cpu.serialize(),
-            'gpu': self.gpu.serialize(),
-            'ram': self.ram.serialize(),
-            'nonvolatile_memory': self.nonvolatile_memory.serialize()
+            'cpu': self.cpu.serialize() if self.cpu is not None else None,
+            'gpu': self.gpu.serialize() if self.gpu is not None else None,
+            'ram': self.ram.serialize() if self.ram is not None else None,
+            'nonvolatile_memory': self.nonvolatile_memory.serialize() if self.nonvolatile_memory is not None else None
         }
 
     def __repr__(self):
@@ -167,7 +167,7 @@ class Camera:
             'optical_zoom': self.optical_zoom,
             'digital_zoom': self.digital_zoom,
             'focus': self.focus,
-            'camcorder': self.camcorder.serialize(),
+            'camcorder': self.camcorder.serialize() if self.camcorder is not None else None,
             'flash': self.flash
         }
 
@@ -254,7 +254,7 @@ class Model:
             'market_countries': self.market_countries,
             'market_regions': self.market_regions,
             'carriers': self.carriers,
-            'physical_attributes': self.physical_attributes.serialize(),
+            'physical_attributes': self.physical_attributes.serialize() if self.physical_attributes is not None else None,
             'software': self.software.serialize() if self.software is not None else None,
             'hardware': self.hardware.serialize() if self.hardware is not None else None,
             'display': self.display.serialize() if self.display is not None else None,
