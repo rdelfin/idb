@@ -18,9 +18,9 @@ def table_model_to_model(model):
 
     if model.hardware is not None:
         cpu = models.Cpu(model.hardware.cpu.model,
-                        model.hardware.cpu.additional_info,
-                        model.hardware.cpu.clock_speed) \
-                        if model.hardware.cpu is not None else None
+                         json.loads(model.hardware.cpu.additional_info) if model.hardware.cpu.additional_info is not None else [],
+                         model.hardware.cpu.clock_speed) \
+                         if model.hardware.cpu is not None else None
 
         gpu = models.Gpu(model.hardware.gpu.model,
                             model.hardware.gpu.clock_speed) \
@@ -77,15 +77,17 @@ def table_model_to_model(model):
                                     camera.flash)]
     return models.Model(
                 model.image, model.name, brand_name, model.model, model.release_date,
-                model.hardware_designer, model.manufacturers, model.codename,
-                model.market_countries, model.market_regions, carriers_names,
-                phys_attr, hardware, software,
-                display, cameras)
+                model.hardware_designer,
+                json.loads(model.manufacturers) if model.manufacturers is not None else [],
+                model.codename,
+                json.loads(model.market_countries) if model.market_countries is not None else [],
+                json.loads(model.market_regions) if model.market_regions is not None else [],
+                carriers_names, phys_attr, hardware, software, display, cameras)
 
 def table_brand_to_model(brand):
     model_names = [model.name for model in brand.models]
     carrier_names = [carrier.name for carrier in brand.carriers]
-    os_names = list({model.os.name for model in brand.models})
+    os_names = list({model.os.name for model in brand.models if model.os is not None})
 
     return models.Brand(brand.image, brand.name, brand.type_m,
                         json.loads(brand.industries) if brand.industries is not None else [],
@@ -111,7 +113,7 @@ def table_carrier_to_model(carrier):
     return models.Carrier(carrier.image, carrier.name,
                           carrier.short_name,
                           json.loads(carrier.cellular_networks) if carrier.cellular_networks is not None else [],
-                          carrier.covered_countries,
+                          json.loads(carrier.covered_countries) if carrier.covered_countries is not None else [],
                           brand_names, model_names)
 
 class Database:
