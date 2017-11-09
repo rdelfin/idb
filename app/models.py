@@ -255,9 +255,9 @@ class Model:
             'market_regions': self.market_regions,
             'carriers': self.carriers,
             'physical_attributes': self.physical_attributes.serialize(),
-            'software': self.software.serialize() if self.software is not None,
-            'hardware': self.hardware.serialize() if self.hardware is not None,
-            'display': self.display.serialize() if self.display is not None,
+            'software': self.software.serialize() if self.software is not None else None,
+            'hardware': self.hardware.serialize() if self.hardware is not None else None,
+            'display': self.display.serialize() if self.display is not None else None,
             'cameras': [camera.serialize() for camera in self.cameras]
         }
 
