@@ -27,7 +27,7 @@ class PhysicalAttribute(Base):
     models = relationship('Model', back_populates='physical_attribute')
 
     def __repr__(self):
-        return "<PhysicalAttributes(width='%s', height='%d', depth='%s', " \
+        return "<PhysicalAttributes(width='%s', height='%s', depth='%s', " \
                "dimensions='%s', mass='%s')>" % \
                (self.width, self.height, self.depth, self.dimensions,
                 self.mass)
