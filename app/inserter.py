@@ -38,8 +38,12 @@ def insert_os(oss, session):
     session.add_all(os_table)
 
 def insert_brands(brands, session):
-    brand_table = [ tables.Brand(name=brand.name, type_m=brand.type_m,
-                                 industries=json.dumps(brand.industries),
+    for brand in brands:
+        if not hasattr(brand, 'type_m'):
+            print("WARNING. {0} has no 'type_m'".format(brand.name))
+
+    brand_table = [ tables.Brand(name=brand.name, type_m=brand.type_m if hasattr(brand, 'type_m') else "",
+                                 industries=json.dumps(brand.industries) if hasattr(brand, 'industries') else "[]",
                                  found_date=brand.found_date,
                                  location=brand.location,
                                  area_served=brand.area_served,
@@ -69,7 +73,7 @@ def insert_models(models, session):
         brand = session.query(tables.Brand).filter_by(name=model.brand).one()
 
         cpu = tables.Cpu(model=model.hardware.cpu.model,
-                         additional_info=model.hardware.cpu.additional_info,
+                         additional_info=json.dumps(model.hardware.cpu.additional_info),
                          clock_speed=model.hardware.cpu.clock_speed)
         gpu = tables.Gpu(model=model.hardware.gpu.model,
                          clock_speed=model.hardware.gpu.clock_speed)
@@ -122,7 +126,7 @@ def insert_models(models, session):
                                  codename=model.codename,
                                  market_countries=json.dumps(model.market_countries),
                                  market_regions=json.dumps(model.market_regions),
-                                 physical_attributes=physical_attributes,
+                                 physical_attribute=physical_attributes,
                                  hardware=hardware,
                                  display=display,
                                  cameras=cameras,
