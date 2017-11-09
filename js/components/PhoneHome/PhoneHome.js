@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React from 'react';
 import ListPage from '../ListPage';
 import Spniner from '../Spinner';
@@ -26,13 +27,13 @@ export default class PhoneHome extends React.Component {
     return this.state.data.map((model, i) => ({
       url: `/phones/${i}`,
       title: model.name,
-      stats: [
-        model.release_date,
-        model.physical_attributes.dimensions,
-        model.physical_attributes.mass,
-        model.hardware.cpu.model,
-        model.display.resolution,
-      ],
+      stats: _.at(model, [
+        'release_date',
+        'physical_attributes.dimensions',
+        'physical_attributes.mass',
+        'hardware.cpu.model',
+        'display.resolution',
+      ]),
       spec: model,
     }));
   }

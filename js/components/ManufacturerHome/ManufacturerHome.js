@@ -1,4 +1,5 @@
 // @flow
+import _ from 'lodash';
 import React from 'react';
 import ListPage from '../ListPage';
 import Manufacturers, {sortKeys} from '../../store/Manufacturers';
@@ -25,13 +26,12 @@ export default class ManufacturerHome extends React.PureComponent {
     return this.state.data.map((manufacturer, i) => ({
       url: `/manufacturers/${i}`,
       title: manufacturer.name,
-      stats: [
-        manufacturer.type,
-        manufacturer.industries[0],
-        `Founded ${manufacturer.found_date}`,
-        manufacturer.location,
-        manufacturer.area_served,
-      ],
+      stats: _.at(manufacturer, [
+        'type',
+        'industries[0]',
+        'location',
+        'area_served',
+      ]),
       spec: manufacturer,
     }));
   }
