@@ -1,14 +1,56 @@
 @import '../../shared/var';
 
+@keyframes bganim {
+  from {
+    opacity: 1;
+    filter: blur(0px);
+  }
+
+  to {
+    opacity: .3;
+    filter: blur(5px);
+  }
+}
+
+@keyframes fganim {
+  from, 50% {
+    opacity: 0;
+    filter: blur(5px);
+  }
+
+  to {
+    opacity: 1;
+    filter: blur(0px);
+  }
+}
+
 .root {
-  background: #2c3e50;
+  animation-name: fganim;
+  animation-duration: 1s;
   box-sizing: border-box;
   min-height: calc(100vh - #{$navbar-height});
   height: 100%;
   padding: 20vh 32px 0;
   color: rgba(255, 255, 255, 0.9);
   text-align: center;
-  text-shadow: 0px 1px 2px rgba(0, 0, 0, 0.5);
+  text-shadow: 0px 1px 1px rgba(0, 0, 0, 1);
+}
+
+.bg {
+  animation-name: bganim;
+  animation-duration: 1s;
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+  opacity: .3;
+  background: url(/static/images/homebg.jpg);
+  background-size: cover;
+  background-position: 50% 50%;
+  filter: blur(5px);
 }
 
 .title {
@@ -42,7 +84,7 @@
   margin: 24px;
   padding: 32px 24px;
   border-radius: 4px;
-  background: lighten($body-background, 5%);
+  background: transparentize($body-background, 0.3);
   box-sizing: border-box;
   color: inherit;
   box-shadow: 0 1px 2px darken($body-background, 20%);
