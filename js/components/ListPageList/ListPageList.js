@@ -2,7 +2,9 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 import throttle from 'throttle-debounce/throttle';
+import Highlighter from '../Highlighter';
 import Spinner from '../Spinner';
+import {getRangesForProp} from '../../util';
 import type {FuseResult} from '../../types';
 import type {LinkSpec} from '../ListPage/ListPage';
 import './listPageList.css';
@@ -36,10 +38,20 @@ class AnimatedLink extends React.PureComponent {
       <Link key={this.props.link.item.url}
             to={this.props.link.item.url}
             styleName={this.state.rendered ? "item shown" : "item"}>
-        <div styleName="name">{this.props.link.item.title}</div>
+        <div styleName="name">
+          <Highlighter ranges={getRangesForProp(this.props.link.matches, 'title')}>
+            {this.props.link.item.title || ''}
+          </Highlighter>
+        </div>
         {this.props.link.item.spec.image && this.props.link.item.spec.image.length && <img styleName="image" src={this.props.link.item.spec.image} />}
         <ul styleName="stats">
-          {this.props.link.item.stats.filter(stat => stat && /\w/.test(stat)).map((stat, i) => <li key={i}>{stat}</li>)}
+          {this.props.link.item.stats.filter(stat => stat && /\w/.test(stat)).map((stat, i) => (
+            <li key={i}>
+              <Highlighter ranges={getRangesForProp(this.props.link.matches, 'stats', i)}>
+                {stat}
+              </Highlighter>
+            </li>
+          ))}
         </ul>
       </Link>
     );

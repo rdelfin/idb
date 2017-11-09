@@ -94,9 +94,7 @@ export default class PhoneModelPage extends PureComponent {
             shown: model.hardware.cpu,
             value: () =>
               <span>
-                {model.hardware.cpu.model}
-                <br />
-                {model.hardware.cpu.clock_speed}
+                {joinLines([model.hardware.cpu.model, model.hardware.cpu.clock_speed])}
               </span>,
           },
           {
@@ -104,9 +102,7 @@ export default class PhoneModelPage extends PureComponent {
             shown: model.hardware.gpu,
             value: () =>
               <span>
-                {(model.hardware.gpu: any).model}
-                <br />
-                {(model.hardware.gpu: any).clock_speed}
+                {joinLines([(model.hardware.gpu: any).model, (model.hardware.gpu: any).clock_speed])}
               </span>,
           },
           {
@@ -114,9 +110,7 @@ export default class PhoneModelPage extends PureComponent {
             shown: model.hardware.ram,
             value: () =>
               <span>
-                {model.hardware.ram.type}
-                <br />
-                {model.hardware.ram.capacity}
+                {joinLines([model.hardware.ram.type, model.hardware.ram.capacity])}
               </span>,
           },
           {
@@ -124,9 +118,7 @@ export default class PhoneModelPage extends PureComponent {
             shown: model.hardware.nonvolatile_memory,
             value: () =>
               <span>
-                {model.hardware.nonvolatile_memory.type}
-                <br />
-                {model.hardware.nonvolatile_memory.capacity}
+                {joinLines([model.hardware.nonvolatile_memory.type, model.hardware.nonvolatile_memory.capacity])}
               </span>,
           },
         ],

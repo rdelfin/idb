@@ -16,7 +16,7 @@ type Props = {
 };
 
 type State = {
-  filterSort: FilterSort<*>,
+  filterSort: FilterSort,
   searchQuery: string,
   page: number,
   numPages: number,

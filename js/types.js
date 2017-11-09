@@ -23,7 +23,7 @@ export type FuseOptions<T> = {
   distance?: number,
   maxPatternLength?: number,
   minMatchCharLength?: 1,
-  keys: Array<$Keys<T>>, // not really, since Fuse supports nested properties, but this suffices
+  keys: Array<string>,
 };
 
 export interface Fuse<T> {
@@ -33,10 +33,11 @@ export interface Fuse<T> {
 
 export type FuseResult<T> = {
   item: T,
-  matches: Array<FuseMatches<T>>,
+  matches: Array<FuseMatches>,
 };
 
-export type FuseMatches<T> = {
+export type FuseMatches = {
   indices: Array<[number, number]>,
-  key: $Keys<T>,
+  key: string,
+  arrayIndex?: number,
 };
