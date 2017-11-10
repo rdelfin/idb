@@ -1,5 +1,6 @@
 // @flow
 import React from 'react';
+import debounce from 'throttle-debounce/debounce';
 import throttle from 'throttle-debounce/throttle';
 import {Link} from 'react-router-dom';
 import FilterSort from '../../FilterSort';
@@ -19,6 +20,7 @@ type Props = {
 type State = {
   filterSort: FilterSort,
   searchQuery: string,
+  displayedSearchQuery: string,
   page: number,
   numPages: number,
   sortKey: string,
@@ -35,18 +37,21 @@ export type LinkSpec = {
 export default class ListPage extends React.PureComponent {
   props: Props;
   state: State;
+  debouncedHandleSearchInput: string => void;
 
   constructor(props: Props) {
     super(props);
     const filterSort = new FilterSort(props.links);
     this.state = {
       searchQuery: '',
+      displayedSearchQuery: '',
       filterSort: filterSort,
       page: 0,
       numPages: filterSort.getNumPages(),
       sortKey: props.sortKeys[0].path,
       sortDesc: false,
     };
+    this.debouncedHandleSearchInput = debounce(200, this.handleSearchInput).bind(this);
   }
 
   componentWillReceiveProps(nextProps: Props) {
@@ -56,11 +61,16 @@ export default class ListPage extends React.PureComponent {
     }
   }
 
-  handleSearchInput = (event: SyntheticEvent) => {
-    const val = ((event.target: any): HTMLInputElement).value;
-    this.setState({searchQuery: val, page: 0});
+  handleSearchInput = (val: string) => {
+    this.setState({page: 0});
     const numPages = this.state.filterSort.setFilterParams({search: val});
     this.setState({numPages});
+  };
+
+  realHandleSearchInput = (event: SyntheticEvent) => {
+    const val = ((event.target: any): HTMLInputElement).value;
+    this.setState({displayedSearchQuery: val});
+    this.debouncedHandleSearchInput(val);
   };
 
   handlePrevPageClick = () => {
@@ -117,8 +127,8 @@ export default class ListPage extends React.PureComponent {
             styleName="search"
             type="text"
             placeholder="Search"
-            onChange={this.handleSearchInput}
-            value={this.state.searchQuery} />
+            onChange={this.realHandleSearchInput}
+            value={this.state.displayedSearchQuery} />
         </div>
         <div styleName="pagination">
           <div>
