@@ -1,7 +1,7 @@
 @import '../../shared/var';
 
 @keyframes bganim {
-  from {
+  from, 50% {
     opacity: 1;
     filter: blur(0px);
   }
@@ -13,7 +13,7 @@
 }
 
 @keyframes fganim {
-  from, 50% {
+  from, 75% {
     opacity: 0;
     filter: blur(5px);
   }
@@ -26,7 +26,7 @@
 
 .root {
   animation-name: fganim;
-  animation-duration: 1s;
+  animation-duration: 1.5s;
   box-sizing: border-box;
   min-height: calc(100vh - #{$navbar-height});
   height: 100%;
@@ -38,7 +38,7 @@
 
 .bg {
   animation-name: bganim;
-  animation-duration: 1s;
+  animation-duration: 1.5s;
   content: "";
   position: fixed;
   top: 0;
