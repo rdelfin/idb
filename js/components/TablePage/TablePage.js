@@ -40,6 +40,7 @@ export default class TablePage extends React.PureComponent {
   }
 
   componentDidMount() {
+    window.scrollTo(0, 0);
     window.addEventListener('resize', this.throttledLoadColumns);
     this.loadColumns();
   }

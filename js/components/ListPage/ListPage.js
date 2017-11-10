@@ -54,6 +54,10 @@ export default class ListPage extends React.PureComponent {
     this.debouncedHandleSearchInput = debounce(200, this.handleSearchInput).bind(this);
   }
 
+  componentDidMount() {
+    window.scrollTo(0, 0);
+  }
+
   componentWillReceiveProps(nextProps: Props) {
     if (this.props.links !== nextProps.links) {
       const numPages = this.state.filterSort.setFilterParams({source: nextProps.links});
