@@ -110,5 +110,8 @@ node_modules/
 # IDEA project files
 .idea/
 
+<<<<<<< HEAD
 # VS Code Project files
 .vscode/
+=======
+>>>>>>> 33b00d0154b955490de9e742818fb0b80220803f
