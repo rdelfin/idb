@@ -17,6 +17,7 @@ export default class HamburgerMenu extends PureComponent<void, Props, void> {
           <Link to="/manufacturers" styleName="item">Manufacturers</Link>
           <Link to="/carriers" styleName="item">Carriers</Link>
           <Link to="/os" styleName="item">Operating Systems</Link>
+          <Link to="/search" styleName="item">Search</Link>
           <Link to="/about" styleName="item">About</Link>
         </div>
       </div>

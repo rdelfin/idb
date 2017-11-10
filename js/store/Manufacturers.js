@@ -1,6 +1,7 @@
 // @flow
 import {createAsyncStore, delayedPromisify} from './util';
 import type {KeyDef} from './util';
+import type {LinkSpec} from '../components/ListPage/ListPage';
 
 export type Manufacturer = {
   image: string,
@@ -35,5 +36,19 @@ export const sortKeys: Array<KeyDef> = [
     displayName: 'Location',
   },
 ];
+
+export function getLinkSpecs(mfs: Array<Manufacturer>): Array<LinkSpec> {
+  return mfs.map((manufacturer, i) => ({
+    url: `/manufacturers/${i}`,
+    title: manufacturer.name,
+    stats: _.at(manufacturer, [
+      'type',
+      'found_date',
+      'location',
+      'area_served',
+    ]),
+    spec: manufacturer,
+  }));
+}
 
 export default createAsyncStore(() => fetch('/brands').then(res => res.json()));

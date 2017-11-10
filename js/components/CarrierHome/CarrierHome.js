@@ -1,8 +1,9 @@
 // @flow
 import React from 'react';
 import ListPage from '../ListPage';
-import Carriers, {sortKeys} from '../../store/Carriers';
+import Carriers, {sortKeys, getLinkSpecs} from '../../store/Carriers';
 import type {Carrier} from '../../store/Carriers';
+import type {LinkSpec} from '../ListPage/ListPage';
 
 type State = {
   data: Array<Carrier>,
@@ -22,14 +23,7 @@ export default class CarrierHome extends React.Component {
   }
 
   getList() {
-    return this.state.data.map((carrier, i) => ({
-      url: `/carriers/${i}`,
-      title: carrier.short_name || carrier.name,
-      stats: Array.isArray(carrier.covered_countries) ?
-          carrier.covered_countries : [carrier.covered_countries]
-        .concat(carrier.cellular_networks || []),
-      spec: carrier,
-    }));
+    return getLinkSpecs(this.state.data);
   }
 
   render() {

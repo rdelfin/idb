@@ -1,6 +1,8 @@
 // @flow
+import _ from 'lodash';
 import {createAsyncStore, delayedPromisify} from './util';
 import type {KeyDef} from './util';
+import type {LinkSpec} from '../components/ListPage/ListPage';
 
 export type PhoneModel = {
   image: string,
@@ -121,5 +123,20 @@ export const sortKeys: Array<KeyDef> = [
     displayName: 'Display Resolution',
   },
 ];
+
+export function getLinkSpecs(models: Array<PhoneModel>): Array<LinkSpec> {
+  return models.map((model, i) => ({
+    url: `/phones/${i}`,
+    title: model.name,
+    stats: _.at(model, [
+      'release_date',
+      'physical_attributes.dimensions',
+      'physical_attributes.mass',
+      'hardware.cpu.model',
+      'display.resolution',
+    ]),
+    spec: model,
+  }));
+}
 
 export default createAsyncStore(() => fetch('/models').then(res => res.json()));
