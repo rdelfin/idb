@@ -2,7 +2,7 @@
 import _ from 'lodash';
 import React from 'react';
 import ListPage from '../ListPage';
-import Manufacturers, {sortKeys} from '../../store/Manufacturers';
+import Manufacturers, {sortKeys, getLinkSpecs} from '../../store/Manufacturers';
 import type {Manufacturer} from '../../store/Manufacturers';
 
 type State = {
@@ -23,17 +23,7 @@ export default class ManufacturerHome extends React.PureComponent {
   }
 
   getList() {
-    return this.state.data.map((manufacturer, i) => ({
-      url: `/manufacturers/${i}`,
-      title: manufacturer.name,
-      stats: _.at(manufacturer, [
-        'type',
-        'found_date',
-        'location',
-        'area_served',
-      ]),
-      spec: manufacturer,
-    }));
+    return getLinkSpecs(this.state.data);
   }
 
   render() {

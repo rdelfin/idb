@@ -3,8 +3,9 @@ import _ from 'lodash';
 import React from 'react';
 import ListPage from '../ListPage';
 import Spniner from '../Spinner';
-import PhoneModels, {sortKeys} from '../../store/PhoneModels';
+import PhoneModels, {sortKeys, getLinkSpecs} from '../../store/PhoneModels';
 import type {PhoneModel} from '../../store/PhoneModels';
+import type {LinkSpec} from '../ListPage/ListPage';
 
 type State = {
   data: Array<PhoneModel>,
@@ -23,19 +24,8 @@ export default class PhoneHome extends React.Component {
     });
   }
 
-  getList() {
-    return this.state.data.map((model, i) => ({
-      url: `/phones/${i}`,
-      title: model.name,
-      stats: _.at(model, [
-        'release_date',
-        'physical_attributes.dimensions',
-        'physical_attributes.mass',
-        'hardware.cpu.model',
-        'display.resolution',
-      ]),
-      spec: model,
-    }));
+  getList(): Array<LinkSpec> {
+    return getLinkSpecs(this.state.data);
   }
 
   render() {
