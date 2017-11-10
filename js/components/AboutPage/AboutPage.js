@@ -15,6 +15,9 @@ export default class AboutPage extends PureComponent {
           capabilities. Check out our <a href="https://utexas.box.com/s/7ew0i1gdr070totsro6m7bucagw8wmit" styleName="link">technical report</a> for
           more information. Check out our <a href="https://utexas.box.com/s/5ss2wwf6gnm625n1i1hmwalxqjjofzwq" styleName="link">UML Diagram</a> to see how our database is designed.
         </p>
+        <p styleName="description">
+          Our two data sources are <a href="http://gsmarena.com/" styleName="link">GSMArena</a> and <a href="http://pdadb.net" styleName="link">PDADB</a>, scraped using the <a href="https://www.crummy.com/software/BeautifulSoup/" styleName="link">BeautifulSoup</a> Python library. BeautifulSoup is used to traverse the HTML document tree and retrieve the relevant data, which is serialized and later deserialized using the <a href="https://docs.python.org/3/library/pickle.html" styleName="link">Pickle</a> Python module. Code for the scrapers are included in our <a href="https://github.com/rdelfin/idb" styleName="link">GitHub repository.</a>
+        </p>
         <h2 styleName="title2">Our Team</h2>
         <p styleName="description">We are a team of UT students who are passionate about getting an A in SWE and graduating on time.</p>
         <div styleName="teamCards">
