@@ -586,6 +586,72 @@ class PhoneDBScraper:
     def stash_carriers(self, file):
         pickle.dump(self.get_carriers(), file)
 
+    def get_true_os_name(self):
+        oss_with_fake_names = pickle.load(open('oss.pickle', 'rb'))
+        fake_names = {os.name for os in oss_with_fake_names}
+
+        time_start = time.time()
+        per_page = 58
+        pages = (348 // per_page) + 1
+
+        os_fake_to_true_names = {}
+
+        for n in range(0, per_page * pages, per_page):
+            page_suffix = "" if n == 0 else '&filter=%d' % n
+            url = "http://phonedb.net/index.php?m=opsys&s=list" + page_suffix
+            page = urllib.request.urlopen(url)
+            soup = BeautifulSoup(page, 'html.parser')
+
+            title_blocks = soup.find_all(lambda tag: tag.has_attr('class')
+                                         and re.compile("content_block_title")
+                                         .search(str(tag.get('class'))))
+
+            order_in_page = 0
+            for title in title_blocks:
+                order_in_page += 1
+                print("Processing OS %3d" % (n + order_in_page))
+
+                link = next(title.children)
+                os_url = urllib.request.urlopen(url + link.get('href'))
+                sub_soup = BeautifulSoup(os_url, 'html.parser')
+
+                os_true_name = next(sub_soup.find('h1').children)
+
+                info_table = sub_soup.find(lambda tag: tag.name == 'table'
+                                           and re.compile("width : 98%; margin : 2px;")
+                                           .search(str(tag.get('style'))))
+
+                table_rows = info_table.find_all('tr')
+                for row in table_rows:
+                    row_contents = row.contents
+                    if len(row_contents) != 5:
+                        continue
+                    key = row_contents[1]
+                    attr_name = key.find('strong')
+                    if not attr_name:
+                        attr_name = key
+                    try:
+                        attr_name = next(attr_name.children)
+                    except StopIteration:
+                        continue
+                    if attr_name != 'Full Name':
+                        continue
+                    val = row_contents[3]
+                    attr_content = val.contents[1].encode().decode()
+                    if attr_content not in fake_names:
+                        continue
+                    print("Found fake name: %s" % attr_content)
+                    os_true_name = os_true_name.encode().decode()
+                    os_fake_to_true_names[attr_content] = os_true_name
+                    print("Mapped %s -> %s" % (attr_content, os_true_name))
+        time_end = time.time()
+        time_elapsed = time_end - time_start
+        elapsed_minutes = time_elapsed // 60
+        elapsed_seconds = time_elapsed % 60
+        print("Finished processing OSs. Time elapsed: %dm %ds" % (elapsed_minutes, elapsed_seconds))
+
+        return os_fake_to_true_names
+
 
 if __name__ == "__main__":
     pdadb = PhoneDBScraper()
@@ -601,12 +667,15 @@ if __name__ == "__main__":
     #         print("Done.")
     # finally:
     #     result = pdadb.get_carriers()
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'random':
-            pdadb.model_rand = int(sys.argv[2])
-        else:
-            pdadb.model_limit = int(sys.argv[1])
-    else:
-        pdadb.model_limit = None
-        pdadb.model_rand = None
-    phones = pdadb.get_phones()
+
+    # if len(sys.argv) > 1:
+    #     if sys.argv[1] == 'random':
+    #         pdadb.model_rand = int(sys.argv[2])
+    #     else:
+    #         pdadb.model_limit = int(sys.argv[1])
+    # else:
+    #     pdadb.model_limit = None
+    #     pdadb.model_rand = None
+    # phones = pdadb.get_phones()
+
+    fake_to_true_names = pdadb.get_true_os_name()
