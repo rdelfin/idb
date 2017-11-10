@@ -59,7 +59,8 @@ export default class Navbar extends Component {
           <Link key="2" to="/manufacturers" styleName="link">Manufacturers</Link>,
           <Link key="3" to="/carriers" styleName="link">Carriers</Link>,
           <Link key="4" to="/os" styleName="link">Operating Systems</Link>,
-          <Link key="5" to="/about" styleName="link">About</Link>,
+          <Link key="5" to="/search" styleName="link">Search</Link>,
+          <Link key="6" to="/about" styleName="link">About</Link>,
         ]}
         {this.state.windowSize < 800 && [
           <i key="6" styleName="hamburger" className="fa fa-bars" onClick={this.showMenu} />,
