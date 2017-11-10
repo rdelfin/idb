@@ -3,6 +3,7 @@ import React, {PureComponent} from 'react';
 import {Link} from 'react-router-dom';
 import Carriers from '../../store/Carriers';
 import Manufacturers from '../../store/Manufacturers';
+import Os from '../../store/Os';
 import PhoneModels from '../../store/PhoneModels';
 import Spinner from '../Spinner';
 import TablePage from '../TablePage';
@@ -31,6 +32,7 @@ export default class PhoneModelPage extends PureComponent {
       PhoneModels.getById(this.props.match.params.model),
       Carriers.fetch(),
       Manufacturers.fetch(),
+      Os.fetch(),
     ]).then(([data, ..._]) => {
       this.setState({data, loading: false});
     });
@@ -120,6 +122,22 @@ export default class PhoneModelPage extends PureComponent {
               <span>
                 {joinLines([model.hardware.nonvolatile_memory.type, model.hardware.nonvolatile_memory.capacity])}
               </span>,
+          },
+        ],
+      },
+      {
+        title: 'Software',
+        icon: 'rocket',
+        rows: [
+          {
+            title: 'Platform',
+            shown: model.software && model.software.os,
+            value: () => model.software.os,
+          },
+          {
+            title: 'OS',
+            shown: model.software && model.software.platform,
+            value: () => <Link to={`/os/${Os.getIdByNameSync(model.software.platform)}`}>{model.software.platform}</Link>,
           },
         ],
       },

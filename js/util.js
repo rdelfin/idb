@@ -51,3 +51,19 @@ export function getRangesForProp(
   }
   return [];
 }
+
+export function getPaginationDisplayRange(curr: number, numPages: number): [number, number] {
+  // Window of 3 pages on each side, 
+  let lo = Math.max(0, curr - 3);
+  let hi = Math.min(numPages - 1, curr + 3);
+  while (hi - lo < 6) {
+    if (lo > 0) {
+      lo--;
+    } else if (hi < numPages - 1) {
+      hi++;
+    } else {
+      break;
+    }
+  }
+  return [lo, hi];
+}
