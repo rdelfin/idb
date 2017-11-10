@@ -4,6 +4,7 @@ import throttle from 'throttle-debounce/throttle';
 import {Link} from 'react-router-dom';
 import FilterSort from '../../FilterSort';
 import ListPageList from '../ListPageList';
+import {getPaginationDisplayRange} from '../../util';
 import type {ReactChildren} from '../../types';
 import type {KeyDef} from '../../store/util';
 import './listPage.css';
@@ -65,17 +66,30 @@ export default class ListPage extends React.PureComponent {
   handlePrevPageClick = () => {
     if (this.state.page > 0) {
       this.setState({page: this.state.page - 1});
+      window.scrollTo(0, 0);
     }
   };
 
   handleNextPageClick = () => {
     if (this.state.page + 1 < this.state.numPages) {
       this.setState({page: this.state.page + 1});
+      window.scrollTo(0, 0);
     }
+  };
+
+  handleFirstPageClick = () => {
+    this.setState({page: 0});
+    window.scrollTo(0, 0);
+  };
+
+  handleLastPageClick = () => {
+    this.setState({page: this.state.numPages - 1});
+    window.scrollTo(0, 0);
   };
 
   handleJumpToPageClick = (page: number) => () => {
     this.setState({page});
+    window.scrollTo(0, 0);
   };
 
   handleSelectSortKey = (sortKey: string) => () => {
@@ -94,6 +108,7 @@ export default class ListPage extends React.PureComponent {
   };
 
   render() {
+    const [pageLo, pageHi] = getPaginationDisplayRange(this.state.page, this.state.numPages);
     return (
       <div styleName="root">
         <h1 styleName="title">{this.props.title}</h1>
@@ -107,16 +122,18 @@ export default class ListPage extends React.PureComponent {
         </div>
         <div styleName="pagination">
           <div>
+            <button onClick={this.handleFirstPageClick}>First</button>
             <button onClick={this.handlePrevPageClick}>Prev</button>
-            {(Array: any).apply(null, {length: this.state.numPages}).map((_, i) =>
+            {(Array: any).apply(null, {length: pageHi - pageLo + 1}).map((_, i) =>
               <button
                 key={i}
-                onClick={this.handleJumpToPageClick(i)}
-                styleName={i === this.state.page ? 'selected' : ''}>
-                {i + 1}
+                onClick={this.handleJumpToPageClick(pageLo + i)}
+                styleName={pageLo + i === this.state.page ? 'selected' : ''}>
+                {pageLo + i + 1}
               </button>
             )}
             <button onClick={this.handleNextPageClick}>Next</button>
+            <button onClick={this.handleLastPageClick}>Last</button>
           </div>
           <div>
             <span>Sort By:</span>
@@ -144,6 +161,20 @@ export default class ListPage extends React.PureComponent {
         <ListPageList
           links={this.state.filterSort.getPage(this.state.page)}
           loading={this.props.loading} />
+        <div styleName="pagination">
+          <button onClick={this.handleFirstPageClick}>First</button>
+          <button onClick={this.handlePrevPageClick}>Prev</button>
+            {(Array: any).apply(null, {length: pageHi - pageLo + 1}).map((_, i) =>
+              <button
+                key={i}
+                onClick={this.handleJumpToPageClick(pageLo + i)}
+                styleName={pageLo + i === this.state.page ? 'selected' : ''}>
+                {pageLo + i + 1}
+              </button>
+            )}
+          <button onClick={this.handleNextPageClick}>Next</button>
+          <button onClick={this.handleLastPageClick}>Last</button>
+        </div>
       </div>
     );
   }
