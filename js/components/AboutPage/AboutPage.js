@@ -26,9 +26,9 @@ export default class AboutPage extends PureComponent {
             avatarUrl="/static/images/brian.png"
             blurb="Born and raised in Austin. Working on a Master's degree. I fight for the user. I mean, I write user stories. I also write code."
             tasks="I led the team, created user stories, implemented the carousel, and wrote a large portion of the technical report."
-            commits={30}
+            commits={32}
             issues={5}
-            tests={0}
+            tests={1}
             />
           <TeamMemberCard
             name="Jonathan Fisher"
@@ -44,16 +44,16 @@ export default class AboutPage extends PureComponent {
             avatarUrl="/static/images/MattGmitro.jpg"
             blurb="Born in Minneapolis, I migrated south and grew up in Flower Mound, TX. My focus is in preventing cryptocurrency bubbles from bursting."
             tasks="I added information about the upcoming API to the technical report."
-            commits={5}
+            commits={16}
             issues={2}
-            tests={0}
+            tests={6}
             />
           <TeamMemberCard
             name="Ricardo Delfin"
             avatarUrl="/static/images/rdelfin.png"
             blurb="Tapatio who grew up in Mexico City! Interested in graphics, C++, systems, and anything that involves as little node.js as possible."
             tasks="Managed deployments, GCP, domain, created repo and apiary and helped add the data to the site."
-            commits={117}
+            commits={127}
             issues={7}
             tests={0}
             />
@@ -62,7 +62,7 @@ export default class AboutPage extends PureComponent {
             avatarUrl="/static/images/trey.png"
             blurb="21+ years in Austin. I'm still skeptical, but the others assure me this 'internet' thing will really take off, so I'm along for the ride."
             tasks="I worked on API documentation and design, information scraping, and technical reporting."
-            commits={50}
+            commits={55}
             issues={5}
             tests={0}
             />
@@ -71,7 +71,7 @@ export default class AboutPage extends PureComponent {
             avatarUrl="/static/images/xsznix.jpg"
             blurb="Born in PRC, raised in AB, FL, CO, and TX. I didn't expect to learn anything from this, but now I know that I hate Webpack."
             tasks="I wrote the vast majority of the frontend for PhoneDB."
-            commits={68}
+            commits={72}
             issues={8}
             tests={0}
             />
