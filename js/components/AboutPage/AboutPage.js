@@ -12,7 +12,7 @@ export default class AboutPage extends PureComponent {
           PhoneDB exists to empower consumers with the data they need to buy the right phone for
           their needs, developers to adapt their software for the devices used by their target
           audience, and manufacturers to gather information on their competitors' offerings and
-          capabilities. Check out our <a href="https://utexas.box.com/s/m3di308lte96wse9b8jjgd1rvz0nxz5k" styleName="link">technical report</a> for
+          capabilities. Check out our <a href="https://utexas.box.com/s/7ew0i1gdr070totsro6m7bucagw8wmit" styleName="link">technical report</a> for
           more information. Check out our <a href="https://utexas.box.com/s/5ss2wwf6gnm625n1i1hmwalxqjjofzwq" styleName="link">UML Diagram</a> to see how our database is designed.
         </p>
         <h2 styleName="title2">Our Team</h2>
