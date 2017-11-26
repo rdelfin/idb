@@ -1,4 +1,5 @@
 from flask import Flask, render_template, jsonify
+import os
 app = Flask(__name__)
 
 from app.db_interface import Database
@@ -54,4 +55,7 @@ def carriers_id_get(id):
     return jsonify(carrier.serialize())
 
 if __name__ == '__main__':
-  app.run(debug=True)
+    port = os.environ.get('SERVER_PORT')
+    if not port is None:
+        port = int(port)
+    app.run(port=port, debug=True)

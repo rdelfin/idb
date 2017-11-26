@@ -84,7 +84,7 @@ class AnimatedLink extends React.PureComponent {
 const ListPageList = (props: Props) => (
   <div>
     {props.loading && <Spinner />}
-    <div styleName="root">
+    <div styleName="root" name="listpagelist">
     {props.links.map((link, i) => (
       <AnimatedLink key={link.item.url} link={link} delay={i * 50} />
     ))}
