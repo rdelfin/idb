@@ -5,17 +5,35 @@
 ### of Phones in the World*
 \*Terms and Conditions Apply
 
-## https://phonedb.info
+### https://phonedb.info
 
 ---
 
 @title[Team Introduction]
 
-#### Level 4
-### Level 3
-## Level 2
-# Level 1
-Level 0
+# Meet the Team
+|  **Brian Cui**  |   **Xuming Zeng**  | **Jonathan Fisher** |
+|:---------------:|:------------------:|:-------------------:|
+| **Matt Gmitro** | **Ricardo Delfin** |  **Trey Gonsoulin** |
+
+---
+
+@title[PhoneDB Introduction]
+
+## Let's Talk Phones
+
+---
+
+@title[Tech Stack]
+
+## Tech Stack
+
+---
+
+@title[Demonstration]
+
+# Demonstration
+### https://phonedb.info
 
 ---
 
