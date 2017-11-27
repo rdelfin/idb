@@ -21,12 +21,17 @@
 @title[PhoneDB Introduction]
 
 ## Let's Talk Phones
+### ...and operating systems, brands, & carriers
 
 ---
 
 @title[Tech Stack]
 
 ## Tech Stack
+|   Frontend   |       Backend       |        Tools        |
+|:------------:|:-------------------:|:-------------------:|
+| React/Router |   Python 3 + Flask  | Trello, PlanItPoker |
+| Fuse.js      | SQLAlchemy + SQLite | Webpack, Babel, NPM |
 
 ---
 
