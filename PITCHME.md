@@ -11,11 +11,10 @@
 
 @title[Team Introduction]
 
-#### Level 4
-### Level 3
-## Level 2
-# Level 1
-Level 0
+# Meet the Team
+|  Brian Cui  |   Xuming Zeng  | Jonathan Fisher |
+|:-----------:|:--------------:|:---------------:|
+| Matt Gmitro | Ricardo Delfin |  Trey Gonsoulin |
 
 ---
 
