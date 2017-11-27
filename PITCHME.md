@@ -61,7 +61,7 @@
 ### What can they do better?
  - Make sure data is populated 
  - Change pagination mechanism to stop when out of pages
- - Fix mobile UI
+ - Polish UI and fix mobile errors
 
 ---
 
