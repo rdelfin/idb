@@ -43,8 +43,8 @@
 ---
 
 ### What did they do well?
- - Consistent webpages and UI
- - Good job breaking down NFL data into structured categories
+#### - Consistent webpages and UI
+#### - Good job breaking down NFL data into structured categories
 
 ---
 
