@@ -61,7 +61,7 @@
 ---
 
 ### What puzzles us about their website? 
- - Filtering mechanism has a "None" option
+ - Filtering mechanism has a "None" option that filters out everything rather than nothing
  - The data for player, coach, and team details is missing
 
 ---
