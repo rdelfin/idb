@@ -3,7 +3,7 @@
 # PhoneDB
 ### The Most Extensive Database
 ### of Phones in the World*
-*Terms and Conditions Apply
+\*Terms and Conditions Apply
 
 ### https://phonedb.info
 
@@ -39,6 +39,35 @@
 
 # Demonstration
 ### https://phonedb.info
+
+---
+
+@title[Critique of nflsdb.com]
+### Critique of nflsdb.com
+
+---
+
+### What did they do well?
+ - Consistent webpages and UI
+ - Good job breaking down NFL data into structured categories
+
+---
+
+### What did we learn from their website?
+ - An alternative way to present information in a database style website
+
+---
+
+### What can they do better?
+ - Make sure data is populated 
+ - Change pagination mechanism to stop when out of pages
+ - Fix mobile UI
+
+---
+
+### What puzzles us about their website? 
+ - Filtering mechanism has a "None" option that filters out everything rather than nothing
+ - The data for player, coach, and team details is missing
 
 ---
 
