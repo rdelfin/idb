@@ -134,10 +134,10 @@ export default class ListPage extends React.PureComponent {
             onChange={this.realHandleSearchInput}
             value={this.state.displayedSearchQuery} />
         </div>
-        <div styleName="pagination">
+        <div styleName="pagination" name="pagination">
           <div>
-            <button onClick={this.handleFirstPageClick}>First</button>
-            <button onClick={this.handlePrevPageClick}>Prev</button>
+            <button onClick={this.handleFirstPageClick} name="pagination_first">First</button>
+            <button onClick={this.handlePrevPageClick} name="pagination_prev">Prev</button>
             {(Array: any).apply(null, {length: pageHi - pageLo + 1}).map((_, i) =>
               <button
                 key={i}
@@ -146,10 +146,10 @@ export default class ListPage extends React.PureComponent {
                 {pageLo + i + 1}
               </button>
             )}
-            <button onClick={this.handleNextPageClick}>Next</button>
-            <button onClick={this.handleLastPageClick}>Last</button>
+            <button onClick={this.handleNextPageClick} name="pagination_next">Next</button>
+            <button onClick={this.handleLastPageClick} name="pagination_last">Last</button>
           </div>
-          <div>
+          <div name="sortby">
             <span>Sort By:</span>
             {this.props.sortKeys.map(({path, displayName}, i) =>
               <button
