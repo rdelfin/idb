@@ -12,9 +12,9 @@
 @title[Team Introduction]
 
 # Meet the Team
-|  Brian Cui  |   Xuming Zeng  | Jonathan Fisher |
-|:-----------:|:--------------:|:---------------:|
-| Matt Gmitro | Ricardo Delfin |  Trey Gonsoulin |
+|  **Brian Cui**  |   **Xuming Zeng**  | **Jonathan Fisher** |
+|:---------------:|:------------------:|:-------------------:|
+| **Matt Gmitro** | **Ricardo Delfin** |  **Trey Gonsoulin** |
 
 ---
 
