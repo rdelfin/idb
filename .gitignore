@@ -109,6 +109,7 @@ node_modules/
 
 # Generated bundles
 static/bundle.js
+static/vis.js
 
 # IDEA project files
 .idea/
