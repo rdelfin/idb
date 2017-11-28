@@ -57,7 +57,7 @@ export default class AboutPage extends PureComponent {
             tasks="Managed deployments, GCP, domain, created repo and apiary and helped add the data to the site."
             commits={127}
             issues={7}
-            tests={0}
+            tests={22}
             />
           <TeamMemberCard
             name="Trey Gonsoulin"
@@ -75,7 +75,7 @@ export default class AboutPage extends PureComponent {
             tasks="I wrote the vast majority of the frontend for PhoneDB and the unrelated NFLDB visualization."
             commits={72}
             issues={8}
-            tests={0}
+            tests={5}
             />
         </div>
         <h2 styleName="title2">Our Tools</h2>
