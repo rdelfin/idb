@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>NFLDB Visualization</title>
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='vis.css') }}" />
+</head>
+<body>
+  <h1 id="title">Group 21 Database: A Visualization</h1>
+  <div id="vis-container" draggable="true">
+    <svg id="vis" />
+  </div>
+  <script src="{{ url_for('static', filename='vis.js') }}"></script>
+</body>
+</html>

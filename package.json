@@ -48,7 +48,10 @@
     "webpack": "^3.6.0"
   },
   "dependencies": {
+    "@lix/d3-tip": "github:cgav/d3-tip",
     "babel-plugin-react-css-modules": "^3.3.0",
+    "d3": "^4.12.0",
+    "d3-tip": "^0.7.1",
     "lodash": "^4.17.4",
     "react": "^15.6.2",
     "react-dom": "^15.6.2",
