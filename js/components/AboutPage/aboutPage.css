@@ -81,6 +81,11 @@
   color: lighten(#3498db, 10%);
 }
 
+.inline-link {
+  text-decoration: none;
+  color: lighten(#3498db, 10%);
+}
+
 .stats {
   display: flex;
   flex-direction: row;
