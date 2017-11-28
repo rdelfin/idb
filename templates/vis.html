@@ -11,6 +11,12 @@
   <div id="vis-container" draggable="true">
     <svg id="vis" />
   </div>
+  <div id="inspector">
+    <img id="pic" />
+    <h2 id="name">Select a node</h2>
+    <h3 id="links-header">Outgoing Links</h3>
+    <ul id="links" />
+  </div>
   <script src="{{ url_for('static', filename='vis.js') }}"></script>
 </body>
 </html>

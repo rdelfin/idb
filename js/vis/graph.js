@@ -2,6 +2,7 @@
 const d3 = require('d3');
 const d3tip = require('d3-tip');
 import {fetchPlayers, fetchCoaches, fetchSeasons, fetchTeams} from './fetcher';
+import {inspect} from './inspector';
 import type {Player, Coach, Season, Team} from './fetcher';
 
 const vis = d3.select('#vis');
@@ -27,7 +28,7 @@ let allData: Array<NodeSpec> = [];
 let links: Array<LinkSpec> = [];
 let done = 0;
 
-type NodeSpec = {
+export type NodeSpec = {
   id: string;
   tooltip: string;
   group: number;
@@ -56,6 +57,7 @@ function updateNodes(newNodes: Array<Object>) {
       .attr('fill', d => color(d.group))
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
+      .on('click', inspect)
     .merge(nodes);
   sim.nodes(allData).on('tick', onTicked);
   sim.alpha(1).restart();

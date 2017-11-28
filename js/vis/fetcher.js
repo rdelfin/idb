@@ -68,7 +68,7 @@ function makeFetcher<T>(url: string): (Array<T> => void, () => void) => void {
     function fetchNext() {
       fetch(`${url}${pageno}`).then(res => res.json()).then(page => {
         onData(page);
-        if (page.length > 0 && pageno < 50) {
+        if (page.length > 0) {
           pageno++;
           throttledFetchNext();
         } else {
