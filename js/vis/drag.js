@@ -8,7 +8,6 @@ let lastY;
 const vis = document.getElementById('vis');
 const cont = document.getElementById('vis-container');
 cont.addEventListener('dragstart', e => {
-  console.log('dragstart', e);
   lastX = e.clientX;
   lastY = e.clientY;
   const div = document.createElement('div');
@@ -29,6 +28,6 @@ function reposition() {
   vis.setAttribute('viewBox', `${dx} ${dy} ${window.innerWidth} ${window.innerHeight}`);
 }
 
-const throttledReposition = throttle(50, reposition);
+const throttledReposition = throttle(20, reposition);
 
 window.addEventListener('resize', throttledReposition);

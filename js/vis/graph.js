@@ -11,7 +11,7 @@ const color = d3.scaleOrdinal(d3.schemeCategory10);
 const sim = d3.forceSimulation()
   .force('link', d3.forceLink().id(d => d.id).strength(0.1))
   .force('charge', d3.forceManyBody().strength(-20).distanceMax(500))
-  .force('center', d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
+  // .force('center', d3.forceCenter(window.innerWidth / 2, window.innerHeight / 2))
   .force('xcenter', d3.forceX(window.innerWidth / 2).strength(0.003))
   .force('ycenter', d3.forceY(window.innerHeight / 2).strength(0.003));
 const tip = d3tip()
