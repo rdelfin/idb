@@ -229,7 +229,6 @@ window.addEventListener('resize', () => {
   console.log('window resize');
   const x = window.innerWidth / 2;
   const y = window.innerHeight / 2;
-  sim.force('center').x(x).y(y);
   sim.force('xcenter').x(x);
   sim.force('ycenter').y(y);
   sim.alpha(1).restart();
