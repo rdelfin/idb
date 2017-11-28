@@ -59,7 +59,7 @@ def os_id_get(id):
 @app.route('/carriers/<id>')
 @lru_cache(maxsize=1024)
 def carriers_id_get(id):
-    carrier = db.get_model_id(id)
+    carrier = db.get_carrier_id(id)
     if carrier is None:
         return jsonify({"error": "Carrier not found"}), 404
     return jsonify(carrier.serialize())
