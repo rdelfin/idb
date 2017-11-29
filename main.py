@@ -12,6 +12,11 @@ db = Database()
 def hello_world():
     return render_template('index.html')
 
+@app.route('/vis')
+@lru_cache(maxsize=1)
+def visualize():
+    return render_template('vis.html')
+
 @app.route('/models', methods=['GET'])
 @lru_cache(maxsize=1)
 def models_get():

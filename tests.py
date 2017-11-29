@@ -183,8 +183,8 @@ class FullModelTest(TestCase):
         lgv10.carriers = [Carrier(name="Verizon")]
         lgv10.release_date = "10/02/2015"
         lgv10.hardware_designer = "LG"
-        lgv10.market_countries = "South Korea"
-        lgv10.market_regions = "Asia"
+        lgv10.market_countries = json.dumps(["South Korea"])
+        lgv10.market_regions = json.dumps(["Asia"])
 
         session.add(lgv10)
         session.commit()
@@ -223,8 +223,8 @@ class InsertOsTest(TestCase):
                     os_family="0.{0}".format(i),
                     supported_cpu_instruction_sets=list(range(0, i)),
                     predecessor="iPhone {0}".format(i - 1),
-                    brands=list(range(0, i)),
-                    models=list(range(0, i)),
+                    brands=[],
+                    models=[],
                     codename="iPhone {0}".format(i),
                     successor="iPhone {0}".format(i + 1))
             oss += [os]
@@ -247,8 +247,8 @@ class InsertOsTest(TestCase):
             self.assertEqual(os.os_family, "0.{0}".format(i))
             self.assertEqual(os.supported_cpu_instruction_sets, list(range(0, i)))
             self.assertEqual(os.predecessor, "iPhone {0}".format(i - 1))
-            self.assertEqual(os.brands, list(range(0, i)))
-            self.assertEqual(os.models, list(range(0, i)))
+            self.assertEqual(os.brands, [])
+            self.assertEqual(os.models, [])
             self.assertEqual(os.codename, "iPhone {0}".format(i))
             self.assertEqual(os.successor, "iPhone {0}".format(i + 1))
             i += 1

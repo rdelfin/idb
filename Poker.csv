@@ -16,26 +16,26 @@ As a developer I want to see the documentation of the database so that I can imi
 As a user I want to be able to page through all the phones without having to scroll,1,24/10/17 18:19,00:00:21,00:00:13,Joanthan Fisher,Matt Gmitro,1
 As a user I would like to be able to filter my searches so I can reduce the amount of results I have to view,2,24/10/17 18:18,00:00:20,00:00:13,Joanthan Fisher,Matt Gmitro,3
 As a user I would like to search for a specific phone without having to go through the entire website,2,24/10/17 18:17,00:00:43,00:00:23,Joanthan Fisher,Matt Gmitro,2
-As a data scientist I would like to have access to PhoneDBs database so that I can analyze and predict new phones that will come out,8,24/10/17 18:17,00:00:25,00:00:14,Joanthan Fisher,Matt Gmitro,7
+"As a data scientist, I would like to have access to PhoneDBs database so that I can analyze and predict new phones that will come out",8,24/10/17 18:17,00:00:25,00:00:14,Joanthan Fisher,Matt Gmitro,7
 "As a developer who does not want to create their own database, I would like to call PhoneDBs RESTful APIs",1,24/10/17 18:16,00:00:26,00:00:15,Joanthan Fisher,Matt Gmitro,3
 "As a person with outdated phones, I would like to be to see all phone models that has ever been sold",1,24/10/17 18:14,00:02:11,00:01:09,Joanthan Fisher,Matt Gmitro,2
 "As a user, I want to be enamored by images everywhere on every page.",3,4/11/17 20:01,00:00:24,00:00:08,Simon,Brian,3
 "As a developer, I want to know that the APIs are truly RESTful.",0,4/11/17 20:00,00:00:19,00:00:09,Simon,Brian,0
 "As a developer, I want to see the UML diagram representing the database.",Coffee,4/11/17 20:00,00:00:15,00:00:07,Simon,Brian,0
 "As a researcher, I want to read a 3500 word report about the website.",2,4/11/17 19:59,00:00:33,00:00:13,Simon,Brian,2
-"As a user, I want to see only a small number of items on each page.",�_,4/11/17 19:59,00:00:20,00:00:10,Simon,Brian,0
+"As a user, I want to see only a small number of items on each page.",½,4/11/17 19:59,00:00:20,00:00:10,Simon,Brian,0
 "As a professor of Software Engineering, I want to see phones in a visual grid layout.",1,4/11/17 19:58,00:00:58,00:00:16,Simon,Brian,1
 "As a developer, I want to be able to retrieve all of PhoneDB's data.",0,4/11/17 19:58,00:00:22,00:00:11,Simon,Brian,0
 "As a user, I want PhoneDB's data to be comprehensive.",3,4/11/17 19:57,00:00:28,00:00:09,Simon,Brian,7
 "As a user, I want to be able to search for phones, brands, carriers, and OSs by any of their attributes.",1,4/11/17 19:56,00:00:58,00:00:24,Simon,Brian,1
-"As a user, I want to be able to search for phones, brands, carriers, and OSs by name.",�_,4/11/17 19:52,00:03:59,00:00:20,Simon,Brian,1
-"As a busy user of the website, I want to get information about a phone very quickly.",½,27/11/2017 23:06:54,00:00:29,00:00:17,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a developer displaying graphics about phones in the market, I was a fast API with phone data to call.",½,27/11/2017 23:07:39,00:00:26,00:00:14,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a person interested in the NFL, I want to be able to see a graphic comparing the heights of different players across different teams.",2,27/11/2017 23:08:12,00:00:55,00:00:17,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a Apple Watch fan, I want to be able to get more information about the new Apple Watch when it is released.",1,27/11/2017 23:09:13,00:00:17,00:00:10,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a professional phone tester, I want to be able to look up phone specs easily to be able to compare them with tests.",½,27/11/2017 23:09:38,00:00:22,00:00:12,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As an enthusiastic web developer, I want to be able to see the tools used to create the phonedb website.",0,27/11/2017 23:10:05,00:00:24,00:00:09,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a consumer researching phones, I want to be able to find where phonedb got their data from.",Coffee,27/11/2017 23:10:32,00:00:22,00:00:12,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As an amateur photographer, I want to easily compare the cameras of different phones I want to buy.",3,27/11/2017 23:10:59,00:00:25,00:00:11,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a phone consumer looking for a new carrier, I want to find which phones would be available for me in each carrier.",½,27/11/2017 23:11:26,00:00:16,00:00:07,Ricardo Delfin Garcia,Trey Gonsoulin,
-"As a phone consumer looking for a new phone, I want to be able to find if my favourite OS is available on the phone.",Coffee,27/11/2017 23:11:45,00:00:26,00:00:16,Ricardo Delfin Garcia,Trey Gonsoulin,
+"As a user, I want to be able to search for phones, brands, carriers, and OSs by name.",½,4/11/17 19:52,00:03:59,00:00:20,Simon,Brian,1
+"As a busy user of the website, I want to get information about a phone very quickly.",½,27/11/2017 23:06:54,00:00:29,00:00:17,Ricardo Delfin Garcia,Trey Gonsoulin,½
+"As a developer displaying graphics about phones in the market, I was a fast API with phone data to call.",½,27/11/2017 23:07:39,00:00:26,00:00:14,Ricardo Delfin Garcia,Trey Gonsoulin,½
+"As a person interested in the NFL, I want to be able to see a graphic comparing the heights of different players across different teams.",2,27/11/2017 23:08:12,00:00:55,00:00:17,Ricardo Delfin Garcia,Trey Gonsoulin,2
+"As a Apple Watch fan, I want to be able to get more information about the new Apple Watch when it is released.",1,27/11/2017 23:09:13,00:00:17,00:00:10,Ricardo Delfin Garcia,Trey Gonsoulin,3
+"As a professional phone tester, I want to be able to look up phone specs easily to be able to compare them with tests.",½,27/11/2017 23:09:38,00:00:22,00:00:12,Ricardo Delfin Garcia,Trey Gonsoulin,0
+"As an enthusiastic web developer, I want to be able to see the tools used to create the phonedb website.",0,27/11/2017 23:10:05,00:00:24,00:00:09,Ricardo Delfin Garcia,Trey Gonsoulin,0
+"As a consumer researching phones, I want to be able to find where phonedb got their data from.",Coffee,27/11/2017 23:10:32,00:00:22,00:00:12,Ricardo Delfin Garcia,Trey Gonsoulin,0
+"As an amateur photographer, I want to easily compare the cameras of different phones I want to buy.",3,27/11/2017 23:10:59,00:00:25,00:00:11,Ricardo Delfin Garcia,Trey Gonsoulin,5
+"As a phone consumer looking for a new carrier, I want to find which phones would be available for me in each carrier.",½,27/11/2017 23:11:26,00:00:16,00:00:07,Ricardo Delfin Garcia,Trey Gonsoulin,1
+"As a phone consumer looking for a new phone, I want to be able to find if my favourite OS is available on the phone.",Coffee,27/11/2017 23:11:45,00:00:26,00:00:16,Ricardo Delfin Garcia,Trey Gonsoulin,1

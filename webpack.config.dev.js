@@ -3,12 +3,13 @@ const path = require('path');
 const context = path.resolve(__dirname, 'js');
 module.exports = {
   context,
-  entry: [
-    "./app.js"
-  ],
+  entry: {
+    bundle: "./app.js",
+    vis: './vis.js',
+  },
   output: {
     path: __dirname + '/static',
-    filename: "bundle.js"
+    filename: "[name].js"
   },
   module: {
     loaders: [
