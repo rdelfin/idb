@@ -2,7 +2,7 @@
 
 const throttle = require('throttle-debounce/throttle');
 
-const DOMAIN = 'http://nfldb-backend.appspot.com';
+const DOMAIN = 'https://nfldb-backend.appspot.com';
 
 export type Player = {
   id: string;
