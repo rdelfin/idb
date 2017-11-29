@@ -107,8 +107,7 @@
 ---
 
 ### What puzzles us about their website? 
- - "None" filter option filters out everything rather than nothing
- - The data on model pages is missing, but shows on listings
+ - "None" filter option filters out everything
  - Reloading the page always results in 404
  - How did they end up with 7 team members?
 
