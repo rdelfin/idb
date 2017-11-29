@@ -75,6 +75,7 @@ def table_model_to_model(model):
                                     camera.focus,
                                     camcorder,
                                     camera.flash)]
+
     return models.Model(
                 model.image, model.name, brand_name, model.model, model.release_date,
                 model.hardware_designer,
