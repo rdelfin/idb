@@ -99,7 +99,6 @@
 ---
 
 ### What can they do better?
- - Ensure data fields on independent model pages are populated 
  - Fix pagination to display all pages and stop when out
  - Fix search to extend to all data models
  - Fix filtering to and sorting (sometimes does nothing)
