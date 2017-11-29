@@ -1,10 +1,7 @@
 from flask import Flask, render_template, jsonify
 from functools import lru_cache
-from flask_cors import CORS, cross_origin
 import os
-
 app = Flask(__name__)
-CORS(app)
 
 from app.db_interface import Database
 
