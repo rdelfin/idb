@@ -1,6 +1,5 @@
 // @flow
 import React from 'react';
-import debounce from 'throttle-debounce/debounce';
 import throttle from 'throttle-debounce/throttle';
 import {Link} from 'react-router-dom';
 import FilterSort from '../../FilterSort';
@@ -37,7 +36,7 @@ export type LinkSpec = {
 export default class ListPage extends React.PureComponent {
   props: Props;
   state: State;
-  debouncedHandleSearchInput: string => void;
+  throttledHandleSearchInput: string => void;
 
   constructor(props: Props) {
     super(props);
@@ -51,7 +50,7 @@ export default class ListPage extends React.PureComponent {
       sortKey: props.sortKeys[0].path,
       sortDesc: false,
     };
-    this.debouncedHandleSearchInput = debounce(200, this.handleSearchInput).bind(this);
+    this.throttledHandleSearchInput = throttle(200, this.handleSearchInput).bind(this);
   }
 
   componentDidMount() {
@@ -74,7 +73,7 @@ export default class ListPage extends React.PureComponent {
   realHandleSearchInput = (event: SyntheticEvent) => {
     const val = ((event.target: any): HTMLInputElement).value;
     this.setState({displayedSearchQuery: val});
-    this.debouncedHandleSearchInput(val);
+    this.throttledHandleSearchInput(val);
   };
 
   handlePrevPageClick = () => {
